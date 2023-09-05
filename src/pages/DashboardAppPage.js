@@ -322,7 +322,7 @@ export default function DashboardAppPage() {
         </Typography>
 
         {ser.length > 0 && (
-          <Grid item lg={6} xs={12} sm={6} md={6} overflow={Hidden}>
+          <Grid item lg={6} xs={12} sm={6} md={6}>
             <AppWidgetSummary
               key={ser}
               serving
