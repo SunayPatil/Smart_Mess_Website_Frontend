@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { gapi } from 'gapi-script';
-import { GoogleLogin } from 'react-google-login';
+import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
+
 // @mui
 import { Navigate, useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
@@ -14,6 +15,7 @@ import Iconify from '../components/iconify';
 // sections
 import { LoginForm } from '../sections/auth/login';
 import clientId from '../constants/client-id';
+import { userLogin } from '../utils/apis';
 
 // ----------------------------------------------------------------------
 
@@ -50,12 +52,30 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   const onSuccess = (res) => {
-    navigate('/dashboard', { replace: true });
     console.log('login success ', res.profileObj);
+    navigate('/dashboard', { replace: true });
   };
   const onFailure = (res) => {
     console.log('login failed ', res);
   };
+
+  const googleSuccess = async (res) => {
+    const code = res.code; // code is the authorization code that we need to send to the backend to get the id_token
+    if (code) {
+      const res = await userLogin(code);
+      console.log(res);
+    }
+  };
+
+  const googleFailure = (err) => {
+    console.log(err);
+  };
+
+  const googlelogin = useGoogleLogin({
+    onSuccess: googleSuccess,
+    onNonOAuthError: googleFailure,
+    flow: 'auth-code',
+  });
 
   useEffect(() => {
     function start() {
@@ -74,13 +94,13 @@ export default function LoginPage() {
       </Helmet>
 
       <StyledRoot>
-        {/* <Logo
+        <Logo
           sx={{
             position: 'fixed',
             top: { xs: 16, sm: 24, md: 40 },
             left: { xs: 16, sm: 24, md: 40 },
           }}
-        /> */}
+        />
 
         {mdUp && (
           <StyledSection>
@@ -97,29 +117,22 @@ export default function LoginPage() {
               Sign in using Google
             </Typography>
 
-            <Stack direction="row" spacing={2}>
-              <GoogleLogin
-                clientId={clientId}
-                buttonText="Login"
-                render={(renderProps) => (
-                  <Button onClick={renderProps.onClick} fullWidth size="large" color="inherit" variant="outlined">
-                    <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
-                  </Button>
-                )}
-                onSuccess={onSuccess}
-                onFailure={onFailure}
-                cookiePolicy={'single_host_origin'}
-                isSignedIn
-              />
-
+            <Stack direction="row" justifyContent="center" spacing={2}>
               {/* <Button fullWidth size="large" color="inherit" variant="outlined">
                 <Iconify icon="eva:facebook-fill" color="#1877F2" width={22} height={22} />
-              </Button>
+              </Button> */}
 
-              <Button fullWidth size="large" color="inherit" variant="outlined">
+              {/* <Button fullWidth size="large" color="inherit" variant="outlined">
                 <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={22} height={22} />
               </Button> */}
             </Stack>
+
+            {/* <Button className="Button-login" onClick={googlelogin}>
+              <div className="login-btn">SIGN IN</div>
+            </Button> */}
+            <Button onClick={googlelogin} fullWidth size="large" color="inherit" variant="outlined">
+                    <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
+            </Button>
 
             <Divider sx={{ my: 3 }}>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
