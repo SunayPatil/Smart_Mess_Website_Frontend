@@ -60,10 +60,17 @@ export default function LoginPage() {
   };
 
   const googleSuccess = async (res) => {
+    console.log("google success");
+    console.log(res);
     const code = res.code; // code is the authorization code that we need to send to the backend to get the id_token
     if (code) {
-      const res = await userLogin(code);
-      console.log(res);
+      try{
+        const {token} = await userLogin(code);
+        console.log(token);
+        localStorage.setItem('token', token);
+      }catch(err){
+        console.log(err);
+      }
     }
   };
 
