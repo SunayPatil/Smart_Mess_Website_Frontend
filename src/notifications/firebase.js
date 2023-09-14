@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getMessaging } from 'firebase/messaging';
+import { getMessaging,getToken } from 'firebase/messaging';
+
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -13,18 +14,26 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const messaging = getMessaging(app);
 
-export const getToken = async () => {
+export const getfirebaseToken = async () => {
   try {
-    const currentToken = await messaging.getToken({
-      vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY,
-    });
+    const currentToken = await getToken(messaging, { vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY });
     if (currentToken) {
-      console.log('current token for client: ', currentToken);
       return currentToken;
-    } else {
-      console.log('No registration token available. Request permission to generate one.');
     }
+    console.log('No registration token available. Request permission to generate one.');
   } catch (err) {
     console.log('An error occurred while retrieving token. ', err);
   }
+  return null;
+};
+
+export const resquestNotificationPermission = async () => {
+  try {
+    const permission = await Notification.requestPermission();
+    console.log('permission', permission);
+    return permission;
+  } catch (error) {
+    console.log('error', error);
+  }
+  return null;
 };
