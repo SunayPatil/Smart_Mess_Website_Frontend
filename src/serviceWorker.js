@@ -20,10 +20,13 @@ const isLocalhost = Boolean(window.location.hostname === 'localhost' ||
   window.location.hostname.match(/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/));
 
 export function register(config) {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  console.log("registering service worker");
+  if ('serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
+    console.log('publicUrl', publicUrl);
     if (publicUrl.origin !== window.location.origin) {
+      console.log("service worker not registered");
       // Our service worker won't work if PUBLIC_URL is on a different origin
       // from what our page is served on. This might happen if a CDN is used to
       // serve assets; see https://github.com/facebook/create-react-app/issues/2374
@@ -32,8 +35,9 @@ export function register(config) {
 
     window.addEventListener('load', () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
-
+      console.log('swUrl', swUrl);
       if (isLocalhost) {
+        console.log("checking service worker in localhost");
         // This is running on localhost. Let's check if a service worker still exists or not.
         checkValidServiceWorker(swUrl, config);
 
@@ -72,6 +76,7 @@ function registerValidSW(swUrl, config) {
 
               // Execute callback
               if (config && config.onUpdate) {
+                console.log("service worker updated");
                 config.onUpdate(registration);
               }
             } else {
@@ -105,6 +110,7 @@ function checkValidServiceWorker(swUrl, config) {
       if (response.status === 404 ||
         (contentType != null && contentType.indexOf('javascript') === -1)) {
         // No service worker found. Probably a different app. Reload the page.
+        console.log("service worker not found");
         navigator.serviceWorker.ready.then((registration) => {
           registration.unregister().then(() => {
             window.location.reload();
