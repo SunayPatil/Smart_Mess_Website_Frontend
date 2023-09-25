@@ -15,7 +15,7 @@ import Iconify from '../components/iconify';
 // sections
 import { LoginForm } from '../sections/auth/login';
 import clientId from '../constants/client-id';
-import { userLogin } from '../utils/apis';
+import { userLogin, handleNotification } from '../utils/apis';
 
 // ----------------------------------------------------------------------
 
@@ -60,15 +60,16 @@ export default function LoginPage() {
   };
 
   const googleSuccess = async (res) => {
-    console.log("google success");
+    console.log('google success');
     console.log(res);
     const code = res.code; // code is the authorization code that we need to send to the backend to get the id_token
     if (code) {
-      try{
-        const {token} = await userLogin(code);
-        console.log(token);
+      try {
+        const response = await userLogin(code);
+        const { token, user } = await response.json();
+        handleNotification(user);
         localStorage.setItem('token', token);
-      }catch(err){
+      } catch (err) {
         console.log(err);
       }
     }
@@ -138,7 +139,7 @@ export default function LoginPage() {
               <div className="login-btn">SIGN IN</div>
             </Button> */}
             <Button onClick={googlelogin} fullWidth size="large" color="inherit" variant="outlined">
-                    <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
+              <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
             </Button>
 
             <Divider sx={{ my: 3 }}>
