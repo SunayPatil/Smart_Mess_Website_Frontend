@@ -18,7 +18,7 @@ const navConfig = [
   },
   {
     title: 'Feedback',
-    path: '/404',
+    path: '/dashboard/products',
     icon: icon('ic_cart'),
   },
   {

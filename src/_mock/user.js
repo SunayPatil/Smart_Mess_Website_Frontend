@@ -4,6 +4,12 @@ import { sample } from 'lodash';
 // ----------------------------------------------------------------------
 
 const users = [...Array(30)].map((_, index) => ({
+  // FoodItem:['poha','idli','eggs'],
+  // Day:['Monday','Tuesday','Wednesday'],
+  // MealTime:['Breakfast','Breakfast','Breakfast'],
+  // isRate:['NO','NO','NO'],
+  // Ratings:[7,8,9]
+
   id: faker.datatype.uuid(),
   avatarUrl: `/assets/images/avatars/avatar_${index + 1}.jpg`,
   name: faker.name.fullName(),
