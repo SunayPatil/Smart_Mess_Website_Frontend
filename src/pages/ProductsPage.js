@@ -61,9 +61,9 @@ export default function HoverRating() {
         Feedback
       </Typography>
 
-      <Box sx={{ flexGrow: 1, flexWrap: 'wrap' }}>
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
+      <Box sx={{ flexGrow: 1, flexWrap: 'wrap', justifyContent: "center" }}>
+        <Grid container alignItems="center" justifyContent="center" spacing={2}>
+          <Grid item alignItems="center" justifyContent="center"xs={12} lg={4} md={6}>
             <Item>
               <Card sx={{ maxWidth: 345 }}>
                 <Container>
@@ -88,7 +88,7 @@ export default function HoverRating() {
               </Card>
             </Item>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item  xs={12} lg={4} md={6}>
             <Item>
               <Card sx={{ maxWidth: 345 }}>
                 <Container>
@@ -113,7 +113,7 @@ export default function HoverRating() {
               </Card>
             </Item>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item  xs={12} lg={4} md={6}>
             <Item>
               <Card sx={{ maxWidth: 345 }}>
                 <Container>
@@ -138,7 +138,7 @@ export default function HoverRating() {
               </Card>
             </Item>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item  xs={12} lg={4} md={6}>
             <Item>
               <Card sx={{ maxWidth: 345 }}>
                 <Container>
@@ -163,7 +163,7 @@ export default function HoverRating() {
               </Card>
             </Item>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item  xs={12} lg={4} md={6}>
             <Item>
               <Card sx={{ maxWidth: 345 }}>
                 <Container>
@@ -188,7 +188,7 @@ export default function HoverRating() {
               </Card>
             </Item>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item  xs={12} lg={4} md={6}>
             <Item>
               <Card sx={{ maxWidth: 345 }}>
                 <Container>

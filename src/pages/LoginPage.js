@@ -51,13 +51,20 @@ export default function LoginPage() {
   const mdUp = useResponsive('up', 'md');
   const navigate = useNavigate();
 
-  const onSuccess = (res) => {
-    console.log('login success ', res.profileObj);
-    navigate('/dashboard', { replace: true });
-  };
-  const onFailure = (res) => {
-    console.log('login failed ', res);
-  };
+  useEffect(()=>{
+    const token = localStorage.getItem("token")
+    if(token){
+      navigate('/dashboard', { replace: true });
+    }
+  }, [])
+
+  // const onSuccess = (res) => {
+  //   console.log('login success ', res.profileObj);
+  //   navigate('/dashboard', { replace: true });
+  // };
+  // const onFailure = (res) => {
+  //   console.log('login failed ', res);
+  // };
 
   const googleSuccess = async (res) => {
     console.log('google success');
@@ -68,13 +75,16 @@ export default function LoginPage() {
         const response = await Signin(code);
         const { token, user } = await response.json();
         localStorage.setItem('token', token);
+        localStorage.setItem("user", JSON.stringify(user));
+        console.log(user);
         handleNotification();
+        navigate('/dashboard', { replace: true });
         console.log("sucessfully logged in");
       } catch (err) {
         console.log(err);
       }
     }
-    navigate('/dashboard', { replace: true });
+    
   };
 
   const googleFailure = (err) => {

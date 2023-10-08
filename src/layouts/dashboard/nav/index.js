@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import { useLocation } from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
@@ -19,6 +19,7 @@ import navConfig from './config';
 
 const NAV_WIDTH = 280;
 
+
 const StyledAccount = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -36,7 +37,19 @@ Nav.propTypes = {
 
 export default function Nav({ openNav, onCloseNav }) {
   const { pathname } = useLocation();
-
+  const [user, setUser] = useState({})
+  const getUser = async()=>{
+    let user = await localStorage.getItem("user")
+    user = await JSON.parse(user)
+    setUser(user)
+  }
+  useEffect(()=>{
+    try {
+      getUser()
+    } catch (error) {
+      console.log("error")
+    }
+  }, [])
   const isDesktop = useResponsive('up', 'lg');
 
   useEffect(() => {
@@ -64,7 +77,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {user?.Username}
               </Typography>
 
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>

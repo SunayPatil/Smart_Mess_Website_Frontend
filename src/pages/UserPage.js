@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // @mui
 import {
   Card,
@@ -22,6 +22,7 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
+import { Rate, Spin } from 'antd';
 // components
 import Label from '../components/label';
 import Iconify from '../components/iconify';
@@ -29,17 +30,15 @@ import Scrollbar from '../components/scrollbar';
 // sections
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
-import USERLIST from '../_mock/user';
+import { getDashTimeTable, giveRatingToFoodItem } from '../utils/apis';
+
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'FoodItem', label: 'FoodItem', alignRight: false },
-  { id: 'Day', label: 'Day', alignRight: false },
-  { id: 'MealTime', label: 'MealTime', alignRight: false },
-  { id: 'isRate', label: 'Rate', alignRight: false },
-  { id: 'Ratings', label: 'Ratings', alignRight: false },
-  { id: '' },
+  { _id: 'FoodItem', label: 'FoodItem', alignRight: false },
+  { _id: 'isRate', label: 'Rate', alignRight: false },
+  { _id: 'Ratings', label: 'Ratings', alignRight: false },
 ];
 
 // ----------------------------------------------------------------------
@@ -74,6 +73,48 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function UserPage() {
+  const date = new Date()
+  let today = date.getDay()
+  const weekday=new Array(7);
+weekday[1]="Monday";
+weekday[2]="Tuesday";
+weekday[3]="Wednesday";
+weekday[4]="Thursday";
+weekday[5]="Friday";
+weekday[6]="Saturday";
+weekday[0]="Sunday";
+// console.log(today)
+today = weekday[today]
+console.log(today)
+  const [timeTableData, setTimeTableData] = useState([])
+  const [todaysItems, setTodaysItems] = useState([])
+  const [loading, setLoading] = useState(false)
+  const getTimeTableData = async ()=>{
+    setLoading(true)
+    const res = await getDashTimeTable()
+    console.log(res)
+    if(res?.length){
+      const temp = []
+      res?.forEach((item)=>{
+        if(item.Day === today){
+          temp.push(...item.Items)
+        }
+      })
+      
+      setTodaysItems(temp)
+    }
+    
+    setTimeTableData(res)
+    setLoading(false)
+  }
+  useEffect(()=>{
+    try {
+      getTimeTableData()
+    } catch (error) {
+      setLoading(false)
+    }
+  }, [])
+
   const [open, setOpen] = useState(null);
 
   const [page, setPage] = useState(0);
@@ -82,7 +123,7 @@ export default function UserPage() {
 
   const [selected, setSelected] = useState([]);
 
-  const [orderBy, setOrderBy] = useState('MenuItem');
+  const [orderBy, setOrderBy] = useState('FoodItem');
 
   const [filterMenuItem, setFilterMenuItem] = useState('');
 
@@ -104,7 +145,7 @@ export default function UserPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.MenuItem);
+      const newSelecteds = todaysItems.map((n) => n.MenuItem);
       setSelected(newSelecteds);
       return;
     }
@@ -140,11 +181,19 @@ export default function UserPage() {
     setFilterMenuItem(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - todaysItems.length) : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterMenuItem);
+  const filteredUsers = applySortFilter(todaysItems, getComparator(order, orderBy), filterMenuItem);
 
   const isNotFound = !filteredUsers.length && !!filterMenuItem;
+  console.log(orderBy)
+
+  const handleRatingChange = async(value, id)=>{
+    setLoading(true)
+    const res = await giveRatingToFoodItem(id, value)
+    setLoading(false)
+    console.log(res)
+  }
 
   return (
     <>
@@ -166,46 +215,44 @@ export default function UserPage() {
           {/* <UserListToolbar numSelected={selected.length} filterMenuItem={filterMenuItem} onFilterMenuItem={handleFilterByMenuItem} /> */}
 
           <Scrollbar>
+          <Spin spinning={loading} size='medium'>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
                 <UserListHead
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
+                  rowCount={todaysItems.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
-                <TableBody>
+              
+               <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, FoodItem, MealTime, status, Day, avatarUrl, isRate } = row;
+                  const { _id, Name, Image, Category, avatarUrl, isRate } = row;
                     const selectedUser = selected.indexOf(MenuItem) !== -1;
 
                     return (
-                      <TableRow hover key={id} tabIndex={-1} MealTime="checkbox" selected={selectedUser}>
+                      <TableRow hover key={_id} tabIndex={-1} MealTime="checkbox" selected={selectedUser}>
                         <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, MenuItem)} />
+                          {/* <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, MenuItem)} /> */}
                         </TableCell>
 
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            {/* <Avatar alt={MenuItem} src={avatarUrl} /> */}
+                            <Avatar alt={MenuItem} src={Image} />
                             <Typography variant="subtitle2" noWrap>
-                              {FoodItem}
+                              {Name}
                             </Typography>
                           </Stack>
                         </TableCell>
 
-                        <TableCell align="left">{Day}</TableCell>
+                        <TableCell align="left"><Rate onChange={(value)=> handleRatingChange(value, _id)} /></TableCell>
 
-                        <TableCell align="left">{MealTime}</TableCell>
-
-                        <TableCell align="left">{isRate ? 'Yes' : 'No'}</TableCell>
-
-                        <TableCell align="left">
+                        {/* <TableCell align="left">
                           <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
-                        </TableCell>
+                        </TableCell> */}
 
                         {/* <TableCell align="right">
                           <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
@@ -221,6 +268,7 @@ export default function UserPage() {
                     </TableRow>
                   )}
                 </TableBody>
+             
 
                 {isNotFound && (
                   <TableBody>
@@ -247,12 +295,13 @@ export default function UserPage() {
                 )}
               </Table>
             </TableContainer>
+            </Spin>
           </Scrollbar>
 
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={USERLIST.length}
+            count={todaysItems.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

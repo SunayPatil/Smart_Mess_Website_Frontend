@@ -79,8 +79,47 @@ const submitFeedback = async ({
   }
   return null;
 };
+
+const getDashTimeTable = async()=>{
+  const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/timetable`
+  let response = await fetch(url, {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  })
+
+  response = await response.json()
+  return response
+
+}
+
+const giveRatingToFoodItem = async({foodId, rating})=>{
+  
+  try {
+    const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/giveRating`
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+
+      body: JSON.stringify({
+        foodId,
+        rating
+      }),
+    });
+    console.log(response);
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+  return null;
+}
   
 
 
 
-export { Signin, handleNotification,submitFeedback };
+export { Signin, handleNotification,submitFeedback, getDashTimeTable, giveRatingToFoodItem };
