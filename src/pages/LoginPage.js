@@ -68,11 +68,14 @@ export default function LoginPage() {
         const response = await userLogin(code);
         const { token, user } = await response.json();
         handleNotification(user);
+        onSuccess();
         localStorage.setItem('token', token);
+        
       } catch (err) {
         console.log(err);
       }
     }
+    navigate('/dashboard', { replace: true });
   };
 
   const googleFailure = (err) => {
