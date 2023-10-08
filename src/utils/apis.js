@@ -1,27 +1,6 @@
 import { resquestNotificationPermission, getfirebaseToken } from '../notifications/firebase';
 
-const handleNotification = async ({ Email }) => {
-  try {
-    const permission = await resquestNotificationPermission();
-    if (permission === 'granted') {
-      const notificationToken = await getfirebaseToken();
-      console.log(notificationToken);
-      const url = `${process.env.REACT_APP_SERVER_URL}/notification/addNotificationToken/web`;
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ notification_token: notificationToken, Email }),
-      });
-    }
-  } catch (error) {
-    console.log('error', error);
-  }
-  return null;
-};
-
-const userLogin = async (code) => {
+const Signin = async (code) => {
   try {
     const url = `${process.env.REACT_APP_SERVER_URL}/auth/signin/web`;
 
@@ -29,6 +8,7 @@ const userLogin = async (code) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+
       },
       body: JSON.stringify({ authCode: code }),
     });
@@ -39,4 +19,68 @@ const userLogin = async (code) => {
   return null;
 };
 
-export { userLogin, handleNotification };
+const handleNotification = async () => {
+  try {
+    const permission = await resquestNotificationPermission();
+    if (permission === 'granted') {
+      const notificationToken = await getfirebaseToken();
+      // console.log(notificationToken);
+      const url = `${process.env.REACT_APP_SERVER_URL}/user/addNotificationToken/web`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({ notification_token: notificationToken}),
+      });
+    }
+  } catch (error) {
+    console.log('error', error);
+  }
+  return null;
+};
+
+
+const submitFeedback = async ({
+  FormID,
+  BreakfastRating,
+  LunchRating,
+  DinnerRating,
+  SnacksRating,
+  Comments,
+  MessServiceRating,
+  HygieneRating,
+}) => {
+  try {
+    const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/submitFeedback`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+
+      body: JSON.stringify({
+        FormID,
+        BreakfastRating,
+        LunchRating,
+        DinnerRating,
+        SnacksRating,
+        Comments,
+        MessServiceRating,
+        HygieneRating,
+      }),
+    });
+    // console.log(response);
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+  return null;
+};
+  
+
+
+
+export { Signin, handleNotification,submitFeedback };

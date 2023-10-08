@@ -34,7 +34,7 @@ import USERLIST from '../_mock/user';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'MenuItem', label: 'MenuItem', alignRight: false },
+  { id: 'FoodItem', label: 'FoodItem', alignRight: false },
   { id: 'Day', label: 'Day', alignRight: false },
   { id: 'MealTime', label: 'MealTime', alignRight: false },
   { id: 'isRate', label: 'Rate', alignRight: false },
@@ -179,7 +179,7 @@ export default function UserPage() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, MenuItem, MealTime, status, Day, avatarUrl, isRate } = row;
+                    const { id, FoodItem, MealTime, status, Day, avatarUrl, isRate } = row;
                     const selectedUser = selected.indexOf(MenuItem) !== -1;
 
                     return (
@@ -192,7 +192,7 @@ export default function UserPage() {
                           <Stack direction="row" alignItems="center" spacing={2}>
                             {/* <Avatar alt={MenuItem} src={avatarUrl} /> */}
                             <Typography variant="subtitle2" noWrap>
-                              {MenuItem}
+                              {FoodItem}
                             </Typography>
                           </Stack>
                         </TableCell>
@@ -279,7 +279,7 @@ export default function UserPage() {
           },
         }}
       >
-        <MenuItem>
+        {/* <MenuItem>
           <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
           Edit
         </MenuItem>
@@ -287,7 +287,7 @@ export default function UserPage() {
         <MenuItem sx={{ color: 'error.main' }}>
           <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
           Delete
-        </MenuItem>
+        </MenuItem> */}
       </Popover>
     </>
   );

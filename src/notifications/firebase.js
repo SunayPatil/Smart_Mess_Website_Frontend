@@ -30,7 +30,7 @@ export const getfirebaseToken = async () => {
 export const resquestNotificationPermission = async () => {
   try {
     const permission = await Notification.requestPermission();
-    console.log('permission', permission);
+    // console.log('permission', permission);
     return permission;
   } catch (error) {
     console.log('error', error);
