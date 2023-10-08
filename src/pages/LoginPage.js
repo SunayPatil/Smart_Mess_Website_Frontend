@@ -15,7 +15,7 @@ import Iconify from '../components/iconify';
 // sections
 import { LoginForm } from '../sections/auth/login';
 import clientId from '../constants/client-id';
-import { userLogin, handleNotification } from '../utils/apis';
+import { Signin, handleNotification } from '../utils/apis';
 
 // ----------------------------------------------------------------------
 
@@ -65,12 +65,11 @@ export default function LoginPage() {
     const code = res.code; // code is the authorization code that we need to send to the backend to get the id_token
     if (code) {
       try {
-        const response = await userLogin(code);
+        const response = await Signin(code);
         const { token, user } = await response.json();
-        handleNotification(user);
-        onSuccess();
         localStorage.setItem('token', token);
-        
+        handleNotification();
+        console.log("sucessfully logged in");
       } catch (err) {
         console.log(err);
       }
