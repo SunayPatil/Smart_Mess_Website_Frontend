@@ -1,7 +1,7 @@
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 
 // routes
@@ -15,9 +15,11 @@ import clientId from './constants/client-id';
 
 // navigator.serviceWorker.controller.postMessage({title: 'Send message from client'})
 
+
+
 navigator.serviceWorker.addEventListener('message', event => {
   const message = event.data;
-  if(message.type === 'notification') {
+  if (message.type === 'notification') {
     console.log('communication from service worker');
   }
 });
@@ -25,6 +27,8 @@ navigator.serviceWorker.addEventListener('message', event => {
 // ----------------------------------------------------------------------
 
 export default function App() {
+
+
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
