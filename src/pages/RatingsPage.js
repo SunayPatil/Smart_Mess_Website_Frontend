@@ -72,7 +72,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function UserPage() {
+export default function RatingsPage() {
   const date = new Date()
   let today = date.getDay()
   const weekday=new Array(7);
@@ -151,22 +151,6 @@ console.log(today)
     }
     setSelected([]);
   };
-
-  const handleClick = (event, MenuItem) => {
-    const selectedIndex = selected.indexOf(MenuItem);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, MenuItem);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-    }
-    setSelected(newSelected);
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -189,6 +173,8 @@ console.log(today)
   console.log(orderBy)
 
   const handleRatingChange = async(value, id)=>{
+    console.log(value, id)
+
     setLoading(true)
     const res = await giveRatingToFoodItem(id, value)
     setLoading(false)
@@ -250,9 +236,14 @@ console.log(today)
 
                         <TableCell align="left"><Rate onChange={(value)=> handleRatingChange(value, _id)} /></TableCell>
 
-                        {/* <TableCell align="left">
-                          <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
-                        </TableCell> */}
+                        <TableCell component="th" scope="row" padding="none">
+                          <Stack direction="row" alignItems="center" spacing={2}>
+                            <Avatar alt={MenuItem} src={Image} />
+                            <Typography variant="subtitle2" noWrap>
+                              {Name}
+                            </Typography>
+                          </Stack>
+                        </TableCell>
 
                         {/* <TableCell align="right">
                           <IconButton size="large" color="inherit" onClick={handleOpenMenu}>

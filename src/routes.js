@@ -9,7 +9,10 @@ import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import MenuPage from './pages/MenuPage';
-import UserPage from './pages/UserPage';
+import RatingsPage from './pages/RatingsPage';
+import ManagerAddFood from './pages/ManagerAddFood';
+import MyMenuPage from './pages/MyMenuPage';
+
 
 // ----------------------------------------------------------------------
 
@@ -23,8 +26,10 @@ export default function Router() {
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'menu', element: <MenuPage /> },
         { path: 'products', element: <ProductsPage /> },
-        { path: 'blog', element: <UserPage /> },
+        { path: 'ratings', element: <RatingsPage /> },
         { path: 'products', element: <ProductsPage /> },
+        { path: 'addfooditem', element: <ManagerAddFood />},
+        { path: 'mymenupage', element: <MyMenuPage />}
       ],
     },
     {

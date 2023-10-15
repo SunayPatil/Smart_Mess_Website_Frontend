@@ -10,32 +10,39 @@ const navConfig = [
     title: 'dashboard',
     path: '/dashboard/app',
     icon: icon('ic_analytics'),
+    role: "user",
   },
   {
     title: 'Menu',
     path: '/dashboard/menu',
     icon: icon('ic_menu'),
+    role: "user",
   },
   {
     title: 'Feedback',
     path: '/dashboard/products',
     icon: icon('ic_cart'),
+    role: "user",
   },
   {
     title: 'Rating',
-    path: '/dashboard/blog',
+    path: '/dashboard/ratings',
     icon: icon('ic_blog'),
+    role: "user",
   },
   {
     title: 'Attendance',
     path: '/404',
     icon: icon('ic_disabled'),
+    role: "all",
   },
-  // {
-  //   title: 'login',
-  //   path: '/login',
-  //   icon: icon('ic_lock'),
-  // },
+  {
+    title: 'Edit Food Item',
+    path: '/dashboard/addfooditem',
+    icon: icon('ic_disabled'),
+    role: "manager",
+  },
+
 ];
 
 export default navConfig;

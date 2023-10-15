@@ -95,7 +95,7 @@ const getDashTimeTable = async()=>{
 
 }
 
-const giveRatingToFoodItem = async({foodId, rating})=>{
+const giveRatingToFoodItem = async(foodId, rating)=>{
   
   try {
     const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/giveRating`
@@ -118,8 +118,68 @@ const giveRatingToFoodItem = async({foodId, rating})=>{
   }
   return null;
 }
+
+const createFoodItem = async(data)=>{
+  try {
+    const url = `${process.env.REACT_APP_SERVER_URL}/manager/dashboard/createFoodItem`
+    const response = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify(data),
+    });
+    console.log(response);
+    console.log(data)
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+  return null;
+}
+
+const getAllFoodIitems = async()=>{
+  try {
+    const url = `${process.env.REACT_APP_SERVER_URL}/manager/dashboard/allFoodItems`
+    let response = await fetch(url, {
+      method: 'GET',
+      headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+  })
+  response = await response.json()
+  return response;
+  } catch (error) {
+    console.log(error)
+  }
+  return null
+}
+
+const addFoodItem = async(data)=>{
+  console.log(data)
+  try {
+    const url = `${process.env.REACT_APP_SERVER_URL}/manager/dashboard/addTimeTable`
+    const response = await fetch(url, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+
+      body: JSON.stringify(data),
+    });
+    console.log(response);
+    console.log(data)
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+  return null;
+}
+
   
 
 
 
-export { Signin, handleNotification,submitFeedback, getDashTimeTable, giveRatingToFoodItem };
+export { Signin, handleNotification,submitFeedback, getDashTimeTable, giveRatingToFoodItem, createFoodItem, getAllFoodIitems, addFoodItem };
