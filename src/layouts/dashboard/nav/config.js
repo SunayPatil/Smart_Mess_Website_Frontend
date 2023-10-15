@@ -14,7 +14,7 @@ const navConfig = [
   },
   {
     title: 'Menu',
-    path: '/dashboard/menu',
+    path: '/dashboard/mymenupage',
     icon: icon('ic_menu'),
     role: "user",
   },
