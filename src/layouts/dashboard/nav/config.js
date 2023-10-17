@@ -30,12 +30,12 @@ const navConfig = [
     icon: icon('ic_blog'),
     role: "user",
   },
-  {
-    title: 'Attendance',
-    path: '/404',
-    icon: icon('ic_disabled'),
-    role: "all",
-  },
+  // {
+  //   title: 'Attendance',
+  //   path: '/404',
+  //   icon: icon('ic_disabled'),
+  //   role: "all",
+  // },
   {
     title: 'Edit Food Item',
     path: '/dashboard/addfooditem',

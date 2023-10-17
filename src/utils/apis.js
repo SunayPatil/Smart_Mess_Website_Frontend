@@ -198,4 +198,25 @@ const delFoodItem = async(data)=>{
   return null;
 }
 
-export { Signin, handleNotification,submitFeedback, getDashTimeTable, giveRatingToFoodItem, createFoodItem, getAllFoodIitems, addFoodItem, delFoodItem };
+const getFoodItemRating = async(rateFoodId)=>{
+  try {
+    const url = `${process.env.REACT_APP_SERVER_URL}/manager/dashboard/getItemRating`
+    let response = await fetch(url, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: {
+        'itemId' : rateFoodId
+      }
+  })
+  response = await response.json()
+  return response;
+  } catch (error) {
+    console.log(error)
+  }
+  return null
+}
+
+export { Signin, handleNotification,submitFeedback, getDashTimeTable, giveRatingToFoodItem, createFoodItem, getAllFoodIitems, addFoodItem, delFoodItem, getFoodItemRating };

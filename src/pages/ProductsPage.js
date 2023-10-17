@@ -72,7 +72,7 @@ export default function HoverRating() {
                   </Typography>
                   <CardMedia
                     sx={{ height: 140 }}
-                    image="https://media.istockphoto.com/id/938158500/photo/breakfast-table.jpg?s=612x612&w=0&k=20&c=Y8xB6hfe4dSPNyNrPgzP7slHbKhWdEzG7YTk2WXu4lQ="
+                    image="https://media.istockphoto.com/id/938158500/photo/breakfast-table.jpg?s=612x612&w=0&k=20&c=Y8xB6hfe4dSPNyNrPgzP7slHbKhWdEzG7YTk2WXu4lQ="                    
                     title=""
                   />
                   <Rating
@@ -97,7 +97,7 @@ export default function HoverRating() {
                   </Typography>
                   <CardMedia
                     sx={{ height: 140 }}
-                    image="https://media.istockphoto.com/id/938158500/photo/breakfast-table.jpg?s=612x612&w=0&k=20&c=Y8xB6hfe4dSPNyNrPgzP7slHbKhWdEzG7YTk2WXu4lQ="
+                    image='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeRvcdRG6Ahi21BcICuzay8pW1AWdLqvgFOw&usqp=CAU'
                     title=""
                   />
                   <Rating
@@ -147,7 +147,7 @@ export default function HoverRating() {
                   </Typography>
                   <CardMedia
                     sx={{ height: 140 }}
-                    image="https://media.istockphoto.com/id/938158500/photo/breakfast-table.jpg?s=612x612&w=0&k=20&c=Y8xB6hfe4dSPNyNrPgzP7slHbKhWdEzG7YTk2WXu4lQ="
+                    image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQQvV3IWgn7ebaOWxlSIIBUNF19SGTD_Ngyw&usqp=CAU"
                     title=""
                   />
                   <Rating
@@ -172,7 +172,7 @@ export default function HoverRating() {
                   </Typography>
                   <CardMedia
                     sx={{ height: 140 }}
-                    image="https://media.istockphoto.com/id/938158500/photo/breakfast-table.jpg?s=612x612&w=0&k=20&c=Y8xB6hfe4dSPNyNrPgzP7slHbKhWdEzG7YTk2WXu4lQ="
+                    image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUBWo70RdiTtAadAMbQCFA6E5hEG7W4nQ7rQhpNYKP6grmyhSmuU9_1jDUHk9_hbYBNBc&usqp=CAU"
                     title=""
                   />
                   <Rating

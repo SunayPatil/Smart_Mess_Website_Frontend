@@ -30,7 +30,7 @@ import Scrollbar from '../components/scrollbar';
 // sections
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
-import { getDashTimeTable, giveRatingToFoodItem } from '../utils/apis';
+import { getDashTimeTable, giveRatingToFoodItem , getFoodItemRating} from '../utils/apis';
 
 
 // ----------------------------------------------------------------------
@@ -88,6 +88,7 @@ today = weekday[today]
 console.log(today)
   const [timeTableData, setTimeTableData] = useState([])
   const [todaysItems, setTodaysItems] = useState([])
+  const [todaysItemsRatings, setTodaysItemsRatings] = useState([])
   const [loading, setLoading] = useState(false)
   const getTimeTableData = async ()=>{
     setLoading(true)
@@ -114,6 +115,19 @@ console.log(today)
       setLoading(false)
     }
   }, [])
+
+  // const getRatingData = async (todaysItems)=>{
+  //   setLoading(true)
+  //   const temp = []
+  //   todaysItems?.forEach((item)=>{
+  //       const res = await getFoodItemRating()
+  //       temp.push(...(item))
+  //   })
+  //   setTodaysItemsRatings(temp)
+  //   setLoading(false)
+  // } 
+
+  // console.log(todaysItemsRatings)
 
   const [open, setOpen] = useState(null);
 
@@ -236,13 +250,8 @@ console.log(today)
 
                         <TableCell align="left"><Rate onChange={(value)=> handleRatingChange(value, _id)} /></TableCell>
 
-                        <TableCell component="th" scope="row" padding="none">
-                          <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={MenuItem} src={Image} />
-                            <Typography variant="subtitle2" noWrap>
-                              {Name}
-                            </Typography>
-                          </Stack>
+                        <TableCell align='left' component="th" scope="row" padding="none">
+                          3.5/5.0 
                         </TableCell>
 
                         {/* <TableCell align="right">
