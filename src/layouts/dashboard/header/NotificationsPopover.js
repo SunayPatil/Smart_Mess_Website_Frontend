@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { set, sub } from 'date-fns';
 import { noCase } from 'change-case';
 import { faker } from '@faker-js/faker';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // @mui
 import {
   Box,
@@ -22,62 +22,34 @@ import {
 } from '@mui/material';
 // utils
 import { fToNow } from '../../../utils/formatTime';
+import { getAllNotificatons } from '../../../utils/apis';
 // components
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
 
 // ----------------------------------------------------------------------
 
-const NOTIFICATIONS = [
-  {
-    id: faker.datatype.uuid(),
-    title: 'Your order is placed',
-    description: 'waiting for shipping',
-    avatar: null,
-    type: 'order_placed',
-    createdAt: set(new Date(), { hours: 10, minutes: 30 }),
-    isUnRead: true,
-  },
-  {
-    id: faker.datatype.uuid(),
-    title: faker.name.fullName(),
-    description: 'answered to your comment on the Minimal',
-    avatar: '/assets/images/avatars/avatar_2.jpg',
-    type: 'friend_interactive',
-    createdAt: sub(new Date(), { hours: 3, minutes: 30 }),
-    isUnRead: true,
-  },
-  {
-    id: faker.datatype.uuid(),
-    title: 'You have new message',
-    description: '5 unread messages',
-    avatar: null,
-    type: 'chat_message',
-    createdAt: sub(new Date(), { days: 1, hours: 3, minutes: 30 }),
-    isUnRead: false,
-  },
-  {
-    id: faker.datatype.uuid(),
-    title: 'You have new mail',
-    description: 'sent from Guido Padberg',
-    avatar: null,
-    type: 'mail',
-    createdAt: sub(new Date(), { days: 2, hours: 3, minutes: 30 }),
-    isUnRead: false,
-  },
-  {
-    id: faker.datatype.uuid(),
-    title: 'Delivery processing',
-    description: 'Your order is being shipped',
-    avatar: null,
-    type: 'order_shipped',
-    createdAt: sub(new Date(), { days: 3, hours: 3, minutes: 30 }),
-    isUnRead: false,
-  },
-];
-
 export default function NotificationsPopover() {
-  const [notifications, setNotifications] = useState(NOTIFICATIONS);
+  const [notifications, setNotifications] = useState([]);
+
+  useEffect(() => {
+    const getNotifications = async () => {
+      const response = await getAllNotificatons();
+
+      response.forEach((item) => {
+        item.id = item._id;
+        item.title = item.Title;
+        item.description = item.Message;
+        item.avatar = null;
+        item.type = item.messageType;
+        item.createdAt = item.Date;
+        item.isUnRead = item.isRead;
+      });
+      console.log(response);
+      setNotifications(response);
+    };
+    getNotifications();
+  }, []);
 
   const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
 
@@ -119,6 +91,7 @@ export default function NotificationsPopover() {
             mt: 1.5,
             ml: 0.75,
             width: 360,
+            maxHeight: '55vh',
           },
         }}
       >
@@ -150,9 +123,11 @@ export default function NotificationsPopover() {
               </ListSubheader>
             }
           >
-            {notifications.slice(0, 2).map((notification) => (
-              <NotificationItem key={notification.id} notification={notification} />
-            ))}
+            {notifications
+              .filter((notification) => notification.isUnRead)
+              .map((notification) => (
+                <NotificationItem key={notification.id} notification={notification} />
+              ))}
           </List>
 
           <List
@@ -163,9 +138,11 @@ export default function NotificationsPopover() {
               </ListSubheader>
             }
           >
-            {notifications.slice(2, 5).map((notification) => (
-              <NotificationItem key={notification.id} notification={notification} />
-            ))}
+            {notifications
+              .filter((notification) => !notification.isUnRead)
+              .map((notification) => (
+                <NotificationItem key={notification.id} notification={notification} />
+              ))}
           </List>
         </Scrollbar>
 

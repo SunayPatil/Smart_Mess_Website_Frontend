@@ -8,7 +8,6 @@ const Signin = async (code) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-
       },
       body: JSON.stringify({ authCode: code }),
     });
@@ -32,7 +31,7 @@ const handleNotification = async () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-        body: JSON.stringify({ notification_token: notificationToken}),
+        body: JSON.stringify({ notification_token: notificationToken }),
       });
     }
   } catch (error) {
@@ -40,7 +39,6 @@ const handleNotification = async () => {
   }
   return null;
 };
-
 
 const submitFeedback = async ({
   FormID,
@@ -80,25 +78,23 @@ const submitFeedback = async ({
   return null;
 };
 
-const getDashTimeTable = async()=>{
-  const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/timetable`
+const getDashTimeTable = async () => {
+  const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/timetable`;
   let response = await fetch(url, {
-    method: "GET",
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     },
-  })
+  });
 
-  response = await response.json()
-  return response
+  response = await response.json();
+  return response;
+};
 
-}
-
-const giveRatingToFoodItem = async(foodId, rating)=>{
-  
+const giveRatingToFoodItem = async (foodId, rating) => {
   try {
-    const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/giveRating`
+    const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/giveRating`;
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -108,7 +104,7 @@ const giveRatingToFoodItem = async(foodId, rating)=>{
 
       body: JSON.stringify({
         foodId,
-        rating
+        rating,
       }),
     });
     console.log(response);
@@ -117,49 +113,49 @@ const giveRatingToFoodItem = async(foodId, rating)=>{
     console.log(err);
   }
   return null;
-}
+};
 
-const createFoodItem = async(data)=>{
+const createFoodItem = async (data) => {
   try {
-    const url = `${process.env.REACT_APP_SERVER_URL}/manager/dashboard/createFoodItem`
+    const url = `${process.env.REACT_APP_SERVER_URL}/manager/dashboard/createFoodItem`;
     const response = await fetch(url, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       body: JSON.stringify(data),
     });
     console.log(response);
-    console.log(data)
+    console.log(data);
     return response;
   } catch (err) {
     console.log(err);
   }
   return null;
-}
+};
 
-const getAllFoodIitems = async()=>{
+const getAllFoodIitems = async () => {
   try {
-    const url = `${process.env.REACT_APP_SERVER_URL}/manager/dashboard/allFoodItems`
+    const url = `${process.env.REACT_APP_SERVER_URL}/manager/dashboard/allFoodItems`;
     let response = await fetch(url, {
       method: 'GET',
       headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
-  })
-  response = await response.json()
-  return response;
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    response = await response.json();
+    return response;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-  return null
-}
+  return null;
+};
 
-const addFoodItem = async(data)=>{
-  console.log(data)
+const addFoodItem = async (data) => {
+  console.log(data);
   try {
-    const url = `${process.env.REACT_APP_SERVER_URL}/manager/dashboard/addTimeTable`
+    const url = `${process.env.REACT_APP_SERVER_URL}/manager/dashboard/addTimeTable`;
     const response = await fetch(url, {
       method: 'PATCH',
       headers: {
@@ -170,16 +166,40 @@ const addFoodItem = async(data)=>{
       body: JSON.stringify(data),
     });
     console.log(response);
-    console.log(data)
+    console.log(data);
     return response;
   } catch (err) {
     console.log(err);
   }
   return null;
-}
+};
 
-  
+const getAllNotificatons = async () => {
+  try {
+    const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/notifications`;
+    let response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    response = await response.json();
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
+};
 
-
-
-export { Signin, handleNotification,submitFeedback, getDashTimeTable, giveRatingToFoodItem, createFoodItem, getAllFoodIitems, addFoodItem };
+export {
+  Signin,
+  handleNotification,
+  submitFeedback,
+  getDashTimeTable,
+  giveRatingToFoodItem,
+  createFoodItem,
+  getAllFoodIitems,
+  addFoodItem,
+  getAllNotificatons,
+};
