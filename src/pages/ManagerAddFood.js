@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 
 import { Button, Select, Form, Input } from "antd";
 import { Typography} from '@mui/material';
-import { addFoodItem, createFoodItem, getAllFoodIitems } from "../utils/apis";
+import { addFoodItem, createFoodItem, getAllFoodIitems,getDashTimeTable, delFoodItem } from "../utils/apis";
 
 
 const { Option } = Select;
@@ -17,6 +17,39 @@ const ManagerAddFood = () => {
   }
   
   const [foodItems,setFoodItems] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [deleteDay, setDeleteDay] = useState("")
+  const [deleteType, setDeleteType] = useState("")
+  const [timeTableData, setTimeTableData] = useState([])
+  const [reqData, setReqData] = useState([])
+  console.log(timeTableData)
+  const getTimeTableData = async ()=>{
+    setLoading(true)
+    try {
+      const res = await getDashTimeTable()
+   
+  
+    if(res?.length){
+      
+      setTimeTableData(res)
+    }
+    
+  } catch (error) {
+    setLoading(false)
+  }
+    setLoading(false)
+  }
+  useEffect(()=>{
+    try {
+      getTimeTableData()
+    } catch (error) {
+      setLoading(false)
+    }
+  }, [])
+  const fileteredDataForDelete = timeTableData?.slice(0)?.filter((item)=>{
+    return item.Day === deleteDay && item.Type === deleteType
+  })
+  console.log(fileteredDataForDelete)
   const fetchAllFoodItems = async()=>{
     const res = await getAllFoodIitems()
     setFoodItems(res)
@@ -36,6 +69,15 @@ const ManagerAddFood = () => {
     console.log(res)
    
   }
+
+  const delTimeTable = async(values)=>{
+    console.log(values)
+    const res = await delFoodItem(values)
+    console.log(res)
+   
+  }
+
+  console.log(deleteDay, deleteType)
 
   return (
     <>
@@ -142,7 +184,7 @@ const ManagerAddFood = () => {
         <Select allowClear>
           <Option value="Breakfast">Breakfast</Option>
           <Option value="Lunch">Lunch</Option>
-          <Option value="Snacks">Snakcs</Option>
+          <Option value="Snacks">Snacks</Option>
           <Option value="Dinner">Dinner</Option>
         </Select>
       </Form.Item>
@@ -183,12 +225,12 @@ const ManagerAddFood = () => {
       initialValues={{
         remember: true
       }}
-      onFinish={onFinish}
+      onFinish={delTimeTable}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
-      <Form.Item name="Day" label="Day" rules={[{ required: true }]}>
-        <Select allowClear>
+      <Form.Item name="day" label="Day" rules={[{ required: true }]}>
+        <Select onChange={(val)=> setDeleteDay(val)} allowClear>
           <Option value="Monday">Monday</Option>
           <Option value="Tuesday">Tuesday</Option>
           <Option value="Wednesday">Wednesday</Option>
@@ -199,20 +241,22 @@ const ManagerAddFood = () => {
         </Select>
       </Form.Item>
 
-      <Form.Item name="Mealtype" label="Mealtype" rules={[{ required: true }]}>
-        <Select allowClear>
+      <Form.Item name="mealType" label="Mealtype" rules={[{ required: true }]}>
+        <Select onChange={(type)=> setDeleteType(type)} allowClear>
           <Option value="Breakfast">Breakfast</Option>
           <Option value="Lunch">Lunch</Option>
-          <Option value="Snacks">Snakcs</Option>
+          <Option value="Snacks">Snacks</Option>
           <Option value="Dinner">Dinner</Option>
         </Select>
       </Form.Item>
       
-      <Form.Item name="Food Items" label="Food Items" rules={[{ required: true }]}>
+      <Form.Item name="mealItem" label="Food Items" rules={[{ required: true }]}>
         <Select allowClear>
-          <Option value="1">1</Option>
-          <Option value="2">2</Option>
-          <Option value="3">3</Option>
+          {fileteredDataForDelete[0]?.Items?.map((item)=>{
+            return  <Option key={item._id} value={item._id}>{item.Name}</Option>
+          })}
+         
+          
         </Select>
       </Form.Item>
 

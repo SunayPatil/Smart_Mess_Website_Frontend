@@ -174,6 +174,47 @@ const addFoodItem = async (data) => {
   return null;
 };
 
+const delFoodItem = async (data) => {
+  try {
+    const url = `${process.env.REACT_APP_SERVER_URL}/manager/dashboard/deleteTimeTable`;
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify(data),
+    });
+    console.log(response);
+    console.log(data);
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+  return null;
+};
+
+const getFoodItemRating = async (rateFoodId) => {
+  try {
+    const url = `${process.env.REACT_APP_SERVER_URL}/manager/dashboard/getItemRating`;
+    let response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: {
+        itemId: rateFoodId,
+      },
+    });
+    response = await response.json();
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
+};
+
 const getAllNotificatons = async () => {
   try {
     const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/notifications`;
@@ -194,6 +235,7 @@ const getAllNotificatons = async () => {
 
 export {
   Signin,
+  getAllNotificatons,
   handleNotification,
   submitFeedback,
   getDashTimeTable,
@@ -201,5 +243,6 @@ export {
   createFoodItem,
   getAllFoodIitems,
   addFoodItem,
-  getAllNotificatons,
+  delFoodItem,
+  getFoodItemRating,
 };
