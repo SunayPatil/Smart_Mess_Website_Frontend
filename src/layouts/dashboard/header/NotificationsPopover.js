@@ -200,6 +200,10 @@ function NotificationItem({ notification }) {
           bgcolor: 'action.selected',
         }),
       }}
+      onClick={() => {
+        markAsRead(notification.id);
+        console.log(notification.id, 'notification id');
+      }}
     >
       <ListItemAvatar>
         <Avatar sx={{ bgcolor: 'background.neutral' }}>{avatar}</Avatar>

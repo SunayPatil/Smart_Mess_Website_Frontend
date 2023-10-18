@@ -235,6 +235,7 @@ const getFoodItemRating = async (rateFoodId) => {
 };
 
 const markAsRead = async (id) => {
+  console.log('mark as read ', id);
   try {
     const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/makeRead`;
     const response = await fetch(url, {
