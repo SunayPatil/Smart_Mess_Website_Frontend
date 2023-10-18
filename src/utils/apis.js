@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { resquestNotificationPermission, getfirebaseToken } from '../notifications/firebase';
 
 const Signin = async (code) => {
@@ -37,24 +36,6 @@ const handleNotification = async () => {
     }
   } catch (error) {
     console.log('error', error);
-  }
-  return null;
-};
-
-const handleMarkAllAsRead = async () => {
-  try {
-    const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/markAllAsRead`;
-    const response = await fetch(url, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
-    // console.log(response);
-    return response;
-  } catch (err) {
-    console.log(err);
   }
   return null;
 };
@@ -234,29 +215,6 @@ const getFoodItemRating = async (rateFoodId) => {
   return null;
 };
 
-const markAsRead = async (id) => {
-  console.log('mark as read ', id);
-  try {
-    const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/makeRead`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      body: JSON.stringify({ notifId: id }), // Include the request body here
-    });
-
-    if (response.status === 200) {
-      console.log('Notification marked as read');
-    } else {
-      console.error('Unexpected error:', await response.text());
-    }
-  } catch (error) {
-    console.error('An error occurred:', error);
-  }
-};
-
 export {
   Signin,
   handleNotification,
@@ -268,5 +226,4 @@ export {
   addFoodItem,
   delFoodItem,
   getFoodItemRating,
-  markAsRead,
 };

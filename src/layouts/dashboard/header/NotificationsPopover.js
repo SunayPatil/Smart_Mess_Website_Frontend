@@ -1,14 +1,13 @@
 import PropTypes from 'prop-types';
-import { set, sub } from 'date-fns';
+// import { set, sub } from 'date-fns';
 import { noCase } from 'change-case';
-import { faker } from '@faker-js/faker';
-import { useEffect, useState } from 'react';
+// import { faker } from '@faker-js/faker';
+import React, { useState, useContext } from 'react';
 // @mui
 import {
   Box,
   List,
   Badge,
-  Button,
   Avatar,
   Tooltip,
   Divider,
@@ -22,55 +21,16 @@ import {
 } from '@mui/material';
 // utils
 import { fToNow } from '../../../utils/formatTime';
+import ApiContext from '../../../Context/apiContext';
 // components
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
-import { markAsRead } from '../../../utils/apis';
 
 // ----------------------------------------------------------------------
 
 export default function NotificationsPopover() {
-  const [notifications, setNotifications] = useState([]);
-
-  const getAllNotificatons = async () => {
-    try {
-      const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/notifications`;
-      let response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-      response = await response.json();
-      response.forEach((item) => {
-        item.id = item._id;
-        item.title = item.Title;
-        item.description = item.Message;
-        item.avatar = null;
-        item.type = item.messageType;
-        item.createdAt = item.Date;
-        item.isUnRead = !item.read;
-      });
-      setNotifications(response);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-    return null;
-  };
-
-  useEffect(() => {
-    getAllNotificatons();
-  }, []);
-
-  navigator.serviceWorker.addEventListener('message', (event) => {
-    const message = event.data;
-    if (message.type === 'notification') {
-      console.log('communication from service worker');
-      getAllNotificatons();
-    }
-  });
+  const context = useContext(ApiContext);
+  const { notifications, markAllAsRead } = context;
 
   const totalUnRead = notifications.filter((item) => item.isUnRead).length;
 
@@ -85,12 +45,7 @@ export default function NotificationsPopover() {
   };
 
   const handleMarkAllAsRead = () => {
-    setNotifications(
-      notifications.map((notification) => ({
-        ...notification,
-        isUnRead: false,
-      }))
-    );
+    markAllAsRead();
   };
 
   return (
@@ -189,6 +144,8 @@ NotificationItem.propTypes = {
 
 function NotificationItem({ notification }) {
   const { avatar, title } = renderContent(notification);
+  const context = useContext(ApiContext);
+  const { markAsRead } = context;
 
   return (
     <ListItemButton
