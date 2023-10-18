@@ -215,27 +215,8 @@ const getFoodItemRating = async (rateFoodId) => {
   return null;
 };
 
-const getAllNotificatons = async () => {
-  try {
-    const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/notifications`;
-    let response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
-    response = await response.json();
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-  return null;
-};
-
 export {
   Signin,
-  getAllNotificatons,
   handleNotification,
   submitFeedback,
   getDashTimeTable,

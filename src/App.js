@@ -15,14 +15,12 @@ import clientId from './constants/client-id';
 
 // navigator.serviceWorker.controller.postMessage({title: 'Send message from client'})
 
-
-
-navigator.serviceWorker.addEventListener('message', event => {
-  const message = event.data;
-  if (message.type === 'notification') {
-    console.log('communication from service worker');
-  }
-});
+// navigator.serviceWorker.addEventListener('message', event => {
+//   const message = event.data;
+//   if (message.type === 'notification') {
+//     console.log('communication from service worker');
+//   }
+// });
 
 // ----------------------------------------------------------------------
 

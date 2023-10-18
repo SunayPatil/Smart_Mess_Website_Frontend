@@ -22,7 +22,6 @@ import {
 } from '@mui/material';
 // utils
 import { fToNow } from '../../../utils/formatTime';
-import { getAllNotificatons } from '../../../utils/apis';
 // components
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
@@ -32,10 +31,17 @@ import Scrollbar from '../../../components/scrollbar';
 export default function NotificationsPopover() {
   const [notifications, setNotifications] = useState([]);
 
-  useEffect(() => {
-    const getNotifications = async () => {
-      const response = await getAllNotificatons();
-
+  const getAllNotificatons = async () => {
+    try {
+      const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/notifications`;
+      let response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      response = await response.json();
       response.forEach((item) => {
         item.id = item._id;
         item.title = item.Title;
@@ -43,15 +49,29 @@ export default function NotificationsPopover() {
         item.avatar = null;
         item.type = item.messageType;
         item.createdAt = item.Date;
-        item.isUnRead = item.isRead;
+        item.read = item.read;
       });
-      console.log(response);
       setNotifications(response);
-    };
-    getNotifications();
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
+  };
+
+  useEffect(() => {
+    getAllNotificatons();
   }, []);
 
-  const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
+  navigator.serviceWorker.addEventListener('message', (event) => {
+    const message = event.data;
+    if (message.type === 'notification') {
+      console.log('communication from service worker');
+      getAllNotificatons();
+    }
+  });
+
+  const totalUnRead = notifications.filter((item) => item.isUnRead).length;
 
   const [open, setOpen] = useState(null);
 
@@ -147,12 +167,6 @@ export default function NotificationsPopover() {
         </Scrollbar>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
-
-        <Box sx={{ p: 1 }}>
-          <Button fullWidth disableRipple>
-            View All
-          </Button>
-        </Box>
       </Popover>
     </>
   );
