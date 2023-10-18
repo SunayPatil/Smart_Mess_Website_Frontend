@@ -76,16 +76,16 @@ export default function RatingsPage() {
   const date = new Date()
   let today = date.getDay()
   const weekday=new Array(7);
-weekday[1]="Monday";
-weekday[2]="Tuesday";
-weekday[3]="Wednesday";
-weekday[4]="Thursday";
-weekday[5]="Friday";
-weekday[6]="Saturday";
-weekday[0]="Sunday";
+  weekday[1]="Monday";
+  weekday[2]="Tuesday";
+  weekday[3]="Wednesday";
+  weekday[4]="Thursday";
+  weekday[5]="Friday";
+  weekday[6]="Saturday";
+  weekday[0]="Sunday";
 // console.log(today)
-today = weekday[today]
-console.log(today)
+  today = weekday[today]
+  console.log(today)
   const [timeTableData, setTimeTableData] = useState([])
   const [todaysItems, setTodaysItems] = useState([])
   const [todaysItemsRatings, setTodaysItemsRatings] = useState([])
@@ -101,10 +101,8 @@ console.log(today)
           temp.push(...item.Items)
         }
       })
-      
       setTodaysItems(temp)
     }
-    
     setTimeTableData(res)
     setLoading(false)
   }
@@ -115,18 +113,32 @@ console.log(today)
       setLoading(false)
     }
   }, [])
-
-  // const getRatingData = async (todaysItems)=>{
+  console.log(todaysItems)
+  // console.log(todaysItems[0]._id)
+  // const myid = todaysItems[0]._id
+  // const getRates = async (myid)=>{
   //   setLoading(true)
-  //   const temp = []
-  //   todaysItems?.forEach((item)=>{
-  //       const res = await getFoodItemRating()
-  //       temp.push(...(item))
-  //   })
-  //   setTodaysItemsRatings(temp)
+  //   const res = await getFoodItemRating(myid)
+  //   console.log(res)
   //   setLoading(false)
-  // } 
-
+  // }
+  // useEffect(()=>{
+  //   try {
+  //     getRates()
+  //   } catch (error) {
+  //     setLoading(false)
+  //   }
+  // }, [])
+  // todaysItems?.forEach((item)=>{
+  //   const temp = []
+  //   const getRatingData = async (todaysItems)=>{
+  //     const res = await getFoodItemRating(item._id)
+  //     if(res?.length){
+  //     temp.push(...(item))
+  //     }
+  //   }
+  //   setTodaysItemsRatings(temp)
+  // })
   // console.log(todaysItemsRatings)
 
   const [open, setOpen] = useState(null);

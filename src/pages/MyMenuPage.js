@@ -707,38 +707,38 @@ const items = [
   {
     key: '1',
     label: 'Monday',
-    children: <Collapse defaultActiveKey='1' size='large' accordion items={MondayNest} />,
+    children: <Collapse defaultActiveKey={['1','2','3','4']} size='large' items={MondayNest} />,
   },
   {
     key: '2',
     label: 'Tuesday',
-    children: <Collapse defaultActiveKey='1' size='large' accordion items={TuesdayNest} />,
+    children: <Collapse defaultActiveKey={['1','2','3','4']} size='large' items={TuesdayNest} />,
   },
   {
     key: '3',
     label: 'Wednesday',
-    children: <Collapse defaultActiveKey='1' size='large' accordion items={WednesdayNest} />,
+    children: <Collapse defaultActiveKey={['1','2','3','4']} size='large' items={WednesdayNest} />,
   },
   {
     key: '4',
     label: 'Thursday',
-    children: <Collapse defaultActiveKey='1' size='large' accordion items={ThursdayNest} />,
+    children: <Collapse defaultActiveKey={['1','2','3','4']} size='large' items={ThursdayNest} />,
   },
   {
     key: '5',
     label: 'Friday',
-    children: <Collapse defaultActiveKey='1' size='large' accordion items={FridayNest} />,
+    children: <Collapse defaultActiveKey={['1','2','3','4']} size='large' items={FridayNest} />,
   },
   {
     key: '6',
     label: 'Saturday',
-    children: <Collapse defaultActiveKey='1' size='large' accordion items={SaturdayNest}/>,
+    children: <Collapse defaultActiveKey={['1','2','3','4']} size='large' items={SaturdayNest}/>,
   },
 
   {
     key: '7',
     label: 'Sunday',
-    children: <Collapse defaultActiveKey='1' size='large' accordion items={SundayNest} />,
+    children: <Collapse defaultActiveKey={['1','2','3','4']} size='large' items={SundayNest} />,
   },
 ];
   return( 
