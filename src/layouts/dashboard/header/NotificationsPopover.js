@@ -25,6 +25,7 @@ import { fToNow } from '../../../utils/formatTime';
 // components
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
+import { markAsRead } from '../../../utils/apis';
 
 // ----------------------------------------------------------------------
 
@@ -49,7 +50,7 @@ export default function NotificationsPopover() {
         item.avatar = null;
         item.type = item.messageType;
         item.createdAt = item.Date;
-        item.read = item.read;
+        item.isUnRead = !item.read;
       });
       setNotifications(response);
       console.log(response);
