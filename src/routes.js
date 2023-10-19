@@ -12,6 +12,7 @@ import MenuPage from './pages/MenuPage';
 import RatingsPage from './pages/RatingsPage';
 import ManagerAddFood from './pages/ManagerAddFood';
 import MyMenuPage from './pages/MyMenuPage';
+import ManagerDashboard from './pages/ManagerDashboard';
 
 
 // ----------------------------------------------------------------------
@@ -28,8 +29,9 @@ export default function Router() {
         { path: 'products', element: <ProductsPage /> },
         { path: 'ratings', element: <RatingsPage /> },
         { path: 'products', element: <ProductsPage /> },
-        { path: 'addfooditem', element: <ManagerAddFood />},
-        { path: 'mymenupage', element: <MyMenuPage />}
+        { path: 'addfooditem', element: <ManagerAddFood /> },
+        { path: 'mymenupage', element: <MyMenuPage /> },
+        { path: 'summary', element: <ManagerDashboard /> }
       ],
     },
     {
