@@ -222,7 +222,137 @@ export default function RatingsPage() {
   return (
     <>
       {user?.Role === "manager" && <Navigate to="/404" />}
-      {user?.Role === "user" && <Navigate to="/404"/>}
+      {user?.Role === "user" && 
+
+            <>
+            <Helmet>
+              <title> User | Minimal UI </title>
+            </Helmet>
+      
+            <Container>
+              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                <Typography variant="h4" gutterBottom>
+                  Ratings
+                </Typography>
+                {/* <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+                  New User
+                </Button> */}
+              </Stack>
+      
+              <Card>
+                {/* <UserListToolbar numSelected={selected.length} filterMenuItem={filterMenuItem} onFilterMenuItem={handleFilterByMenuItem} /> */}
+      
+                <Scrollbar>
+                <Spin spinning={loading} size='medium'>
+                  <TableContainer sx={{ minWidth: 800 }}>
+                    <Table>
+                      <UserListHead
+                        order={order}
+                        orderBy={orderBy}
+                        headLabel={TABLE_HEAD}
+                        rowCount={todaysItems.length}
+                        numSelected={selected.length}
+                        onRequestSort={handleRequestSort}
+                        onSelectAllClick={handleSelectAllClick}
+                      />
+      
+                     <TableBody>
+                        {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                        const { _id, Name, Image, rating, Category, avatarUrl, isRate } = row;
+                          const selectedUser = selected.indexOf(MenuItem) !== -1;
+      
+                          return (
+                            <TableRow hover key={_id} tabIndex={-1} MealTime="checkbox" selected={selectedUser}>
+                              <TableCell padding="checkbox">
+                                {/* <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, MenuItem)} /> */}
+                              </TableCell>
+      
+                              <TableCell component="th" scope="row" padding="none">
+                                <Stack direction="row" alignItems="center" spacing={2}>
+                                  <Avatar alt={MenuItem} src={Image} />
+                                  <Typography variant="subtitle2" noWrap>
+                                    {Name}
+                                  </Typography>
+                                </Stack>
+                              </TableCell>
+      
+                              <TableCell align="left"><Rate onChange={(value)=> handleRatingChange(value, _id)} /></TableCell>
+      
+                              <TableCell align='left' component="th" scope="row" padding="none">
+                                {rating?.toFixed(2)}/5.00
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                        {emptyRows > 0 && (
+                          <TableRow style={{ height: 53 * emptyRows }}>
+                            <TableCell colSpan={6} />
+                          </TableRow>
+                        )}
+                      </TableBody>
+      
+      
+                      {isNotFound && (
+                        <TableBody>
+                          <TableRow>
+                            <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                              <Paper
+                                sx={{
+                                  textAlign: 'center',
+                                }}
+                              >
+                                <Typography variant="h6" paragraph>
+                                  Not found
+                                </Typography>
+      
+                                <Typography variant="body2">
+                                  No results found for &nbsp;
+                                  <strong>&quot;{filterMenuItem}&quot;</strong>.
+                                  <br /> Try checking for typos or using complete words.
+                                </Typography>
+                              </Paper>
+                            </TableCell>
+                          </TableRow>
+                        </TableBody>
+                      )}
+                    </Table>
+                  </TableContainer>
+                  </Spin>
+                </Scrollbar>
+      
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25]}
+                  component="div"
+                  count={todaysItems.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </Card>
+            </Container>
+      
+            {/* <Popover
+              open={Boolean(open)}
+              anchorEl={open}
+              onClose={handleCloseMenu}
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+              PaperProps={{
+                sx: {
+                  p: 1,
+                  width: 140,
+                  '& .MuiMenuItem-root': {
+                    px: 1,
+                    typography: 'body2',
+                    borderRadius: 0.75,
+                  },
+                },
+              }}
+            >
+            </Popover> */}
+            </>
+      }
     </>
   );
 }
