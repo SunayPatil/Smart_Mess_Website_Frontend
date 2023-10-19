@@ -12,7 +12,9 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
+console.log('firebaseapp', app);
 export const messaging = getMessaging(app);
+console.log('messaging', messaging);
 
 export const getfirebaseToken = async () => {
   try {
