@@ -1,4 +1,5 @@
 import { Navigate, useRoutes } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
 // layouts
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
@@ -9,9 +10,14 @@ import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import MenuPage from './pages/MenuPage';
-import RatingsPage from './pages/RatingsPage';
+// import RatingsPage from './pages/RatingsPage';
+
 import ManagerAddFood from './pages/ManagerAddFood';
-import MyMenuPage from './pages/MyMenuPage';
+// import MyMenuPage from './pages/MyMenuPage';
+
+const MyMenuPage = lazy(()=> import("./pages/MyMenuPage"))
+const RatingsPage = lazy(()=> import("./pages/RatingsPage"))
+
 
 
 // ----------------------------------------------------------------------
@@ -26,10 +32,16 @@ export default function Router() {
         { path: 'app', element: <DashboardAppPage /> },
         { path: 'menu', element: <MenuPage /> },
         { path: 'products', element: <ProductsPage /> },
-        { path: 'ratings', element: <RatingsPage /> },
+        { path: 'ratings', element:  <Suspense fallback= 
+        {<h1>Component1 are loading please wait...</h1>}> 
+                        <RatingsPage /> 
+                    </Suspense>  },
         { path: 'products', element: <ProductsPage /> },
         { path: 'addfooditem', element: <ManagerAddFood />},
-        { path: 'mymenupage', element: <MyMenuPage />}
+        { path: 'mymenupage', element: <Suspense fallback= 
+        {<h1>Component1 are loading please wait...</h1>}> 
+                        <MyMenuPage /> 
+                    </Suspense>}
       ],
     },
     {

@@ -36,22 +36,22 @@ export default function NotificationsPopover() {
     const getNotifications = async () => {
       const response = await getAllNotificatons();
 
-      response.forEach((item) => {
-        item.id = item._id;
-        item.title = item.Title;
-        item.description = item.Message;
-        item.avatar = null;
-        item.type = item.messageType;
-        item.createdAt = item.Date;
-        item.isUnRead = item.isRead;
-      });
+      // response.forEach((item) => {
+      //   item.id = item._id;
+      //   item.title = item.Title;
+      //   item.description = item.Message;
+      //   item.avatar = null;
+      //   item.type = item.messageType;
+      //   item.createdAt = item.Date;
+      //   item.isUnRead = item.isRead;
+      // });
       console.log(response);
       setNotifications(response);
     };
     getNotifications();
   }, []);
 
-  const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
+  const totalUnRead = notifications?.filter((item) => item.isUnRead === true).length;
 
   const [open, setOpen] = useState(null);
 
@@ -124,7 +124,7 @@ export default function NotificationsPopover() {
             }
           >
             {notifications
-              .filter((notification) => notification.isUnRead)
+              ?.filter((notification) => notification.isUnRead)
               .map((notification) => (
                 <NotificationItem key={notification.id} notification={notification} />
               ))}
@@ -139,7 +139,7 @@ export default function NotificationsPopover() {
             }
           >
             {notifications
-              .filter((notification) => !notification.isUnRead)
+              ?.filter((notification) => !notification.isUnRead)
               .map((notification) => (
                 <NotificationItem key={notification.id} notification={notification} />
               ))}

@@ -10,13 +10,13 @@ const navConfig = [
     title: 'dashboard',
     path: '/dashboard/app',
     icon: icon('ic_analytics'),
-    role: "user",
+    role: "all",
   },
   {
     title: 'Menu',
     path: '/dashboard/mymenupage',
     icon: icon('ic_menu'),
-    role: "user",
+    role: "all",
   },
   {
     title: 'Feedback',

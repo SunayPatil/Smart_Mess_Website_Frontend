@@ -194,21 +194,19 @@ const delFoodItem = async (data) => {
   return null;
 };
 
-const getFoodItemRating = async (rateFoodId) => {
+const getFoodItemRating = async () => {
   try {
     const url = `${process.env.REACT_APP_SERVER_URL}/manager/dashboard/getItemRating`;
-    let response = await fetch(url, {
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
-      body: {
-        'itemId' : itemId
-      }
+    
   })
-  response = await response.json()
-  return response;
+
+  return await response.json();
   } catch (error) {
     console.log(error);
   }
