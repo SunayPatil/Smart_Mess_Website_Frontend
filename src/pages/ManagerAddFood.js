@@ -9,6 +9,9 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import '../utils/fadeAnimation.css';
 import { addFoodItem, createFoodItem, getAllFoodIitems, getDashTimeTable, delFoodItem } from "../utils/apis";
 
+const filterOption = (input, option) =>
+  (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+
 
 const { Option } = Select;
 
@@ -22,6 +25,8 @@ const ManagerAddFood = () => {
   const [timeTableData, setTimeTableData] = useState([])
   const [reqData, setReqData] = useState([])
   const [optSel, setOptSel] = useState(4);
+  const [selFoodItem, setSelFoodItem] = useState("")
+
 
 
   const getUser = async () => {
@@ -93,6 +98,16 @@ const ManagerAddFood = () => {
     const res = await delFoodItem(values)
     console.log(res)
   }
+
+  const foodItemChange = (value) => {
+    // filterHandler(value);
+    setSelFoodItem(value);
+    // console.log(filterData);
+  };
+
+  // const onSearch = (value) => {
+  // console.log('search:', value);
+  // };
 
   // console.log(deleteDay, deleteType)
 
@@ -215,11 +230,23 @@ const ManagerAddFood = () => {
           </Form.Item>
 
           <Form.Item name="mealItem" label="Food Items" rules={[{ required: true }]}>
-            <Select allowClear>
+            {/* <Select allowClear>
               {foodItems?.map((item) => {
                 return <Option key={item.Id} value={item.Id}>{item.Name}</Option>
               })}
-            </Select>
+            </Select> */}
+            <Select
+              showSearch
+              placeholder="Select A Food Item"
+              optionFilterProp="children"
+              onChange={foodItemChange}
+              value={selFoodItem}
+              // onSearch={onSearch}
+              filterOption={filterOption}
+              options={foodItems.map((item) => {
+                return { 'value': item.Id, 'label': item.Name };
+              })}
+            />
           </Form.Item>
 
           <Form.Item

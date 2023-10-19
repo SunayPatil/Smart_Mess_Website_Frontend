@@ -168,7 +168,7 @@ const ManagerDashboard = () => {
                                             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                                             <CartesianGrid strokeDasharray="3 3" />
                                             <XAxis dataKey="Date" />
-                                            <YAxis />
+                                            <YAxis domain={[0, 5]} />
                                             <Tooltip />
                                             <Legend />
                                             <Line type="monotone" dataKey="Rating" stroke="#82ca9d" />
