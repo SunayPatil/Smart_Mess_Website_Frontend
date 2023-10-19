@@ -28,8 +28,6 @@ navigator.serviceWorker.addEventListener('message', event => {
 
 export default function App() {
 
-
-
   return (
     <GoogleOAuthProvider clientId={clientId}>
       <HelmetProvider>
