@@ -100,7 +100,7 @@ export default function NotificationsPopover() {
             }
           >
             {notifications
-              .filter((notification) => notification.isUnRead)
+              ?.filter((notification) => notification.isUnRead)
               .map((notification) => (
                 <NotificationItem key={notification.id} notification={notification} />
               ))}
@@ -115,7 +115,7 @@ export default function NotificationsPopover() {
             }
           >
             {notifications
-              .filter((notification) => !notification.isUnRead)
+              ?.filter((notification) => !notification.isUnRead)
               .map((notification) => (
                 <NotificationItem key={notification.id} notification={notification} />
               ))}

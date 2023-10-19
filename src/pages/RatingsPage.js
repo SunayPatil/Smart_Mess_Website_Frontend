@@ -2,6 +2,7 @@ import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 // @mui
 import {
   Card,
@@ -36,9 +37,10 @@ import { getDashTimeTable, giveRatingToFoodItem , getFoodItemRating} from '../ut
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { _id: 'FoodItem', label: 'FoodItem', alignRight: false },
-  { _id: 'isRate', label: 'Rate', alignRight: false },
-  { _id: 'Ratings', label: 'Ratings', alignRight: false },
+  { _id: 'foodItem', label: 'FoodItem', alignRight: false },
+  { _id: 'rate', label: 'Rate', alignRight: false },
+  { _id: 'ratings', label: 'Ratings', alignRight: false },
+
 ];
 
 // ----------------------------------------------------------------------
@@ -73,23 +75,46 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function RatingsPage() {
+  const [user, setUser] = useState({})
+  const getUser = async()=>{
+    let user = await localStorage.getItem("user")
+    user = await JSON.parse(user)
+    setUser(user)
+  }
+  useEffect(()=>{
+    try {
+      getUser()
+    } catch (error) {
+      console.log("error")
+    }
+  }, [])
   const date = new Date()
   let today = date.getDay()
   const weekday=new Array(7);
-weekday[1]="Monday";
-weekday[2]="Tuesday";
-weekday[3]="Wednesday";
-weekday[4]="Thursday";
-weekday[5]="Friday";
-weekday[6]="Saturday";
-weekday[0]="Sunday";
+  weekday[1]="Monday";
+  weekday[2]="Tuesday";
+  weekday[3]="Wednesday";
+  weekday[4]="Thursday";
+  weekday[5]="Friday";
+  weekday[6]="Saturday";
+  weekday[0]="Sunday";
 // console.log(today)
-today = weekday[today]
-console.log(today)
+  today = weekday[today]
+  console.log(today)
   const [timeTableData, setTimeTableData] = useState([])
   const [todaysItems, setTodaysItems] = useState([])
   const [todaysItemsRatings, setTodaysItemsRatings] = useState([])
+
   const [loading, setLoading] = useState(false)
+  console.log(todaysItemsRatings)
+  const getAllRatingsData = async()=>{
+
+    const res = await getFoodItemRating()
+
+      if(res?.length>0){
+        setTodaysItemsRatings(res)
+      }
+  }
   const getTimeTableData = async ()=>{
     setLoading(true)
     const res = await getDashTimeTable()
@@ -101,33 +126,32 @@ console.log(today)
           temp.push(...item.Items)
         }
       })
-      
       setTodaysItems(temp)
     }
-    
     setTimeTableData(res)
     setLoading(false)
+   
   }
   useEffect(()=>{
     try {
       getTimeTableData()
+      getAllRatingsData()
     } catch (error) {
       setLoading(false)
     }
   }, [])
+ 
+ console.log(todaysItems)
+ const timeTableWithRatings = []
+ todaysItems?.forEach((item)=>{
+  todaysItemsRatings?.forEach((rat)=>{
+    if(item._id === rat.FoodItem){
+      timeTableWithRatings.push({...item, rating: rat.Rating})
+    }
+  })
+ })
 
-  // const getRatingData = async (todaysItems)=>{
-  //   setLoading(true)
-  //   const temp = []
-  //   todaysItems?.forEach((item)=>{
-  //       const res = await getFoodItemRating()
-  //       temp.push(...(item))
-  //   })
-  //   setTodaysItemsRatings(temp)
-  //   setLoading(false)
-  // } 
-
-  // console.log(todaysItemsRatings)
+ console.log(timeTableWithRatings)
 
   const [open, setOpen] = useState(null);
 
@@ -159,7 +183,7 @@ console.log(today)
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = todaysItems.map((n) => n.MenuItem);
+      const newSelecteds = timeTableWithRatings.map((n) => n.MenuItem);
       setSelected(newSelecteds);
       return;
     }
@@ -179,9 +203,9 @@ console.log(today)
     setFilterMenuItem(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - todaysItems.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - timeTableWithRatings.length) : 0;
 
-  const filteredUsers = applySortFilter(todaysItems, getComparator(order, orderBy), filterMenuItem);
+  const filteredUsers = applySortFilter(timeTableWithRatings, getComparator(order, orderBy), filterMenuItem);
 
   const isNotFound = !filteredUsers.length && !!filterMenuItem;
   console.log(orderBy)
@@ -197,147 +221,8 @@ console.log(today)
 
   return (
     <>
-      <Helmet>
-        <title> User | Minimal UI </title>
-      </Helmet>
-
-      <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            Ratings
-          </Typography>
-          {/* <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New User
-          </Button> */}
-        </Stack>
-
-        <Card>
-          {/* <UserListToolbar numSelected={selected.length} filterMenuItem={filterMenuItem} onFilterMenuItem={handleFilterByMenuItem} /> */}
-
-          <Scrollbar>
-          <Spin spinning={loading} size='medium'>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <UserListHead
-                  order={order}
-                  orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={todaysItems.length}
-                  numSelected={selected.length}
-                  onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
-                />
-              
-               <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                  const { _id, Name, Image, Category, avatarUrl, isRate } = row;
-                    const selectedUser = selected.indexOf(MenuItem) !== -1;
-
-                    return (
-                      <TableRow hover key={_id} tabIndex={-1} MealTime="checkbox" selected={selectedUser}>
-                        <TableCell padding="checkbox">
-                          {/* <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, MenuItem)} /> */}
-                        </TableCell>
-
-                        <TableCell component="th" scope="row" padding="none">
-                          <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={MenuItem} src={Image} />
-                            <Typography variant="subtitle2" noWrap>
-                              {Name}
-                            </Typography>
-                          </Stack>
-                        </TableCell>
-
-                        <TableCell align="left"><Rate onChange={(value)=> handleRatingChange(value, _id)} /></TableCell>
-
-                        <TableCell align='left' component="th" scope="row" padding="none">
-                          3.5/5.0 
-                        </TableCell>
-
-                        {/* <TableCell align="right">
-                          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
-                            <Iconify icon={'eva:more-vertical-fill'} />
-                          </IconButton>
-                        </TableCell> */}
-                      </TableRow>
-                    );
-                  })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-             
-
-                {isNotFound && (
-                  <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <Paper
-                          sx={{
-                            textAlign: 'center',
-                          }}
-                        >
-                          <Typography variant="h6" paragraph>
-                            Not found
-                          </Typography>
-
-                          <Typography variant="body2">
-                            No results found for &nbsp;
-                            <strong>&quot;{filterMenuItem}&quot;</strong>.
-                            <br /> Try checking for typos or using complete words.
-                          </Typography>
-                        </Paper>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-            </Spin>
-          </Scrollbar>
-
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={todaysItems.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Card>
-      </Container>
-
-      <Popover
-        open={Boolean(open)}
-        anchorEl={open}
-        onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: {
-            p: 1,
-            width: 140,
-            '& .MuiMenuItem-root': {
-              px: 1,
-              typography: 'body2',
-              borderRadius: 0.75,
-            },
-          },
-        }}
-      >
-        {/* <MenuItem>
-          <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
-
-        <MenuItem sx={{ color: 'error.main' }}>
-          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
-          Delete
-        </MenuItem> */}
-      </Popover>
+      {user?.Role === "manager" && <Navigate to="/404" />}
+      {user?.Role === "user" && <Navigate to="/404"/>}
     </>
   );
 }
