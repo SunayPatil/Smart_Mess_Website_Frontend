@@ -1,13 +1,28 @@
 import React, {useState, useEffect} from 'react';
-
+import { Navigate } from 'react-router-dom';
 import { Button, Select, Form, Input } from "antd";
 import { Typography} from '@mui/material';
 import { addFoodItem, createFoodItem, getAllFoodIitems,getDashTimeTable, delFoodItem } from "../utils/apis";
 
 
+
 const { Option } = Select;
 
 const ManagerAddFood = () => {
+
+  const [user, setUser] = useState({})
+  const getUser = async()=>{
+    let user = await localStorage.getItem("user")
+    user = await JSON.parse(user)
+    setUser(user)
+  }
+  useEffect(()=>{
+    try {
+      getUser()
+    } catch (error) {
+      console.log("error")
+    }
+  }, [])
 
   const onFinish = async (values) => {
     const res = await createFoodItem(values)
@@ -80,7 +95,9 @@ const ManagerAddFood = () => {
   console.log(deleteDay, deleteType)
 
   return (
-    <>
+ <>
+  {user?.Role === "user" && <Navigate to="/404" />}
+ {user?.Role === "manager" &&    <div>
     <Typography variant="h3" sx={{ mb: 1 }}>
       Create New Food Item 
     </Typography>
@@ -271,7 +288,8 @@ const ManagerAddFood = () => {
         </Button>
       </Form.Item>
     </Form>
-  </>
+  </div>}
+ </>
   )
       };
 export default ManagerAddFood;

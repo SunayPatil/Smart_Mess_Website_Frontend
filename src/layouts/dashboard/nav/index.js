@@ -44,11 +44,11 @@ export default function Nav({ openNav, onCloseNav }) {
     user = await JSON.parse(user)
     setUser(user)
     console.log(user)
-    // const filterNavData = navConfig.filter((item)=>{
-    //   return item.role === user.Role || item.role === "all";
-    // })
-    // setNavSectionData(filterNavData)
-    setNavSectionData(navConfig)
+    const filterNavData = navConfig.filter((item)=>{
+      return item.role === user.Role || item.role === "all";
+    })
+    setNavSectionData(filterNavData)
+    // setNavSectionData(navConfig)
 
   }
   useEffect(()=>{
@@ -88,9 +88,9 @@ export default function Nav({ openNav, onCloseNav }) {
                 {user?.Username}
               </Typography>
 
-              {/* <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
-              </Typography> */}
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                {user?.Role}
+              </Typography>
             </Box>
           </StyledAccount>
         </Link>
