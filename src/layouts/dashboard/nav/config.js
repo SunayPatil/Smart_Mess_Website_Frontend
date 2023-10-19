@@ -45,7 +45,7 @@ const navConfig = [
   {
     title: 'View Summary',
     path: '/dashboard/summary',
-    icon: icon('ic_disabled'),
+    icon: icon('ic_summary'),
     role: "manager",
   }
 

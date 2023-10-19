@@ -2,8 +2,10 @@ import { Card, Container, Stack, Typography } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { Select } from 'antd';
 import { LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Line, Legend } from 'recharts';
-
-
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import { CSSTransition } from 'react-transition-group';
+import '../utils/fadeAnimation.css';
 
 
 const ManagerDashboard = () => {
@@ -51,7 +53,7 @@ const ManagerDashboard = () => {
     const [filterData, setFilterData] = useState([]);
     const [availableItems, setAvailableItems] = useState(null);
     const [allFoodItems, setAllFoodItems] = useState([]);
-
+    const [foodItemImage, setFoodItemImage] = useState(null);
 
     useEffect(() => {
         getAllTimeSeriesData().then((res) => {
@@ -83,12 +85,13 @@ const ManagerDashboard = () => {
     }, [timeSeriesData, allFoodItems])
 
     const filterHandler = (foodId) => {
-        console.log(timeSeriesData);
+        // console.log(timeSeriesData);
+        const ele = allFoodItems.filter((x) => { return x.Id === foodId; });
+        setFoodItemImage(ele[0].Img);
         const currItems = [];
         timeSeriesData.forEach((ele) => {
             if (ele.FoodItemId === foodId) {
                 const date = new Date(ele.Date);
-
                 currItems.push({ 'Date': date.toUTCString(), 'Rating': ele.Rating, 'NoOfReviews': ele.NoOfReviews });
             }
         })
@@ -130,42 +133,64 @@ const ManagerDashboard = () => {
                     </Typography>
                 </Stack>
                 <Card sx={{ padding: '10px' }}>
-                    <Typography variant="h4" gutterBottom>
-                        Select Food Item
-                    </Typography>
-                    <Typography variant="h4" gutterBottom align='center'>
-                        <SelectFood options={availableItems} />
-                    </Typography>
-                    <Typography gutterBottom align='center' sx={{ mt: '20px' }}>
-                        {filterData.length === 0 ? <></> :
-                            <>
-                                <LineChart width={700} height={250} data={filterData}
-                                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey="Date" />
-                                    <YAxis />
-                                    <Tooltip />
-                                    <Legend />
-                                    {/* <Line type="monotone" dataKey="NoOfReviews" stroke="#8884d8" /> */}
-                                    <Line type="monotone" dataKey="Rating" stroke="#82ca9d" />
-                                </LineChart>
-                            </>
-                        }
-                        {filterData.length === 0 ? <></> :
-                            <>
-                                <LineChart width={700} height={250} data={filterData}
-                                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey="Date" />
-                                    <YAxis />
-                                    <Tooltip />
-                                    <Legend />
-                                    <Line type="monotone" dataKey="NoOfReviews" stroke="#8884d8" />
-                                    {/* <Line type="monotone" dataKey="Rating" stroke="#82ca9d" /> */}
-                                </LineChart>
-                            </>
-                        }
-                    </Typography>
+                    <Grid container>
+                        <Grid item lg={4}>
+                            <Typography variant="h4" gutterBottom>
+                                Select Food Item
+                            </Typography>
+                            <Typography variant="h4" gutterBottom align='center'>
+                                <SelectFood options={availableItems} />
+                            </Typography>
+                            <Box sx={{
+                                width: '100%',
+                                padding: '30px',
+                                display: 'flex',
+                                justifyContent: 'center'
+
+                            }}>
+                                {foodItemImage ?
+                                    <CSSTransition
+                                        key={foodItemImage}
+                                        in
+                                        appear
+                                        timeout={300}
+                                        classNames="fade"
+                                    ><img src={foodItemImage} alt="foodItem" style={{ maxHeight: '300px' }} />
+                                    </CSSTransition>
+                                    : <></>}
+                            </Box>
+                        </Grid>
+                        <Grid item lg={8}>
+                            <Typography gutterBottom align='center' sx={{ mt: '20px' }}>
+                                {filterData.length === 0 ? <></> :
+                                    <>
+                                        <LineChart width={700} height={250} data={filterData}
+                                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <XAxis dataKey="Date" />
+                                            <YAxis />
+                                            <Tooltip />
+                                            <Legend />
+                                            <Line type="monotone" dataKey="Rating" stroke="#82ca9d" />
+                                        </LineChart>
+                                    </>
+                                }
+                                {filterData.length === 0 ? <></> :
+                                    <>
+                                        <LineChart width={700} height={250} data={filterData}
+                                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <XAxis dataKey="Date" />
+                                            <YAxis />
+                                            <Tooltip />
+                                            <Legend />
+                                            <Line type="monotone" dataKey="NoOfReviews" stroke="#8884d8" />
+                                        </LineChart>
+                                    </>
+                                }
+                            </Typography>
+                        </Grid>
+                    </Grid>
                 </Card>
             </Container >
         </>
