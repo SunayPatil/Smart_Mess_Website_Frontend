@@ -1,14 +1,13 @@
 import PropTypes from 'prop-types';
-import { set, sub } from 'date-fns';
+// import { set, sub } from 'date-fns';
 import { noCase } from 'change-case';
-import { faker } from '@faker-js/faker';
-import { useEffect, useState } from 'react';
+// import { faker } from '@faker-js/faker';
+import React, { useState, useContext } from 'react';
 // @mui
 import {
   Box,
   List,
   Badge,
-  Button,
   Avatar,
   Tooltip,
   Divider,
@@ -22,7 +21,7 @@ import {
 } from '@mui/material';
 // utils
 import { fToNow } from '../../../utils/formatTime';
-import { getAllNotificatons } from '../../../utils/apis';
+import ApiContext from '../../../Context/apiContext';
 // components
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
@@ -30,28 +29,10 @@ import Scrollbar from '../../../components/scrollbar';
 // ----------------------------------------------------------------------
 
 export default function NotificationsPopover() {
-  const [notifications, setNotifications] = useState([]);
+  const context = useContext(ApiContext);
+  const { notifications, markAllAsRead } = context;
 
-  useEffect(() => {
-    const getNotifications = async () => {
-      const response = await getAllNotificatons();
-
-      response.forEach((item) => {
-        item.id = item._id;
-        item.title = item.Title;
-        item.description = item.Message;
-        item.avatar = null;
-        item.type = item.messageType;
-        item.createdAt = item.Date;
-        item.isUnRead = item.isRead;
-      });
-      console.log(response);
-      setNotifications(response);
-    };
-    getNotifications();
-  }, []);
-
-  const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
+  const totalUnRead = notifications.filter((item) => item.isUnRead).length;
 
   const [open, setOpen] = useState(null);
 
@@ -64,12 +45,7 @@ export default function NotificationsPopover() {
   };
 
   const handleMarkAllAsRead = () => {
-    setNotifications(
-      notifications.map((notification) => ({
-        ...notification,
-        isUnRead: false,
-      }))
-    );
+    markAllAsRead();
   };
 
   return (
@@ -147,12 +123,6 @@ export default function NotificationsPopover() {
         </Scrollbar>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
-
-        <Box sx={{ p: 1 }}>
-          <Button fullWidth disableRipple>
-            View All
-          </Button>
-        </Box>
       </Popover>
     </>
   );
@@ -174,6 +144,8 @@ NotificationItem.propTypes = {
 
 function NotificationItem({ notification }) {
   const { avatar, title } = renderContent(notification);
+  const context = useContext(ApiContext);
+  const { markAsRead } = context;
 
   return (
     <ListItemButton
@@ -184,6 +156,10 @@ function NotificationItem({ notification }) {
         ...(notification.isUnRead && {
           bgcolor: 'action.selected',
         }),
+      }}
+      onClick={() => {
+        markAsRead(notification.id);
+        console.log(notification.id, 'notification id');
       }}
     >
       <ListItemAvatar>
