@@ -77,7 +77,7 @@ export default function LoginPage() {
         localStorage.setItem('token', token);
         localStorage.setItem("user", JSON.stringify(user));
         console.log(user);
-        handleNotification();
+        await handleNotification();
         navigate('/dashboard', { replace: true });
         console.log("sucessfully logged in");
       } catch (err) {
