@@ -17,11 +17,13 @@ importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging-compa
 self.addEventListener('push', (event) => {
   console.log('notification received');
   const payload = event.data.json();
+  console.log(payload.notification);
   const options = {
     // Customize the notification options here
     body: payload.notification.body,
-    icon: '/IITDH.jpg',
+    icon: payload.notification.image,
   };
+
   // Process the data payload and trigger an action in the main app
 
   self.clients.matchAll({ includeUncontrolled: true }).then((clients) => {
@@ -45,17 +47,20 @@ self.addEventListener('message', function (event) {
 self.addEventListener('notificationclick', (event) => {
   // Customize what happens when the user clicks on the notification
   event.notification.close();
+  // const payload = event.data.json();
+  const urlToOpen = new URL('https://smartmess.iitdh.ac.in/dashboard/app', self.location.origin).href;
 
-  const urlToOpen = new URL('http://localhost:3000/login', self.location.origin).href;
-
-  event.waitUntil(-
-    clients.matchAll({ type: 'window' }).then((windowClients) => {
-      for (let client of windowClients) {
-        if (client.url === urlToOpen) {
-          return client.focus();
-        }
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
+      // If a window tab matching the targeted URL already exists, focus that;
+      const existingClient = windowClients.find((client) => client.url === urlToOpen);
+      if (existingClient) {
+        existingClient.navigate(urlToOpen);
+        existingClient.focus();
+      } else {
+        // Open a new tab with the targeted URL
+        clients.openWindow(urlToOpen);
       }
-      return clients.openWindow(urlToOpen);
     })
   );
 });
