@@ -11,6 +11,7 @@ const Signin = async (code) => {
       },
       body: JSON.stringify({ authCode: code }),
     });
+    // console.log(response);
     return response;
   } catch (err) {
     console.log(err);

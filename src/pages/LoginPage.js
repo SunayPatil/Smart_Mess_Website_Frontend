@@ -73,6 +73,7 @@ export default function LoginPage() {
     console.log('google success');
     console.log(res);
     const code = res.code; // code is the authorization code that we need to send to the backend to get the id_token
+    console.log(code);
     if (code) {
       try {
         const response = await Signin(code);
