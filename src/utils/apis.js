@@ -92,6 +92,20 @@ const getDashTimeTable = async () => {
   return response;
 };
 
+const getManagerTimeTable = async () => {
+  const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/timetable`;
+  let response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+
+  response = await response.json();
+  return response;
+};
+
 const giveRatingToFoodItem = async (foodId, rating) => {
   try {
     const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/giveRating`;
@@ -224,4 +238,5 @@ export {
   addFoodItem,
   delFoodItem,
   getFoodItemRating,
+  getManagerTimeTable
 };

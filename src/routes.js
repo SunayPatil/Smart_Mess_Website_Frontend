@@ -15,6 +15,7 @@ import MenuPage from './pages/MenuPage';
 import ManagerAddFood from './pages/ManagerAddFood';
 // import MyMenuPage from './pages/MyMenuPage';
 import ApiContext from './Context/apiContext'; import ManagerDashboard from './pages/ManagerDashboard';
+import ManagerMenuPage from './pages/ManagerMenuPage';
 
 const MyMenuPage = lazy(() => import("./pages/MyMenuPage"))
 const RatingsPage = lazy(() => import("./pages/RatingsPage"))
@@ -48,7 +49,7 @@ export default function Router() {
         { path: 'products', element: <ProductsPage /> },
         {
           path: 'ratings', element: <Suspense fallback=
-            {<h1>Component1 are loading please wait...</h1>}>
+            {<h1>The page is loading please wait...</h1>}>
             <RatingsPage />
           </Suspense>
         },
@@ -56,10 +57,11 @@ export default function Router() {
         { path: 'addfooditem', element: <ManagerAddFood /> },
         {
           path: 'mymenupage', element: <Suspense fallback=
-            {<h1>Component1 are loading please wait...</h1>}>
+            {<h1>The page is loading please wait...</h1>}>
             <MyMenuPage />
           </Suspense>
         },
+        {path: 'managermenupage', element: <ManagerMenuPage /> },
         { path: 'summary', element: <ManagerDashboard /> }
       ],
     },

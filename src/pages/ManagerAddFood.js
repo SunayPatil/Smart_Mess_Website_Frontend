@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Button, Select, Form, Input } from "antd";
-import { Typography } from '@mui/material';
+import { Alert, Snackbar, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -27,6 +27,9 @@ const ManagerAddFood = () => {
   const [optSel, setOptSel] = useState(4);
   const [selFoodItem, setSelFoodItem] = useState("")
 
+  const [createForm] = Form.useForm();
+  const [addForm] = Form.useForm();
+  const [delForm] = Form.useForm();
 
 
   const getUser = async () => {
@@ -43,12 +46,14 @@ const ManagerAddFood = () => {
   }, [])
   const onFinish = async (values) => {
     const res = await createFoodItem(values)
+    createForm.resetFields();
   }
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   }
 
-
+  const vertical = 'top'
+  const horizontal = 'center'
   console.log(timeTableData)
   const getTimeTableData = async () => {
     setLoading(true)
@@ -90,12 +95,14 @@ const ManagerAddFood = () => {
   const addTimeTable = async (values) => {
     console.log(values)
     const res = await addFoodItem(values)
+    addForm.resetFields();
     console.log(res)
   }
 
   const delTimeTable = async (values) => {
     console.log(values)
     const res = await delFoodItem(values)
+    delForm.resetFields()
     console.log(res)
   }
 
@@ -103,6 +110,20 @@ const ManagerAddFood = () => {
     // filterHandler(value);
     setSelFoodItem(value);
     // console.log(filterData);
+  };
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
   };
 
   // const onSearch = (value) => {
@@ -118,6 +139,7 @@ const ManagerAddFood = () => {
           Create New Food Item
         </Typography>
         <Form
+          form={createForm}
           name="Create Food Item"
           labelCol={{
             span: 8
@@ -178,6 +200,11 @@ const ManagerAddFood = () => {
             <Button type="primary" htmlType="submit">
               Create
             </Button>
+            <Snackbar open={open} anchorOrigin={{ vertical, horizontal }} autoHideDuration={2000} key={vertical + horizontal} onClose={handleClose}>
+              <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                Food Item created successfully!
+              </Alert>
+            </Snackbar>
           </Form.Item>
         </Form>
       </>
@@ -191,6 +218,7 @@ const ManagerAddFood = () => {
           Add Food Item to TimeTable
         </Typography>
         <Form
+          form={addForm}
           name="Add to TimeTable"
           labelCol={{
             span: 8
@@ -255,9 +283,14 @@ const ManagerAddFood = () => {
               span: 16
             }}
           >
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" onClick={handleClick}>
               Add
             </Button>
+            <Snackbar open={open} anchorOrigin={{ vertical, horizontal }} autoHideDuration={2000} key={vertical + horizontal} onClose={handleClose}>
+              <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                Item added successfully!
+              </Alert>
+            </Snackbar>
           </Form.Item>
         </Form>
       </>
@@ -271,6 +304,7 @@ const ManagerAddFood = () => {
           Delete Food Item from TimeTable
         </Typography>
         <Form
+          form={delForm}
           name="Delete from TimeTable"
           labelCol={{
             span: 8
@@ -326,6 +360,11 @@ const ManagerAddFood = () => {
             <Button type="primary" htmlType="submit">
               Delete
             </Button>
+            <Snackbar open={open} anchorOrigin={{ vertical, horizontal }} autoHideDuration={2000} key={vertical + horizontal} onClose={handleClose}>
+              <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                Food Item deleted successfully!
+              </Alert>
+            </Snackbar>
           </Form.Item>
         </Form>
       </>
