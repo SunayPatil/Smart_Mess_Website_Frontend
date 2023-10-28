@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { resquestNotificationPermission, getfirebaseToken } from '../notifications/firebase';
 
 const Signin = async (code) => {
@@ -15,6 +16,9 @@ const Signin = async (code) => {
     return response;
   } catch (err) {
     console.log(err);
+    if (err.message === 'Unauthorized Access') {
+      toast.error('Session Expired, Please Login Again');
+    }
   }
   return null;
 };
@@ -218,12 +222,34 @@ const getFoodItemRating = async () => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
-    
-  })
+    });
 
-  return await response.json();
+    return await response.json();
   } catch (error) {
     console.log(error);
+  }
+  return null;
+};
+
+const addFeedbackForm = async (data) => {
+  try {
+    const url = `${process.env.REACT_APP_SERVER_URL}/manager/dashboard/floatFeedbackForm`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    // Log specific properties or values from the response and data objects
+    console.log('Response Status:', response.status);
+    console.log('Data:', data);
+
+    return response;
+  } catch (err) {
+    console.log(err);
   }
   return null;
 };
@@ -239,5 +265,6 @@ export {
   addFoodItem,
   delFoodItem,
   getFoodItemRating,
-  getManagerTimeTable
+  getManagerTimeTable,
+  addFeedbackForm,
 };
