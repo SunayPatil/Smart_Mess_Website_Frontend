@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { noCase } from 'change-case';
 // import { faker } from '@faker-js/faker';
 import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 // @mui
 import {
   Box,
@@ -143,9 +144,10 @@ NotificationItem.propTypes = {
 };
 
 function NotificationItem({ notification }) {
-  const { avatar, title } = renderContent(notification);
+  const { title } = renderContent(notification);
   const context = useContext(ApiContext);
   const { markAsRead } = context;
+  const navigate = useNavigate();
 
   return (
     <ListItemButton
@@ -158,12 +160,18 @@ function NotificationItem({ notification }) {
         }),
       }}
       onClick={() => {
-        markAsRead(notification.id);
-        console.log(notification.id, 'notification id');
+        if (notification.type === 'feedback') {
+          // window.location.href = '/dashboard/products';
+          navigate('/dashboard/products');
+          localStorage.setItem('feedbackId', notification.id);
+        } else {
+          markAsRead(notification.id);
+          console.log(notification.id, 'notification id');
+        }
       }}
     >
       <ListItemAvatar>
-        <Avatar sx={{ bgcolor: 'background.neutral' }}>{avatar}</Avatar>
+        <Avatar sx={{ bgcolor: 'background.neutral' }}>{'avatar'}</Avatar>
       </ListItemAvatar>
       <ListItemText
         primary={title}
@@ -192,38 +200,14 @@ function renderContent(notification) {
   const title = (
     <Typography variant="subtitle2">
       {notification.title}
-      <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
+      {/* <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
         &nbsp; {noCase(notification.description)}
-      </Typography>
+      </Typography> */}
     </Typography>
   );
 
-  if (notification.type === 'order_placed') {
-    return {
-      avatar: <img alt={notification.title} src="/assets/icons/ic_notification_package.svg" />,
-      title,
-    };
-  }
-  if (notification.type === 'order_shipped') {
-    return {
-      avatar: <img alt={notification.title} src="/assets/icons/ic_notification_shipping.svg" />,
-      title,
-    };
-  }
-  if (notification.type === 'mail') {
-    return {
-      avatar: <img alt={notification.title} src="/assets/icons/ic_notification_mail.svg" />,
-      title,
-    };
-  }
-  if (notification.type === 'chat_message') {
-    return {
-      avatar: <img alt={notification.title} src="/assets/icons/ic_notification_chat.svg" />,
-      title,
-    };
-  }
   return {
-    avatar: notification.avatar ? <img alt={notification.title} src={notification.avatar} /> : null,
+    // avatar: null,
     title,
   };
 }

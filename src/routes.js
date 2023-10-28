@@ -14,13 +14,13 @@ import MenuPage from './pages/MenuPage';
 
 import ManagerAddFood from './pages/ManagerAddFood';
 // import MyMenuPage from './pages/MyMenuPage';
-import ApiContext from './Context/apiContext'; import ManagerDashboard from './pages/ManagerDashboard';
+import FeedBackForm from './pages/FeedBackForm';
+import ApiContext from './Context/apiContext';
+import ManagerDashboard from './pages/ManagerDashboard';
 import ManagerMenuPage from './pages/ManagerMenuPage';
 
-const MyMenuPage = lazy(() => import("./pages/MyMenuPage"))
-const RatingsPage = lazy(() => import("./pages/RatingsPage"))
-
-
+const MyMenuPage = lazy(() => import('./pages/MyMenuPage'));
+const RatingsPage = lazy(() => import('./pages/RatingsPage'));
 
 // ----------------------------------------------------------------------
 
@@ -29,6 +29,7 @@ export default function Router() {
   const { getAllNotificatons } = context;
 
   useEffect(() => {
+    getAllNotificatons();
     navigator.serviceWorker.addEventListener('message', (event) => {
       const message = event.data;
       if (message.type === 'notification') {
@@ -48,21 +49,26 @@ export default function Router() {
         { path: 'menu', element: <MenuPage /> },
         { path: 'products', element: <ProductsPage /> },
         {
-          path: 'ratings', element: <Suspense fallback=
-            {<h1>The page is loading please wait...</h1>}>
-            <RatingsPage />
-          </Suspense>
+          path: 'ratings',
+          element: (
+            <Suspense fallback={<h1>The page is loading please wait...</h1>}>
+              <RatingsPage />
+            </Suspense>
+          ),
         },
         { path: 'products', element: <ProductsPage /> },
         { path: 'addfooditem', element: <ManagerAddFood /> },
+        { path: 'feedback', element: <FeedBackForm /> },
         {
-          path: 'mymenupage', element: <Suspense fallback=
-            {<h1>The page is loading please wait...</h1>}>
-            <MyMenuPage />
-          </Suspense>
+          path: 'mymenupage',
+          element: (
+            <Suspense fallback={<h1>The page is loading please wait...</h1>}>
+              <MyMenuPage />
+            </Suspense>
+          ),
         },
-        {path: 'managermenupage', element: <ManagerMenuPage /> },
-        { path: 'summary', element: <ManagerDashboard /> }
+        { path: 'managermenupage', element: <ManagerMenuPage /> },
+        { path: 'summary', element: <ManagerDashboard /> },
       ],
     },
     {

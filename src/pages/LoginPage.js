@@ -94,6 +94,7 @@ export default function LoginPage() {
 
   const googleFailure = (err) => {
     console.log(err);
+    // need to add toast error message  
   };
 
   const googlelogin = useGoogleLogin({

@@ -20,14 +20,14 @@ const ApiState = (props) => {
       response.forEach((item) => {
         item.id = item._id;
         item.title = item.Title;
-        item.description = item.Message;
+        item.description = item.Description;
         item.avatar = null;
         item.type = item.messageType;
         item.createdAt = item.Date;
         item.isUnRead = !item.read;
       });
       setNotifications(response);
-      // console.log(response);
+      console.log('response', response);
     } catch (error) {
       console.log(error);
     }
