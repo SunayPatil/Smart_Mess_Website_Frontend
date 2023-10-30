@@ -254,6 +254,47 @@ const addFeedbackForm = async (data) => {
   return null;
 };
 
+
+const getFoodReviews = async () => {
+  try{
+    const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/getFoodReview`;
+    let res = await fetch(url,{
+      method:"GET",
+      headers:{
+        Authorization:`Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    res = await res.json();
+    // console.log(res);
+    return res;
+  }catch(err){
+    console.log(err);
+    return [];
+  }
+} 
+
+
+const submitFoodReview = async (data) => {
+  try{
+    const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/submitFoodReview`;
+    console.log(data);
+    let res = await fetch(url,{
+      method:"POST",
+      headers:{
+        'Content-Type': 'application/json',
+        Authorization:`Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify(data)
+    });
+    res = await res.json();
+    return res;
+  }catch(err){
+    console.log(err);
+    return [];
+  }
+}
+
+
 export {
   Signin,
   handleNotification,
@@ -267,4 +308,8 @@ export {
   getFoodItemRating,
   getManagerTimeTable,
   addFeedbackForm,
+  getFoodReviews,
+  submitFoodReview
 };
+
+
