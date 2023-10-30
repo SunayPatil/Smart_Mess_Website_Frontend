@@ -67,7 +67,7 @@ export default function HoverRating() {
       if (res.status === 200) {
         alert('Feedback Submitted');
         localStorage.removeItem('feedbackId');
-        getAllNotitfications();
+        
       } else {
         alert('Feedback Submission Failed');
       }

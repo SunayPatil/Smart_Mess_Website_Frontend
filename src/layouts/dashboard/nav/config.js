@@ -30,12 +30,12 @@ const navConfig = [
     icon: icon('ic_cart'),
     role: "user",
   },
-  {
-    title: 'Rating',
-    path: '/dashboard/ratings',
-    icon: icon('ic_blog'),
-    role: "user",
-  },
+  // {
+  //   title: 'Rating',
+  //   path: '/dashboard/ratings',
+  //   icon: icon('ic_blog'),
+  //   role: "user",
+  // },
   // {
   //   title: 'Attendance',
   //   path: '/404',
