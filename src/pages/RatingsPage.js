@@ -23,7 +23,7 @@ import {
   TableContainer,
   TablePagination,
 } from '@mui/material';
-import { Rate, Spin } from 'antd';
+import { Rate, Spin, Input } from 'antd';
 // components
 import Label from '../components/label';
 import Iconify from '../components/iconify';
@@ -31,7 +31,7 @@ import Scrollbar from '../components/scrollbar';
 // sections
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
-import { getDashTimeTable, giveRatingToFoodItem , getFoodItemRating} from '../utils/apis';
+import { getDashTimeTable, giveRatingToFoodItem , getFoodItemRating, getFoodReviews, submitFoodReview} from '../utils/apis';
 
 
 // ----------------------------------------------------------------------
@@ -39,6 +39,7 @@ import { getDashTimeTable, giveRatingToFoodItem , getFoodItemRating} from '../ut
 const TABLE_HEAD = [
   { _id: 'foodItem', label: 'FoodItem', alignRight: false },
   { _id: 'rate', label: 'Rate', alignRight: false },
+  { _id: 'comment', label: 'Comments', alignRight: false },
   { _id: 'ratings', label: 'Ratings', alignRight: false },
 
 ];
@@ -104,17 +105,25 @@ export default function RatingsPage() {
   const [timeTableData, setTimeTableData] = useState([])
   const [todaysItems, setTodaysItems] = useState([])
   const [todaysItemsRatings, setTodaysItemsRatings] = useState([])
-
+  const [ratedFoodItems,setRatedFoodItems] = useState([]);
+  const [foodComment,setFoodComment] = useState("");
   const [loading, setLoading] = useState(false)
+  const [currentlyRating, setCurrentlyRating] = useState(null);
   console.log(todaysItemsRatings)
+
+
+  const getRatedFoodItemVals = async () => {
+    const res = await getFoodReviews();
+    setRatedFoodItems(res);
+  }
+
   const getAllRatingsData = async()=>{
-
     const res = await getFoodItemRating()
-
       if(res?.length>0){
         setTodaysItemsRatings(res)
       }
   }
+
   const getTimeTableData = async ()=>{
     setLoading(true)
     const res = await getDashTimeTable()
@@ -130,12 +139,15 @@ export default function RatingsPage() {
     }
     setTimeTableData(res)
     setLoading(false)
-   
   }
+
+
+
   useEffect(()=>{
     try {
       getTimeTableData()
       getAllRatingsData()
+      getRatedFoodItemVals()
     } catch (error) {
       setLoading(false)
     }
@@ -205,19 +217,45 @@ export default function RatingsPage() {
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - timeTableWithRatings.length) : 0;
 
-  const filteredUsers = applySortFilter(timeTableWithRatings, getComparator(order, orderBy), filterMenuItem);
+  const filterItem = applySortFilter(timeTableWithRatings, getComparator(order, orderBy), filterMenuItem);
 
-  const isNotFound = !filteredUsers.length && !!filterMenuItem;
+  const isNotFound = !filterItem.length && !!filterMenuItem;
   console.log(orderBy)
 
   const handleRatingChange = async(value, id)=>{
-    console.log(value, id)
+    if(currentlyRating===null){
+      setCurrentlyRating({
+        id,
+        value,
+        comments:""
+      });
+    }else if(currentlyRating.id!==id){
+        setCurrentlyRating({
+          id,
+          value,
+          comments:""
+        });
+    }else{
+        setCurrentlyRating((currentlyRating)=>{
+          return {
+            id: currentlyRating.id,
+            value,
+            comments: currentlyRating.comments
+          }
+        });
+      }
+    }
 
-    setLoading(true)
-    const res = await giveRatingToFoodItem(id, value)
-    setLoading(false)
-    console.log(res)
-  }
+  const handleSubmitFoodReview = async ()=>{
+    if(currentlyRating.id){
+      setLoading(true)
+      await giveRatingToFoodItem(currentlyRating.id,currentlyRating.value);
+      await submitFoodReview(currentlyRating)
+      await getRatedFoodItemVals()
+      await getAllRatingsData() 
+      setLoading(false)
+    }
+  };
 
   return (
     <>
@@ -257,8 +295,8 @@ export default function RatingsPage() {
                       />
       
                      <TableBody>
-                        {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        const { _id, Name, Image, rating, Category, avatarUrl, isRate } = row;
+                        {filterItem.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                        const { _id, Name, Image,rating } = row;
                           const selectedUser = selected.indexOf(MenuItem) !== -1;
       
                           return (
@@ -275,8 +313,22 @@ export default function RatingsPage() {
                                   </Typography>
                                 </Stack>
                               </TableCell>
-      
-                              <TableCell align="left"><Rate onChange={(value)=> handleRatingChange(value, _id)} /></TableCell>
+                              
+                              <TableCell align="left">
+                                {
+                                  ratedFoodItems.filter(e => e.foodId === _id ).length>0
+                                  ? <Rate value={ratedFoodItems.filter(e => e.foodId === _id )[0].rating} disabled/>
+                                  :<Rate onChange={(value)=> handleRatingChange(value, _id)} /> 
+                                }
+                                </TableCell>
+
+                                <TableCell align="left">
+                                {
+                                  ratedFoodItems.filter(e => e.foodId === _id ).length>0
+                                  ? <Input value={ratedFoodItems.filter(e => e.foodId === _id )[0].comments} disabled/>
+                                  :<div><Input onChange={(e)=>{setCurrentlyRating({id:currentlyRating.id,value:currentlyRating.value,comments:e.target.value})}} /><Button onClick={handleSubmitFoodReview}>Submit</Button></div>
+                                }
+                                </TableCell>
       
                               <TableCell align='left' component="th" scope="row" padding="none">
                                 {rating?.toFixed(2)}/5.00
