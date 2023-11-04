@@ -18,6 +18,7 @@ import {
   AppCurrentSubject,
   AppConversionRates,
 } from '../sections/@dashboard/app';
+import { getDashTimeTable } from '../utils/apis';
 
 // ----------------------------------------------------------------------
 
@@ -55,8 +56,72 @@ export default function DashboardAppPage() {
     return () => clearInterval(interval);
   }, []);
 
-  console.log(`It's currently ${ser} time.`);
+  const date = new Date();
+  let today = date.getDay();
+  if (today === 0) {
+    today = 7;
+  }
 
+  const [timeTableData, setTimeTableData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [mondayData, setMondayData] = useState([]);
+  const [tuesdayData, setTuesdayData] = useState([]);
+  const [wednesdayData, setWednesdayData] = useState([]);
+  const [thursdayData, setThursdayData] = useState([]);
+  const [fridayData, setFridayData] = useState([]);
+  const [saturdayData, setSaturdayData] = useState([]);
+  const [sundayData, setSundayData] = useState([]);
+
+  const getTimeTableData = async () => {
+    setLoading(true);
+    const res = await getDashTimeTable();
+
+    if (res?.length) {
+      const temp = [];
+      res?.forEach((item) => {
+        if (item.Day === 'Monday') {
+          setMondayData((prvData) => {
+            return [...prvData, item];
+          });
+        } else if (item.Day === 'Tuesday') {
+          setTuesdayData((prvData) => {
+            return [...prvData, item];
+          });
+        } else if (item.Day === 'Wednesday') {
+          setWednesdayData((prvData) => {
+            return [...prvData, item];
+          });
+        } else if (item.Day === 'Thursday') {
+          setThursdayData((prvData) => {
+            return [...prvData, item];
+          });
+        } else if (item.Day === 'Friday') {
+          setFridayData((prvData) => {
+            return [...prvData, item];
+          });
+        } else if (item.Day === 'Saturday') {
+          setSaturdayData((prvData) => {
+            return [...prvData, item];
+          });
+        } else if (item.Day === 'Sunday') {
+          setSundayData((prvData) => {
+            return [...prvData, item];
+          });
+        }
+      });
+    }
+
+    setTimeTableData(res);
+    setLoading(false);
+  };
+  useEffect(() => {
+    try {
+      getTimeTableData();
+    } catch (error) {
+      setLoading(false);
+    }
+  }, []);
+  console.log(mondayData)
   const days = {
     Monday: {
       Breakfast: [

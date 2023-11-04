@@ -1,37 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import { Card, Col, Collapse, Divider, Row, Spin } from 'antd';
+import { Card, Collapse, Spin } from 'antd';
 
-import { Button, Container, Grid, Typography } from '@mui/material';
-import Paper from '@mui/material/Paper';
-import { experimentalStyled as styled } from '@mui/material/styles';
+import { Grid, Typography } from '@mui/material';
 
 import { getDashTimeTable } from '../utils/apis';
 
 const { Meta } = Card;
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}));
-
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
-
-const weekday = new Array(7);
-weekday[1] = 'Monday';
-weekday[2] = 'Tuesday';
-weekday[3] = 'Wednesday';
-weekday[4] = 'Thursday';
-weekday[5] = 'Friday';
-weekday[6] = 'Saturday';
-weekday[0] = 'Sunday';
 
 const MyMenuPage = () => {
   const date = new Date();
@@ -49,8 +24,7 @@ const MyMenuPage = () => {
   const [fridayData, setFridayData] = useState([]);
   const [saturdayData, setSaturdayData] = useState([]);
   const [sundayData, setSundayData] = useState([]);
-
-  const [timesData, setTimesData] = useState([]);
+  
   console.log(mondayData);
   const breakfastArr = mondayData.filter((day) => {
     return day.Type === 'Breakfast';
@@ -106,11 +80,6 @@ const MyMenuPage = () => {
       setLoading(false);
     }
   }, []);
-
-  const style = {
-    background: '#0092ff',
-    padding: '8px 0',
-  };
 
   const MondayNest = [
     {

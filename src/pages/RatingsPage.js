@@ -1,6 +1,5 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
-import { sentenceCase } from 'change-case';
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 // @mui
@@ -11,27 +10,22 @@ import {
   Paper,
   Avatar,
   Button,
-  Popover,
-  Checkbox,
   TableRow,
   MenuItem,
   TableBody,
   TableCell,
   Container,
   Typography,
-  IconButton,
   TableContainer,
   TablePagination,
 } from '@mui/material';
 import { Rate, Spin, Input } from 'antd';
 // components
-import Label from '../components/label';
-import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 // sections
-import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
+import { UserListHead } from '../sections/@dashboard/user';
 // mock
-import { getDashTimeTable, giveRatingToFoodItem , getFoodItemRating, getFoodReviews, submitFoodReview} from '../utils/apis';
+import { getDashTimeTable, giveRatingToFoodItem, getFoodItemRating, getFoodReviews, submitFoodReview } from '../utils/apis';
 
 
 // ----------------------------------------------------------------------
@@ -77,39 +71,36 @@ function applySortFilter(array, comparator, query) {
 
 export default function RatingsPage() {
   const [user, setUser] = useState({})
-  const getUser = async()=>{
-    let user = await localStorage.getItem("user")
+  const getUser = async () => {
+    let user = localStorage.getItem("user")
     user = await JSON.parse(user)
     setUser(user)
   }
-  useEffect(()=>{
+  useEffect(() => {
     try {
       getUser()
     } catch (error) {
-      console.log("error")
+      // console.log("error")
     }
   }, [])
   const date = new Date()
   let today = date.getDay()
-  const weekday=new Array(7);
-  weekday[1]="Monday";
-  weekday[2]="Tuesday";
-  weekday[3]="Wednesday";
-  weekday[4]="Thursday";
-  weekday[5]="Friday";
-  weekday[6]="Saturday";
-  weekday[0]="Sunday";
-// console.log(today)
+  const weekday = new Array(7);
+  weekday[1] = "Monday";
+  weekday[2] = "Tuesday";
+  weekday[3] = "Wednesday";
+  weekday[4] = "Thursday";
+  weekday[5] = "Friday";
+  weekday[6] = "Saturday";
+  weekday[0] = "Sunday";
   today = weekday[today]
-  console.log(today)
   const [timeTableData, setTimeTableData] = useState([])
   const [todaysItems, setTodaysItems] = useState([])
   const [todaysItemsRatings, setTodaysItemsRatings] = useState([])
-  const [ratedFoodItems,setRatedFoodItems] = useState([]);
-  const [foodComment,setFoodComment] = useState("");
+  const [ratedFoodItems, setRatedFoodItems] = useState([]);
+  const [foodComment, setFoodComment] = useState("");
   const [loading, setLoading] = useState(false)
   const [currentlyRating, setCurrentlyRating] = useState(null);
-  console.log(todaysItemsRatings)
 
 
   const getRatedFoodItemVals = async () => {
@@ -117,53 +108,66 @@ export default function RatingsPage() {
     setRatedFoodItems(res);
   }
 
-  const getAllRatingsData = async()=>{
+  const getAllRatingsData = async () => {
     const res = await getFoodItemRating()
-      if(res?.length>0){
-        setTodaysItemsRatings(res)
-      }
+    if (res?.length > 0) {
+      setTodaysItemsRatings(res)
+    }
   }
 
-  const getTimeTableData = async ()=>{
+  const getTimeTableData = async () => {
     setLoading(true)
     const res = await getDashTimeTable()
-    console.log(res)
-    if(res?.length){
-      const temp = []
-      res?.forEach((item)=>{
-        if(item.Day === today){
-          temp.push(...item.Items)
+    if (res?.length) {
+      const ids = new Set();
+      const todayItems = [];
+      res.forEach((allDaysItems) => {
+        if (allDaysItems.Day === today) {
+          allDaysItems.Items.forEach((foodItem) => {
+            if (!ids.has(foodItem._id)) {
+              todayItems.push(foodItem);
+              ids.add(foodItem._id);
+            }
+          })
         }
       })
-      setTodaysItems(temp)
+      setTodaysItems(todayItems);
     }
     setTimeTableData(res)
     setLoading(false)
   }
 
 
+  const serializeMenuData = async () => {
+    console.log("Serializing")
+    await getAllRatingsData();
+    await getTimeTableData();
+    const serTimeTableData = todaysItems.map((foodItem) => {
+      console.log(todaysItems);
+      const rating = todaysItemsRatings.filter((ele) => foodItem._id === ele._id);
+      console.log(rating);
 
-  useEffect(()=>{
+      return {
+        "_id": foodItem._id,
+        "Name": foodItem.Name,
+        "Image": foodItem.Image,
+        "rating": 1
+      };
+    });
+    setTodaysItems(serTimeTableData);
+  }
+
+  useEffect(() => {
     try {
-      getTimeTableData()
       getAllRatingsData()
-      getRatedFoodItemVals()
+      getTimeTableData()
+      // serializeMenuData();
+      getRatedFoodItemVals();
     } catch (error) {
       setLoading(false)
     }
   }, [])
- 
- console.log(todaysItems)
- const timeTableWithRatings = []
- todaysItems?.forEach((item)=>{
-  todaysItemsRatings?.forEach((rat)=>{
-    if(item._id === rat.FoodItem){
-      timeTableWithRatings.push({...item, rating: rat.Rating})
-    }
-  })
- })
 
- console.log(timeTableWithRatings)
 
   const [open, setOpen] = useState(null);
 
@@ -193,14 +197,16 @@ export default function RatingsPage() {
     setOrderBy(property);
   };
 
+
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = timeTableWithRatings.map((n) => n.MenuItem);
+      const newSelecteds = todaysItems.map((n) => n.MenuItem);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -215,44 +221,43 @@ export default function RatingsPage() {
     setFilterMenuItem(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - timeTableWithRatings.length) : 0;
+  // const emptyRows =  Math.max(0, (1 + page) * rowsPerPage - todaysItems.length) ;
 
-  const filterItem = applySortFilter(timeTableWithRatings, getComparator(order, orderBy), filterMenuItem);
+  const filterItem = applySortFilter(todaysItems, getComparator(order, orderBy), filterMenuItem);
 
   const isNotFound = !filterItem.length && !!filterMenuItem;
-  console.log(orderBy)
 
-  const handleRatingChange = async(value, id)=>{
-    if(currentlyRating===null){
+  const handleRatingChange = async (value, id) => {
+    if (currentlyRating === null) {
       setCurrentlyRating({
         id,
         value,
-        comments:""
+        comments: ""
       });
-    }else if(currentlyRating.id!==id){
-        setCurrentlyRating({
-          id,
+    } else if (currentlyRating.id !== id) {
+      setCurrentlyRating({
+        id,
+        value,
+        comments: ""
+      });
+    } else {
+      setCurrentlyRating((currentlyRating) => {
+        return {
+          id: currentlyRating.id,
           value,
-          comments:""
-        });
-    }else{
-        setCurrentlyRating((currentlyRating)=>{
-          return {
-            id: currentlyRating.id,
-            value,
-            comments: currentlyRating.comments
-          }
-        });
-      }
+          comments: currentlyRating.comments
+        }
+      });
     }
+  }
 
-  const handleSubmitFoodReview = async ()=>{
-    if(currentlyRating.id){
+  const handleSubmitFoodReview = async () => {
+    if (currentlyRating.id) {
       setLoading(true)
-      await giveRatingToFoodItem(currentlyRating.id,currentlyRating.value);
+      await giveRatingToFoodItem(currentlyRating.id, currentlyRating.value);
       await submitFoodReview(currentlyRating)
       await getRatedFoodItemVals()
-      await getAllRatingsData() 
+      await getAllRatingsData()
       setLoading(false)
     }
   };
@@ -260,27 +265,27 @@ export default function RatingsPage() {
   return (
     <>
       {user?.Role === "manager" && <Navigate to="/404" />}
-      {user?.Role === "user" && 
+      {user?.Role === "user" &&
 
-            <>
-            <Helmet>
-              <title> User | Minimal UI </title>
-            </Helmet>
-      
-            <Container>
-              <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                <Typography variant="h4" gutterBottom>
-                  Ratings
-                </Typography>
-                {/* <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+        <>
+          <Helmet>
+            <title> User | Minimal UI </title>
+          </Helmet>
+
+          <Container>
+            <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+              <Typography variant="h4" gutterBottom>
+                Ratings
+              </Typography>
+              {/* <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
                   New User
                 </Button> */}
-              </Stack>
-      
-              <Card>
-                {/* <UserListToolbar numSelected={selected.length} filterMenuItem={filterMenuItem} onFilterMenuItem={handleFilterByMenuItem} /> */}
-      
-                <Scrollbar>
+            </Stack>
+
+            <Card>
+              {/* <UserListToolbar numSelected={selected.length} filterMenuItem={filterMenuItem} onFilterMenuItem={handleFilterByMenuItem} /> */}
+
+              <Scrollbar>
                 <Spin spinning={loading} size='medium'>
                   <TableContainer sx={{ minWidth: 800 }}>
                     <Table>
@@ -293,57 +298,62 @@ export default function RatingsPage() {
                         onRequestSort={handleRequestSort}
                         onSelectAllClick={handleSelectAllClick}
                       />
-      
-                     <TableBody>
-                        {filterItem.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        const { _id, Name, Image,rating } = row;
-                          const selectedUser = selected.indexOf(MenuItem) !== -1;
-      
-                          return (
-                            <TableRow hover key={_id} tabIndex={-1} MealTime="checkbox" selected={selectedUser}>
-                              <TableCell padding="checkbox">
-                                {/* <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, MenuItem)} /> */}
-                              </TableCell>
-      
-                              <TableCell component="th" scope="row" padding="none">
-                                <Stack direction="row" alignItems="center" spacing={2}>
-                                  <Avatar alt={MenuItem} src={Image} />
-                                  <Typography variant="subtitle2" noWrap>
-                                    {Name}
-                                  </Typography>
-                                </Stack>
-                              </TableCell>
-                              
-                              <TableCell align="left">
-                                {
-                                  ratedFoodItems.filter(e => e.foodId === _id ).length>0
-                                  ? <Rate value={ratedFoodItems.filter(e => e.foodId === _id )[0].rating} disabled/>
-                                  :<Rate onChange={(value)=> handleRatingChange(value, _id)} /> 
-                                }
+
+                      <TableBody>
+                        {
+                          todaysItems.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((row) => {
+                            // console.log(row)
+                            const currRating = todaysItemsRatings.filter(ele =>
+                              ele.FoodItem === row._id
+                            );
+                            // console.log(currRating);
+                            const { _id, Name, Image } = row;
+                            const selectedUser = selected.indexOf(MenuItem) !== -1;
+                            return (
+                              <TableRow hover key={_id} tabIndex={-1} MealTime="checkbox" selected={selectedUser}>
+                                <TableCell padding="checkbox">
+                                  {/* <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, MenuItem)} /> */}
+                                </TableCell>
+
+                                <TableCell component="th" scope="row" padding="none">
+                                  <Stack direction="row" alignItems="center" spacing={2}>
+                                    <Avatar alt={MenuItem} src={Image} />
+                                    <Typography variant="subtitle2" noWrap>
+                                      {Name}
+                                    </Typography>
+                                  </Stack>
                                 </TableCell>
 
                                 <TableCell align="left">
-                                {
-                                  ratedFoodItems.filter(e => e.foodId === _id ).length>0
-                                  ? <Input value={ratedFoodItems.filter(e => e.foodId === _id )[0].comments} disabled/>
-                                  :<div><Input onChange={(e)=>{setCurrentlyRating({id:currentlyRating.id,value:currentlyRating.value,comments:e.target.value})}} /><Button onClick={handleSubmitFoodReview}>Submit</Button></div>
-                                }
+                                  {
+                                    ratedFoodItems.filter(e => e.foodId === _id).length > 0
+                                      ? <Rate value={ratedFoodItems.filter(e => e.foodId === _id)[0].rating} disabled />
+                                      : <Rate onChange={(value) => handleRatingChange(value, _id)} />
+                                  }
                                 </TableCell>
-      
-                              <TableCell align='left' component="th" scope="row" padding="none">
-                                {rating?.toFixed(2)}/5.00
-                              </TableCell>
-                            </TableRow>
-                          );
-                        })}
-                        {emptyRows > 0 && (
-                          <TableRow style={{ height: 53 * emptyRows }}>
-                            <TableCell colSpan={6} />
-                          </TableRow>
-                        )}
+
+                                <TableCell align="left">
+                                  {
+                                    ratedFoodItems.filter(e => e.foodId === _id).length > 0
+                                      ? <Input value={ratedFoodItems.filter(e => e.foodId === _id)[0].comments} disabled />
+                                      : <div>
+                                        <Input
+                                          onChange={(e) => {
+                                            setCurrentlyRating({ id: e.foodId, value: currentlyRating.value, comments: e.target.value })
+                                          }} />
+                                        <Button onClick={handleSubmitFoodReview}>Submit</Button></div>
+                                  }
+                                </TableCell>
+
+                                <TableCell align='left' component="th" scope="row" padding="none">
+                                  {currRating.length > 0 ? currRating[0].Rating?.toFixed(2) : "-"}/5.00
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })}
                       </TableBody>
-      
-      
+
+
                       {isNotFound && (
                         <TableBody>
                           <TableRow>
@@ -356,7 +366,7 @@ export default function RatingsPage() {
                                 <Typography variant="h6" paragraph>
                                   Not found
                                 </Typography>
-      
+
                                 <Typography variant="body2">
                                   No results found for &nbsp;
                                   <strong>&quot;{filterMenuItem}&quot;</strong>.
@@ -369,22 +379,22 @@ export default function RatingsPage() {
                       )}
                     </Table>
                   </TableContainer>
-                  </Spin>
-                </Scrollbar>
-      
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25]}
-                  component="div"
-                  count={todaysItems.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-              </Card>
-            </Container>
-      
-            {/* <Popover
+                </Spin>
+              </Scrollbar>
+
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={todaysItems.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </Card>
+          </Container>
+
+          {/* <Popover
               open={Boolean(open)}
               anchorEl={open}
               onClose={handleCloseMenu}
@@ -403,7 +413,7 @@ export default function RatingsPage() {
               }}
             >
             </Popover> */}
-            </>
+        </>
       }
     </>
   );
