@@ -312,7 +312,6 @@ export default function RatingsPage() {
                                         <Input
                                           onChange={(e) => {
                                             setCurrentlyRating({ id: _id, value: currentlyRating.value, comments: e.target.value });
-                                            console.log(_id,currentlyRating);
                                           }
                                           } />
                                         <Button onClick={handleSubmitFoodReview}>Submit</Button></div>
