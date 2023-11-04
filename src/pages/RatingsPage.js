@@ -20,6 +20,8 @@ import {
   TablePagination,
 } from '@mui/material';
 import { Rate, Spin, Input } from 'antd';
+import { ToastContainer, toast } from 'react-toastify';
+
 // components
 import Scrollbar from '../components/scrollbar';
 // sections
@@ -100,7 +102,7 @@ export default function RatingsPage() {
   const [ratedFoodItems, setRatedFoodItems] = useState([]);
   const [foodComment, setFoodComment] = useState("");
   const [loading, setLoading] = useState(false)
-  const [currentlyRating, setCurrentlyRating] = useState({"id":"","value":-1,"comments":""});
+  const [currentlyRating, setCurrentlyRating] = useState({ "id": "", "value": -1, "comments": "" });
 
 
   const getRatedFoodItemVals = async () => {
@@ -230,13 +232,24 @@ export default function RatingsPage() {
   }
 
   const handleSubmitFoodReview = async () => {
-    if (currentlyRating.value!==-1) {
+    if (currentlyRating.value !== -1) {
       setLoading(true)
-      await giveRatingToFoodItem(currentlyRating.id, currentlyRating.value);
+      await giveRatingToFoodItem(currentlyRating.id, currentlyRating.value)
       await submitFoodReview(currentlyRating)
       await getRatedFoodItemVals()
       await getAllRatingsData()
+      setCurrentlyRating({ "id": "", "value": -1, "comments": "" })
       setLoading(false)
+    } else {
+      toast.error('Give Rating', {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
