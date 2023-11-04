@@ -100,7 +100,7 @@ export default function RatingsPage() {
   const [ratedFoodItems, setRatedFoodItems] = useState([]);
   const [foodComment, setFoodComment] = useState("");
   const [loading, setLoading] = useState(false)
-  const [currentlyRating, setCurrentlyRating] = useState(null);
+  const [currentlyRating, setCurrentlyRating] = useState({"id":"","value":-1,"comments":""});
 
 
   const getRatedFoodItemVals = async () => {
@@ -137,31 +137,10 @@ export default function RatingsPage() {
     setLoading(false)
   }
 
-
-  const serializeMenuData = async () => {
-    console.log("Serializing")
-    await getAllRatingsData();
-    await getTimeTableData();
-    const serTimeTableData = todaysItems.map((foodItem) => {
-      console.log(todaysItems);
-      const rating = todaysItemsRatings.filter((ele) => foodItem._id === ele._id);
-      console.log(rating);
-
-      return {
-        "_id": foodItem._id,
-        "Name": foodItem.Name,
-        "Image": foodItem.Image,
-        "rating": 1
-      };
-    });
-    setTodaysItems(serTimeTableData);
-  }
-
   useEffect(() => {
     try {
       getAllRatingsData()
       getTimeTableData()
-      // serializeMenuData();
       getRatedFoodItemVals();
     } catch (error) {
       setLoading(false)
@@ -221,7 +200,6 @@ export default function RatingsPage() {
     setFilterMenuItem(event.target.value);
   };
 
-  // const emptyRows =  Math.max(0, (1 + page) * rowsPerPage - todaysItems.length) ;
 
   const filterItem = applySortFilter(todaysItems, getComparator(order, orderBy), filterMenuItem);
 
@@ -252,7 +230,7 @@ export default function RatingsPage() {
   }
 
   const handleSubmitFoodReview = async () => {
-    if (currentlyRating.id) {
+    if (currentlyRating.value!==-1) {
       setLoading(true)
       await giveRatingToFoodItem(currentlyRating.id, currentlyRating.value);
       await submitFoodReview(currentlyRating)
@@ -277,13 +255,9 @@ export default function RatingsPage() {
               <Typography variant="h4" gutterBottom>
                 Ratings
               </Typography>
-              {/* <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
-                  New User
-                </Button> */}
             </Stack>
 
             <Card>
-              {/* <UserListToolbar numSelected={selected.length} filterMenuItem={filterMenuItem} onFilterMenuItem={handleFilterByMenuItem} /> */}
 
               <Scrollbar>
                 <Spin spinning={loading} size='medium'>
@@ -311,9 +285,7 @@ export default function RatingsPage() {
                             const selectedUser = selected.indexOf(MenuItem) !== -1;
                             return (
                               <TableRow hover key={_id} tabIndex={-1} MealTime="checkbox" selected={selectedUser}>
-                                <TableCell padding="checkbox">
-                                  {/* <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, MenuItem)} /> */}
-                                </TableCell>
+                                <TableCell padding="checkbox" />
 
                                 <TableCell component="th" scope="row" padding="none">
                                   <Stack direction="row" alignItems="center" spacing={2}>
@@ -339,8 +311,10 @@ export default function RatingsPage() {
                                       : <div>
                                         <Input
                                           onChange={(e) => {
-                                            setCurrentlyRating({ id: e.foodId, value: currentlyRating.value, comments: e.target.value })
-                                          }} />
+                                            setCurrentlyRating({ id: _id, value: currentlyRating.value, comments: e.target.value });
+                                            console.log(_id,currentlyRating);
+                                          }
+                                          } />
                                         <Button onClick={handleSubmitFoodReview}>Submit</Button></div>
                                   }
                                 </TableCell>
@@ -393,26 +367,6 @@ export default function RatingsPage() {
               />
             </Card>
           </Container>
-
-          {/* <Popover
-              open={Boolean(open)}
-              anchorEl={open}
-              onClose={handleCloseMenu}
-              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-              PaperProps={{
-                sx: {
-                  p: 1,
-                  width: 140,
-                  '& .MuiMenuItem-root': {
-                    px: 1,
-                    typography: 'body2',
-                    borderRadius: 0.75,
-                  },
-                },
-              }}
-            >
-            </Popover> */}
         </>
       }
     </>
