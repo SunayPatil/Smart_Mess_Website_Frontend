@@ -312,8 +312,8 @@ export default function RatingsPage() {
                                 <TableCell align="left">
                                   {
                                     ratedFoodItems.filter(e => e.foodId === _id).length > 0
-                                      ? <Rate value={ratedFoodItems.filter(e => e.foodId === _id)[0].rating} disabled />
-                                      : <Rate onChange={(value) => handleRatingChange(value, _id)} />
+                                      ? <Rate style={{fontSize : 'medium'}} value={ratedFoodItems.filter(e => e.foodId === _id)[0].rating} disabled />
+                                      : <Rate style={{fontSize : 'medium'}} onChange={(value) => handleRatingChange(value, _id)} />
                                   }
                                 </TableCell>
 

@@ -1,12 +1,19 @@
 // @mui
 import PropTypes from 'prop-types';
 import { alpha, styled } from '@mui/material/styles';
+import { useState, useEffect } from 'react';
 import { Box, Card, Typography } from '@mui/material';
+// import StarIcon from '@mui/icons-material/Star';
+import Star from '@mui/icons-material/Star';
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber';
+import { getFoodItemRating } from '../../../utils/apis';
 // components
 import Iconify from '../../../components/iconify';
 import './style.css';
+
+
+
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +49,24 @@ export default function AppWidgetSummary({
   sx,
   ...other
 }) {
-  console.log(currentDayMenu);
+
+  const [allRatings, setAllRatings] = useState([])
+
+  const getAllRatingsData = async () => {
+    const res = await getFoodItemRating()
+    if (res?.length > 0) {
+      setAllRatings(res)
+    }
+  }
+
+  useEffect(()=>{
+    try {
+      getAllRatingsData()
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
+  
   return (
     <>
       {serving && (
@@ -114,7 +138,11 @@ export default function AppWidgetSummary({
                   {currentDayMenu?.slice(0, currentDayMenu?.length / 2)?.map((item, index) => {
                     return (
                       <Typography id="index" key={index} variant="body1">
-                        {item}
+                        <p>{item?.Name}
+                        {" "} {allRatings.filter((item1)=>{
+                          return item1.FoodItem === item._id
+                        })[0]?.Rating.toFixed(2)}{'/5.00'}<Star />
+                        </p>
                       </Typography>
                     );
                   })}
@@ -123,7 +151,10 @@ export default function AppWidgetSummary({
                   {currentDayMenu?.slice(currentDayMenu?.length / 2)?.map((item, index) => {
                     return (
                       <Typography id="index" key={index} variant="body1">
-                        {item}
+                        <p>{item?.Name}
+                        {" "} {allRatings.filter((item1)=>{
+                          return item1.FoodItem === item._id
+                        })[0]?.Rating.toFixed(2)}{'/5.00'}<Star /></p>
                       </Typography>
                     );
                   })}
@@ -168,7 +199,10 @@ export default function AppWidgetSummary({
           {currentDayMenu?.map((item, index) => {
             return (
               <Typography id="index" key={index} variant="body1">
-                {item}
+                <p>{item?.Name}
+                {" "} {allRatings.filter((item1)=>{
+                          return item1.FoodItem === item._id
+                        })[0]?.Rating.toFixed(2)} {'/5.00'}<Star /></p>
               </Typography>
             );
           })}
