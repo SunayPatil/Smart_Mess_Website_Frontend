@@ -1,7 +1,7 @@
 import { Card, Container, Stack, Typography } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { Select } from 'antd';
-import { LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Line, Legend } from 'recharts';
+import { LineChart, CartesianGrid, XAxis, YAxis, Tooltip, Line, Legend, ResponsiveContainer } from 'recharts';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { CSSTransition } from 'react-transition-group';
@@ -86,14 +86,19 @@ const ManagerDashboard = () => {
 
     const filterHandler = (foodId) => {
         // console.log(timeSeriesData);
-        const ele = allFoodItems.filter((x) => { return x.Id === foodId; });
+        const ele = allFoodItems.filter((x) => x.Id === foodId);
         setFoodItemImage(ele[0].Img);
-        const currItems = [];
+        let currItems = [];
         timeSeriesData.forEach((ele) => {
             if (ele.FoodItemId === foodId) {
                 const date = new Date(ele.Date);
                 currItems.push({ 'Date': date.toUTCString(), 'Rating': ele.Rating, 'NoOfReviews': ele.NoOfReviews });
             }
+        })
+        currItems = currItems.filter((ele) => {
+            const newDate = new Date(ele.Date);
+            ele.Date = `${newDate.getDay()}-${newDate.getMonth() + 1}-${newDate.getFullYear()}`;
+            return ele;
         })
         setFilterData(currItems);
     }
@@ -133,8 +138,8 @@ const ManagerDashboard = () => {
                     </Typography>
                 </Stack>
                 <Card sx={{ padding: '10px' }}>
-                    <Grid container>
-                        <Grid item lg={4}>
+                    <Grid container sx={{ justifyContent: "center" }}>
+                        <Grid item lg={4} md={12} sm={12} xs={12}>
                             <Typography variant="h4" gutterBottom>
                                 Select Food Item
                             </Typography>
@@ -160,11 +165,11 @@ const ManagerDashboard = () => {
                                     : <></>}
                             </Box>
                         </Grid>
-                        <Grid item lg={8}>
-                            <Typography gutterBottom align='center' sx={{ mt: '20px' }}>
+                        <Grid item lg={8} md={12} sm={12} xs={12} sx={{ maxWidth: "99vw" }}>
+                            <Typography gutterBottom align='center' sx={{ mt: '20px', fontSize: "12px" }}>
                                 {filterData.length === 0 ? <></> :
-                                    <>
-                                        <LineChart width={700} height={250} data={filterData}
+                                    <ResponsiveContainer width={'90%'} height={250}>
+                                        <LineChart data={filterData}
                                             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                                             <CartesianGrid strokeDasharray="3 3" />
                                             <XAxis dataKey="Date" />
@@ -173,11 +178,13 @@ const ManagerDashboard = () => {
                                             <Legend />
                                             <Line type="monotone" dataKey="Rating" stroke="#82ca9d" />
                                         </LineChart>
-                                    </>
+                                    </ResponsiveContainer>
+
                                 }
                                 {filterData.length === 0 ? <></> :
-                                    <>
-                                        <LineChart width={700} height={250} data={filterData}
+                                    <ResponsiveContainer width={'90%'} height={250}>
+                                        <LineChart
+                                            data={filterData}
                                             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                                             <CartesianGrid strokeDasharray="3 3" />
                                             <XAxis dataKey="Date" />
@@ -186,7 +193,7 @@ const ManagerDashboard = () => {
                                             <Legend />
                                             <Line type="monotone" dataKey="NoOfReviews" stroke="#8884d8" />
                                         </LineChart>
-                                    </>
+                                    </ResponsiveContainer>
                                 }
                             </Typography>
                         </Grid>

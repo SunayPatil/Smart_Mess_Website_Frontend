@@ -30,7 +30,7 @@ const MyMenuPage = () => {
   function getMealTime() {
     const currentTime = new Date();
     const hours = currentTime.getHours();
-    const minutes = currentTime.getMinutes();
+    // const minutes = currentTime.getMinutes();
 
     if (hours >= 1 && hours < 10) {
       setSer('Breakfast');

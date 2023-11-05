@@ -5,7 +5,7 @@ import { Alert, Snackbar, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 import '../utils/fadeAnimation.css';
 import { addFoodItem, createFoodItem, getAllFoodIitems, getDashTimeTable, delFoodItem } from "../utils/apis";
 
@@ -75,9 +75,7 @@ const ManagerAddFood = () => {
     }
   }, [])
 
-  const fileteredDataForDelete = timeTableData?.slice(0)?.filter((item) => {
-    return item.Day === deleteDay && item.Type === deleteType
-  })
+  const fileteredDataForDelete = timeTableData?.slice(0)?.filter((item) => (item.Day === deleteDay && item.Type === deleteType))
   console.log(fileteredDataForDelete)
   const fetchAllFoodItems = async () => {
     const res = await getAllFoodIitems()
@@ -107,9 +105,7 @@ const ManagerAddFood = () => {
   }
 
   const foodItemChange = (value) => {
-    // filterHandler(value);
     setSelFoodItem(value);
-    // console.log(filterData);
   };
 
   const [open, setOpen] = React.useState(false);
@@ -126,11 +122,6 @@ const ManagerAddFood = () => {
     setOpen(false);
   };
 
-  // const onSearch = (value) => {
-  // console.log('search:', value);
-  // };
-
-  // console.log(deleteDay, deleteType)
 
   const newFoodItem = () => {
     return (
@@ -166,6 +157,7 @@ const ManagerAddFood = () => {
                 message: "Please input name of Food Item!"
               }
             ]}
+            style={{ width: "auto" }}
           >
             <Input />
           </Form.Item>
@@ -258,22 +250,14 @@ const ManagerAddFood = () => {
           </Form.Item>
 
           <Form.Item name="mealItem" label="Food Items" rules={[{ required: true }]}>
-            {/* <Select allowClear>
-              {foodItems?.map((item) => {
-                return <Option key={item.Id} value={item.Id}>{item.Name}</Option>
-              })}
-            </Select> */}
             <Select
               showSearch
               placeholder="Select A Food Item"
               optionFilterProp="children"
               onChange={foodItemChange}
               value={selFoodItem}
-              // onSearch={onSearch}
               filterOption={filterOption}
-              options={foodItems.map((item) => {
-                return { 'value': item.Id, 'label': item.Name };
-              })}
+              options={foodItems.map((item) => ({ 'value': item.Id, 'label': item.Name }))}
             />
           </Form.Item>
 
@@ -345,9 +329,7 @@ const ManagerAddFood = () => {
 
           <Form.Item name="mealItem" label="Food Items" rules={[{ required: true }]}>
             <Select allowClear>
-              {fileteredDataForDelete[0]?.Items?.map((item) => {
-                return <Option key={item._id} value={item._id}>{item.Name}</Option>
-              })}
+              {fileteredDataForDelete[0]?.Items?.map((item) => (<Option key={item._id} value={item._id}>{item.Name}</Option>))}
             </Select>
           </Form.Item>
 
@@ -401,10 +383,10 @@ const ManagerAddFood = () => {
       {user?.Role === "user" && <Navigate to="/404" />}
       {user?.Role === "manager" &&
         <Box sx={{ height: '100%' }}>
-          <Grid container spacing={5} sx={{ alignContent: 'center', height: '100%' }}>
+          <Grid container spacing={5} sx={{ alignContent: 'flex-start', height: '100%', justifyContent: "center" }}>
             <Grid item lg={4}>
               <Stack spacing={3} sx={{
-                maxWidth: '300px'
+                maxWidth: '300px',
               }}>
                 <Button onClick={() => setOptSel(1)}>Create A New Food Item</Button>
                 <Button onClick={() => setOptSel(2)}>Add Food To Time Table</Button>
