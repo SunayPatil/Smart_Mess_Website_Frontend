@@ -1,38 +1,30 @@
 import { Helmet } from 'react-helmet-async';
-import { faker } from '@faker-js/faker';
+// import { faker } from '@faker-js/faker';
 import { useEffect, useState } from 'react';
 // @mui
-import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography, Hidden } from '@mui/material';
+// import { useTheme } from '@mui/material/styles';
+import { Grid, Container, Typography } from '@mui/material';
 // components
-import Iconify from '../components/iconify';
+// import Iconify from '../components/iconify';
 // sections
 import {
-  AppTasks,
-  AppNewsUpdate,
-  AppOrderTimeline,
-  AppCurrentVisits,
-  AppWebsiteVisits,
-  AppTrafficBySite,
   AppWidgetSummary,
-  AppCurrentSubject,
-  AppConversionRates,
 } from '../sections/@dashboard/app';
 import { getDashTimeTable } from '../utils/apis';
 
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
-  const theme = useTheme();
+  // const theme = useTheme();
   const [ser, setSer] = useState('');
   const reqDate = new Date();
   console.log(reqDate.toLocaleTimeString());
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   function getMealTime() {
     const currentTime = new Date();
     const hours = currentTime.getHours();
-    const minutes = currentTime.getMinutes();
+    // const minutes = currentTime.getMinutes();
 
     if (hours >= 7 && hours < 10) {
       setSer('Breakfast');
@@ -397,7 +389,7 @@ export default function DashboardAppPage() {
               title="Weekly Sales"
               total={714000}
               icon={'fluent:food-16-filled'}
-              
+
             />
             <br />
           </Grid>
