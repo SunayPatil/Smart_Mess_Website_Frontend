@@ -123,13 +123,13 @@ export default function LoginPage() {
       </Helmet>
       <Spin spinning={loading} size='medium'>
         <StyledRoot>
-          <Logo
+          {mdUp && <Logo
             sx={{
               position: 'fixed',
               top: { xs: 16, sm: 24, md: 40 },
               left: { xs: 16, sm: 24, md: 40 },
             }}
-          />
+          />}
 
           {mdUp && (
             <StyledSection>
@@ -141,19 +141,21 @@ export default function LoginPage() {
           )}
 
           
-{!mdUp && (
-           <><Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-                Hi, Welcome to Bhoopali Mess
-              </Typography>
-              <img src="/assets/illustrations/mess.webp" alt="login" /></>
-              
-            
-          )}
+
 
           <Container maxWidth="sm">
             <StyledContent>
            
-
+            <Stack direction="row" justifyContent="center" >
+            {!mdUp && <Logo
+            sx={{
+             
+              width: "100px",
+              minHeight: "100px"
+            }}
+          />}
+            </Stack>
+            <br />
               <Stack direction="row" justifyContent="center" spacing={2}>
                 {/* <Button fullWidth size="large" color="inherit" variant="outlined">
                   <Iconify icon="eva:facebook-fill" color="#1877F2" width={22} height={22} />
