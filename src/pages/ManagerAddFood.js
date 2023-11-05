@@ -26,6 +26,8 @@ const ManagerAddFood = () => {
   const [reqData, setReqData] = useState([])
   const [optSel, setOptSel] = useState(4);
   const [selFoodItem, setSelFoodItem] = useState("")
+  
+  const [open, setOpen] = React.useState(false);
 
   const [createForm] = Form.useForm();
   const [addForm] = Form.useForm();
@@ -47,6 +49,7 @@ const ManagerAddFood = () => {
   const onFinish = async (values) => {
     const res = await createFoodItem(values)
     createForm.resetFields();
+    setOpen(true)
   }
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -94,6 +97,7 @@ const ManagerAddFood = () => {
     console.log(values)
     const res = await addFoodItem(values)
     addForm.resetFields();
+    setOpen(true)
     console.log(res)
   }
 
@@ -101,6 +105,7 @@ const ManagerAddFood = () => {
     console.log(values)
     const res = await delFoodItem(values)
     delForm.resetFields()
+    setOpen(true)
     console.log(res)
   }
 
@@ -108,7 +113,6 @@ const ManagerAddFood = () => {
     setSelFoodItem(value);
   };
 
-  const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
     setOpen(true);
@@ -192,7 +196,7 @@ const ManagerAddFood = () => {
             <Button type="primary" htmlType="submit">
               Create
             </Button>
-            <Snackbar open={open} anchorOrigin={{ vertical, horizontal }} autoHideDuration={2000} key={vertical + horizontal} onClose={handleClose}>
+            <Snackbar open={open} anchorOrigin={{ vertical, horizontal }} autoHideDuration={4000} key={vertical + horizontal} onClose={handleClose}>
               <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
                 Food Item created successfully!
               </Alert>
@@ -267,7 +271,7 @@ const ManagerAddFood = () => {
               span: 16
             }}
           >
-            <Button type="primary" htmlType="submit" onClick={handleClick}>
+            <Button type="primary" htmlType="submit" >
               Add
             </Button>
             <Snackbar open={open} anchorOrigin={{ vertical, horizontal }} autoHideDuration={2000} key={vertical + horizontal} onClose={handleClose}>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Card, Collapse, Spin } from 'antd';
 
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography, Container } from '@mui/material';
 
 import { getDashTimeTable } from '../utils/apis';
 
@@ -1038,12 +1038,14 @@ const MyMenuPage = () => {
   ];
   return (
     <>
-      <Typography variant="h3" sx={{ mb: 1 }}>
-        Menu
-      </Typography>
+    <Container maxWidth="xl">
+        <Typography variant="h4" sx={{ mb: 5 }}>
+          Menu
+        </Typography>
       <Spin spinning={loading} size="medium">
         <Collapse defaultActiveKey={today} size="large" items={items} />
       </Spin>
+    </Container>
     </>
   );
 };

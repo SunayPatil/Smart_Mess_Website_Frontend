@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 import { Card, Collapse, Spin } from 'antd';
 
 import { Container, Grid, Typography } from '@mui/material';
@@ -24,6 +26,7 @@ const MyMenuPage = () => {
   const [fridayData, setFridayData] = useState([]);
   const [saturdayData, setSaturdayData] = useState([]);
   const [sundayData, setSundayData] = useState([]);
+  const [defActiveKey, setDefActiveKey] = useState(0);
 
   const [ser, setSer] = useState('');
 
@@ -32,16 +35,21 @@ const MyMenuPage = () => {
     const hours = currentTime.getHours();
     // const minutes = currentTime.getMinutes();
 
-    if (hours >= 1 && hours < 10) {
+    if (hours >= 4 && hours < 10) {
       setSer('Breakfast');
-    } else if (hours >= 12 && hours < 15) {
+      setDefActiveKey(1)
+    } else if (hours >= 10 && hours < 15) {
       setSer('Lunch');
-    } else if (hours >= 16 && hours < 18) {
+      setDefActiveKey(2)
+    } else if (hours >= 15 && hours <= 19) {
       setSer('Snacks');
-    } else if (hours >= 19 && hours < 21) {
+      setDefActiveKey(3)
+    } else if (hours >= 19 && hours < 24) {
       setSer('Dinner');
+      setDefActiveKey(4)
     } else {
       setSer('');
+      setDefActiveKey([''])
     }
   }
 
@@ -53,11 +61,16 @@ const MyMenuPage = () => {
 
     return () => clearInterval(interval);
   }, []);
-  
+
   const [allData, setAllData] = useState([])
-  
+
+  const navigate = useNavigate();
+  const handleCardPress = ()=>{
+    navigate("/dashboard/ratings")
+  }
+
   const getTimeTableData = async () => {
-    
+
     setLoading(true);
     const res = await getDashTimeTable();
 
@@ -82,21 +95,21 @@ const MyMenuPage = () => {
       currentDayIndex
     ];
     const reqData = []
-    allData.forEach((item)=>{
-      if(item.Day === currentDayName){
+    allData.forEach((item) => {
+      if (item.Day === currentDayName) {
         reqData.push(item)
       }
     })
 
     const reqData2 = {}
-    reqData.forEach((item)=>{
-      if(item.Type === "Breakfast"){
+    reqData.forEach((item) => {
+      if (item.Type === "Breakfast") {
         reqData2.Breakfast = item;
-      }else if(item.Type === "Lunch"){
+      } else if (item.Type === "Lunch") {
         reqData2.Lunch = item
-      }else if(item.Type === "Snacks"){
+      } else if (item.Type === "Snacks") {
         reqData2.Snacks = item
-      }else if(item.Type === "Dinner"){
+      } else if (item.Type === "Dinner") {
         reqData2.Dinner = item
       }
     })
@@ -114,15 +127,16 @@ const MyMenuPage = () => {
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu
             ?.Breakfast?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+              <Grid item xs={2} sm={2} md={2} lg={2} key={index}>
                 <Card
+                  onClick={handleCardPress}
                   bordered
                   style={{
-                    width: 240,
+                    width: "100%",
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item.Image}
                       loading="lazy"
@@ -136,7 +150,7 @@ const MyMenuPage = () => {
         </Grid>
       ),
     },
-    
+
     {
       key: '2',
       label: 'Lunch',
@@ -144,15 +158,16 @@ const MyMenuPage = () => {
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu
             ?.Lunch?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+              <Grid item xs={2} sm={2} md={2} lg={2} key={index}>
                 <Card
+                  onClick={handleCardPress}
                   bordered
                   style={{
-                    width: 240,
+                    width: "100%",
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item.Image}
                       loading="lazy"
@@ -173,15 +188,16 @@ const MyMenuPage = () => {
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu
             ?.Snacks?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+              <Grid item xs={2} sm={2} md={2} lg={2} key={index}>
                 <Card
+                  onClick={handleCardPress}
                   bordered
                   style={{
-                    width: 240,
+                    width: "100%",
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item.Image}
                       loading="lazy"
@@ -199,18 +215,19 @@ const MyMenuPage = () => {
       key: '4',
       label: 'Dinner',
       children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
+        <Grid container  spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu
             ?.Dinner?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+              <Grid item xs={2} sm={2} md={2} lg={2} key={index}>
                 <Card
+                  onClick={handleCardPress} 
                   bordered
                   style={{
-                    width: 240,
+                    width: "100%",
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item.Image}
                       loading="lazy"
@@ -225,15 +242,17 @@ const MyMenuPage = () => {
       ),
     },
   ];
+  console.log(defActiveKey);
+  
   return (
     <>
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
           Today's Menu
         </Typography>
-      <Spin spinning={loading} size="medium">
-        <Collapse defaultActiveKey={['1','2','3','4']} size="large" items={items} />
-      </Spin>
+        <Spin spinning={loading} size="medium">
+          {defActiveKey && <Collapse defaultActiveKey={defActiveKey } size="large" items={items} />}
+        </Spin>
       </Container>
     </>
   );

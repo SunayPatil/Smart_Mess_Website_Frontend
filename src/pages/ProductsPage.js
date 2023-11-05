@@ -7,7 +7,7 @@ import StarIcon from '@mui/icons-material/Star';
 import { Helmet } from 'react-helmet-async';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { Button, Container, Typography } from '@mui/material';
+import { Button, Container, Typography, Snackbar, Alert } from '@mui/material';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import TextField from '@mui/material/TextField';
@@ -66,6 +66,7 @@ export default function HoverRating() {
       console.log(res);
       if (res.status === 200) {
         alert('Feedback Submitted');
+        setOpen(true);
         localStorage.removeItem('feedbackId');
         
       } else {
@@ -73,17 +74,42 @@ export default function HoverRating() {
       }
     }
   };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const vertical = 'top';
+  const horizontal = 'center';
+  const [open, setOpen] = useState(false);
   return (
     <>
+      <Snackbar
+        open={open}
+        anchorOrigin={{ vertical, horizontal }}
+        autoHideDuration={4000}
+        key={vertical + horizontal}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Rating submitted successfully!
+        </Alert>
+      </Snackbar>
       {user?.Role === 'manager' && <Navigate to="/404" />}
       {user?.Role === 'user' && (
+         <Container maxWidth="xl">
+         <Typography variant="h4" sx={{ mb: 5 }}>
+           Feedback
+         </Typography>
         <div>
+
           <Helmet>
             <title> Feedback </title>
           </Helmet>
-          <Typography variant="h3" sx={{ mb: 1 }}>
-            Feedback
-          </Typography>
 
           <Box sx={{ flexGrow: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
             <Grid container alignItems="center" justifyContent="center" spacing={2}>
@@ -130,31 +156,6 @@ export default function HoverRating() {
                         precision={1}
                         onChange={(event, newValue) => {
                           setLunchRatings(newValue);
-                        }}
-                        emptyIcon={<StarIcon style={{ opacity: 0.45 }} fontSize="inherit" />}
-                      />
-                    </Container>
-                  </Card>
-                </Item>
-              </Grid>
-              <Grid item xs={12} lg={4} md={6}>
-                <Item>
-                  <Card sx={{ maxWidth: 345 }}>
-                    <Container>
-                      <Typography variant="h5" sx={{ mb: 1 }}>
-                        Mess service
-                      </Typography>
-                      <CardMedia
-                        sx={{ height: 140 }}
-                        image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL4DPJnMsIakcrye0Yjrip3JHV29UmMpN9xvj3eHrlfI4Co1kYHN75575xUKXwNan2ci8&usqp=CAU"
-                        title=""
-                      />
-                      <Rating
-                        name="lunch-hover-feedback"
-                        value={MessServiceRating}
-                        precision={1}
-                        onChange={(event, newValue) => {
-                          setmessServiceRatings(newValue);
                         }}
                         emptyIcon={<StarIcon style={{ opacity: 0.45 }} fontSize="inherit" />}
                       />
@@ -237,6 +238,32 @@ export default function HoverRating() {
                   </Card>
                 </Item>
               </Grid>
+              <Grid item xs={12} lg={4} md={6}>
+                <Item>
+                  <Card sx={{ maxWidth: 345 }}>
+                    <Container>
+                      <Typography variant="h5" sx={{ mb: 1 }}>
+                        Mess service
+                      </Typography>
+                      <CardMedia
+                        sx={{ height: 140 }}
+                        image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL4DPJnMsIakcrye0Yjrip3JHV29UmMpN9xvj3eHrlfI4Co1kYHN75575xUKXwNan2ci8&usqp=CAU"
+                        title=""
+                      />
+                      <Rating
+                        name="lunch-hover-feedback"
+                        value={MessServiceRating}
+                        precision={1}
+                        onChange={(event, newValue) => {
+                          setmessServiceRatings(newValue);
+                        }}
+                        emptyIcon={<StarIcon style={{ opacity: 0.45 }} fontSize="inherit" />}
+                      />
+                    </Container>
+                  </Card>
+                </Item>
+              </Grid>
+        
             </Grid>
           </Box>
 
@@ -257,11 +284,14 @@ export default function HoverRating() {
               }}
             />
           </Box>
-
-          <Button variant="contained" onClick={handleSubmitPress}>
+          <br />
+          
+          <Button variant="contained" justifyContent='center' onClick={handleSubmitPress}>
             Submit
           </Button>
+          
         </div>
+        </Container>
       )}
     </>
   );

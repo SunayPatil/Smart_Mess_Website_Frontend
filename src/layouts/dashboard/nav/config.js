@@ -54,9 +54,15 @@ const navConfig = [
     icon: icon('ic_summary'),
     role: "manager",
   },
+  // {
+  //   title: 'Add Feedback Form',
+  //   path: '/dashboard/feedback',
+  //   icon: icon('ic_summary'),
+  //   role: "manager",
+  // },
   {
-    title: 'Add Feedback Form',
-    path: '/dashboard/feedback',
+    title: 'Add Announcement',
+    path: '/dashboard/announcement',
     icon: icon('ic_summary'),
     role: "manager",
   }

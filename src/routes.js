@@ -18,6 +18,7 @@ import FeedBackForm from './pages/FeedBackForm';
 import ApiContext from './Context/apiContext';
 import ManagerDashboard from './pages/ManagerDashboard';
 import ManagerMenuPage from './pages/ManagerMenuPage';
+import AnnouncementForm from './pages/Announcement';
 
 const MyMenuPage = lazy(() => import('./pages/MyMenuPage'));
 const RatingsPage = lazy(() => import('./pages/RatingsPage'));
@@ -59,6 +60,7 @@ export default function Router() {
         { path: 'products', element: <ProductsPage /> },
         { path: 'addfooditem', element: <ManagerAddFood /> },
         { path: 'feedback', element: <FeedBackForm /> },
+        { path: 'announcement', element: <AnnouncementForm /> },
         {
           path: 'mymenupage',
           element: (

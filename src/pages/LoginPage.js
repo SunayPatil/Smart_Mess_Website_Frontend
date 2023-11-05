@@ -1,7 +1,8 @@
 import { useEffect,useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { gapi } from 'gapi-script';
-import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
+import { GoogleLogin, GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
+import GoogleButton from 'react-google-button';
 import { Spin } from 'antd';
 // @mui
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -17,6 +18,7 @@ import { LoginForm } from '../sections/auth/login';
 import clientId from '../constants/client-id';
 import { Signin, handleNotification } from '../utils/apis';
 
+
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled('div')(({ theme }) => ({
@@ -27,7 +29,7 @@ const StyledRoot = styled('div')(({ theme }) => ({
 
 const StyledSection = styled('div')(({ theme }) => ({
   width: '100%',
-  maxWidth: 480,
+  maxWidth: 780,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -138,11 +140,19 @@ export default function LoginPage() {
             </StyledSection>
           )}
 
+          
+{!mdUp && (
+           <><Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
+                Hi, Welcome to Bhoopali Mess
+              </Typography>
+              <img src="/assets/illustrations/mess.webp" alt="login" /></>
+              
+            
+          )}
+
           <Container maxWidth="sm">
             <StyledContent>
-              <Typography variant="h4" gutterBottom>
-                Sign in using Google
-              </Typography>
+           
 
               <Stack direction="row" justifyContent="center" spacing={2}>
                 {/* <Button fullWidth size="large" color="inherit" variant="outlined">
@@ -152,14 +162,20 @@ export default function LoginPage() {
                 {/* <Button fullWidth size="large" color="inherit" variant="outlined">
                   <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={22} height={22} />
                 </Button> */}
-              </Stack>
+             
 
               {/* <Button className="Button-login" onClick={googlelogin}>
                 <div className="login-btn">SIGN IN</div>
               </Button> */}
-              <Button onClick={googlelogin} fullWidth size="large" color="inherit" variant="outlined">
+
+           
+              <GoogleButton
+   onClick={googlelogin}
+/>
+</Stack>
+              {/* <Button fullWidth size="large" color="inherit" variant="outlined">
                 <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
-              </Button>
+              </Button> */}
 
               {/* <Divider sx={{ my: 3 }}>
                 <Typography variant="body2" sx={{ color: 'text.secondary' }}>
