@@ -6,7 +6,7 @@ import { Card, Collapse, Spin } from 'antd';
 
 import { Container, Grid, Typography } from '@mui/material';
 
-import { getDashTimeTable } from '../utils/apis';
+import { getDashTimeTable, getFoodItemRating } from '../utils/apis';
 
 const { Meta } = Card;
 
@@ -27,6 +27,7 @@ const MyMenuPage = () => {
   const [saturdayData, setSaturdayData] = useState([]);
   const [sundayData, setSundayData] = useState([]);
   const [defActiveKey, setDefActiveKey] = useState(0);
+  const [itemRating, setItemRatings] = useState([]);
 
   const [ser, setSer] = useState('');
 
@@ -53,6 +54,7 @@ const MyMenuPage = () => {
     }
   }
 
+
   useEffect(() => {
     getMealTime();
     const interval = setInterval(() => {
@@ -65,7 +67,7 @@ const MyMenuPage = () => {
   const [allData, setAllData] = useState([])
 
   const navigate = useNavigate();
-  const handleCardPress = ()=>{
+  const handleCardPress = () => {
     navigate("/dashboard/ratings")
   }
 
@@ -73,11 +75,12 @@ const MyMenuPage = () => {
 
     setLoading(true);
     const res = await getDashTimeTable();
-
+    const ratings = await getFoodItemRating();
     if (res?.length) {
       setAllData(res)
     }
-
+    console.log(ratings);
+    setItemRatings(ratings);
     setTimeTableData(res);
     setLoading(false);
   };
@@ -126,27 +129,31 @@ const MyMenuPage = () => {
       children: (
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu
-            ?.Breakfast?.Items?.map((item, index) => (
-              <Grid item xs={2} sm={2} md={2} lg={2} key={index}>
-                <Card
-                  onClick={handleCardPress}
-                  bordered
-                  style={{
-                    width: "100%",
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <Meta title={item.Name} />
-                </Card>
-              </Grid>
-            ))}
+            ?.Breakfast?.Items?.map((item, index) => {
+              const rating = itemRating.filter((ele) => item._id === ele.FoodItem)[0].Rating.toPrecision(2);
+              return (
+                <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                  <Card
+                    onClick={handleCardPress}
+                    bordered
+                    style={{
+                      width: "100%",
+                    }}
+                    cover={
+                      <img
+                        style={{ height: '160px', objectFit: 'cover' }}
+                        alt="example"
+                        src={item.Image}
+                        loading="lazy"
+                      />
+                    }
+                  >
+                    {rating !== undefined ? <Meta title={`${item.Name}(${rating}/5)`} /> : <Meta title={item.Name} />}
+
+                  </Card>
+                </Grid>
+              )
+            })}
         </Grid>
       ),
     },
@@ -158,7 +165,7 @@ const MyMenuPage = () => {
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu
             ?.Lunch?.Items?.map((item, index) => (
-              <Grid item xs={2} sm={2} md={2} lg={2} key={index}>
+              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
                 <Card
                   onClick={handleCardPress}
                   bordered
@@ -174,7 +181,7 @@ const MyMenuPage = () => {
                     />
                   }
                 >
-                  <Meta title={item.Name} />
+                  <Meta title={`${item.Name}(${item.Rating})`} />
                 </Card>
               </Grid>
             ))}
@@ -188,7 +195,7 @@ const MyMenuPage = () => {
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu
             ?.Snacks?.Items?.map((item, index) => (
-              <Grid item xs={2} sm={2} md={2} lg={2} key={index}>
+              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
                 <Card
                   onClick={handleCardPress}
                   bordered
@@ -204,7 +211,7 @@ const MyMenuPage = () => {
                     />
                   }
                 >
-                  <Meta title={item.Name} />
+                  <Meta title={`${item.Name}(${item.Rating})`} />
                 </Card>
               </Grid>
             ))}
@@ -215,12 +222,12 @@ const MyMenuPage = () => {
       key: '4',
       label: 'Dinner',
       children: (
-        <Grid container  spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
+        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu
             ?.Dinner?.Items?.map((item, index) => (
-              <Grid item xs={2} sm={2} md={2} lg={2} key={index}>
+              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
                 <Card
-                  onClick={handleCardPress} 
+                  onClick={handleCardPress}
                   bordered
                   style={{
                     width: "100%",
@@ -234,7 +241,7 @@ const MyMenuPage = () => {
                     />
                   }
                 >
-                  <Meta title={item.Name} />
+                  <Meta title={`${item.Name}(${item.Rating})`} />
                 </Card>
               </Grid>
             ))}
@@ -243,7 +250,7 @@ const MyMenuPage = () => {
     },
   ];
   console.log(defActiveKey);
-  
+
   return (
     <>
       <Container maxWidth="xl">
@@ -251,7 +258,7 @@ const MyMenuPage = () => {
           Today's Menu
         </Typography>
         <Spin spinning={loading} size="medium">
-          {defActiveKey && <Collapse defaultActiveKey={defActiveKey } size="large" items={items} />}
+          {defActiveKey && <Collapse defaultActiveKey={defActiveKey} size="large" items={items} />}
         </Spin>
       </Container>
     </>
