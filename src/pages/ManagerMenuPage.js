@@ -2,7 +2,7 @@ import React,{useEffect,useState} from 'react';
 
 import { Card, Col, Collapse, Divider, Row, Spin } from 'antd';
 
-import { Button, Container, Grid, Typography } from '@mui/material';
+import { Button, Container, Grid, Typography,Stack } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { experimentalStyled as styled } from '@mui/material/styles';
 
@@ -743,12 +743,16 @@ const items = [
 ];
   return( 
     <>
-        <Typography variant="h3" sx={{ mb: 1 }}>
-            Menu 
-        </Typography> 
+        <Container>
+            <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+              <Typography variant="h4" gutterBottom>
+                Menu
+              </Typography>
+            </Stack>
         <Spin spinning={loading} size='medium'>
         <Collapse defaultActiveKey={today} size='large' items={items} />
         </Spin>
+        </Container>
     </>
   )
 };
