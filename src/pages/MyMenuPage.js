@@ -24,7 +24,7 @@ const MyMenuPage = () => {
   const [fridayData, setFridayData] = useState([]);
   const [saturdayData, setSaturdayData] = useState([]);
   const [sundayData, setSundayData] = useState([]);
-  
+
   console.log(mondayData);
   const breakfastArr = mondayData.filter((day) => {
     return day.Type === 'Breakfast';
@@ -69,7 +69,7 @@ const MyMenuPage = () => {
         }
       });
     }
-
+    console.log(res);
     setTimeTableData(res);
     setLoading(false);
   };
@@ -1038,14 +1038,14 @@ const MyMenuPage = () => {
   ];
   return (
     <>
-    <Container maxWidth="xl">
+      <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
           Menu
         </Typography>
-      <Spin spinning={loading} size="medium">
-        <Collapse defaultActiveKey={today} size="large" items={items} />
-      </Spin>
-    </Container>
+        <Spin spinning={loading} size="medium">
+          <Collapse defaultActiveKey={today} size="large" items={items} />
+        </Spin>
+      </Container>
     </>
   );
 };
