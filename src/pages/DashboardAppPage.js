@@ -130,7 +130,7 @@ const MyMenuPage = () => {
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu
             ?.Breakfast?.Items?.map((item, index) => {
-              const rating = itemRating.filter((ele) => item?._id === ele?.FoodItem)[0]?.Rating.toPrecision(2);
+              const rating = itemRating.filter((ele) => item._id === ele.FoodItem)[0]?.Rating.toPrecision(2);
               return (
                 <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
                   <Card
@@ -143,7 +143,7 @@ const MyMenuPage = () => {
                       <img
                         style={{ height: '160px', objectFit: 'cover' }}
                         alt="example"
-                        src={item?.Image}
+                        src={item.Image}
                         loading="lazy"
                       />
                     }
@@ -165,7 +165,7 @@ const MyMenuPage = () => {
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu
             ?.Lunch?.Items?.map((item, index) => {
-              const rating = itemRating.filter((ele) => item?._id === ele?.FoodItem)[0]?.Rating.toPrecision(2);
+              const rating = itemRating.filter((ele) => item._id === ele.FoodItem)[0]?.Rating.toPrecision(2);
               return (
                 <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
                   <Card
@@ -178,7 +178,7 @@ const MyMenuPage = () => {
                       <img
                         style={{ height: '160px', objectFit: 'cover' }}
                         alt="example"
-                        src={item?.Image}
+                        src={item.Image}
                         loading="lazy"
                       />
                     }
@@ -198,7 +198,7 @@ const MyMenuPage = () => {
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu
             ?.Snacks?.Items?.map((item, index) => {
-              const rating = itemRating.filter((ele) => item?._id === ele?.FoodItem)[0]?.Rating.toPrecision(2);
+              const rating = itemRating.filter((ele) => item._id === ele.FoodItem)[0]?.Rating.toPrecision(2);
               return (
                 <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
                   <Card
@@ -211,7 +211,7 @@ const MyMenuPage = () => {
                       <img
                         style={{ height: '160px', objectFit: 'cover' }}
                         alt="example"
-                        src={item?.Image}
+                        src={item.Image}
                         loading="lazy"
                       />
                     }
@@ -232,7 +232,7 @@ const MyMenuPage = () => {
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu
             ?.Dinner?.Items?.map((item, index) => {
-              const rating = itemRating.filter((ele) => item?._id === ele?.FoodItem)[0]?.Rating.toPrecision(2);
+              const rating = itemRating.filter((ele) => item._id === ele.FoodItem)[0]?.Rating.toPrecision(2);
               return (
                 <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
                   <Card
@@ -245,7 +245,7 @@ const MyMenuPage = () => {
                       <img
                         style={{ height: '160px', objectFit: 'cover' }}
                         alt="example"
-                        src={item?.Image}
+                        src={item.Image}
                         loading="lazy"
                       />
                     }
