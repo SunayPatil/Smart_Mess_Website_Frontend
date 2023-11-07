@@ -143,7 +143,7 @@ const MyMenuPage = () => {
                       <img
                         style={{ height: '160px', objectFit: 'cover' }}
                         alt="example"
-                        src={item.Image}
+                        src={item?.Image}
                         loading="lazy"
                       />
                     }
@@ -178,7 +178,7 @@ const MyMenuPage = () => {
                       <img
                         style={{ height: '160px', objectFit: 'cover' }}
                         alt="example"
-                        src={item.Image}
+                        src={item?.Image}
                         loading="lazy"
                       />
                     }
@@ -211,7 +211,7 @@ const MyMenuPage = () => {
                       <img
                         style={{ height: '160px', objectFit: 'cover' }}
                         alt="example"
-                        src={item.Image}
+                        src={item?.Image}
                         loading="lazy"
                       />
                     }
@@ -245,7 +245,7 @@ const MyMenuPage = () => {
                       <img
                         style={{ height: '160px', objectFit: 'cover' }}
                         alt="example"
-                        src={item.Image}
+                        src={item?.Image}
                         loading="lazy"
                       />
                     }
