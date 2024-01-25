@@ -100,10 +100,11 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
+
                     />
                   }
                 >
@@ -132,7 +133,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -164,7 +165,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -196,7 +197,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -231,7 +232,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -263,7 +264,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -295,7 +296,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -327,7 +328,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -362,7 +363,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -394,7 +395,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -426,7 +427,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -458,7 +459,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -493,7 +494,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -525,7 +526,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -557,7 +558,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -589,7 +590,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -624,7 +625,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -656,7 +657,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -688,7 +689,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -720,7 +721,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -755,7 +756,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -787,7 +788,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -819,7 +820,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -851,7 +852,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -886,7 +887,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -918,7 +919,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -950,7 +951,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"
@@ -982,7 +983,7 @@ const MyMenuPage = () => {
                   }}
                   cover={
                     <img
-                      style={{ height: '160px', objectFit: 'contain' }}
+                      style={{ height: '160px', objectFit: 'cover' }}
                       alt="example"
                       src={item?.Image}
                       loading="lazy"

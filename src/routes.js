@@ -19,6 +19,7 @@ import ApiContext from './Context/apiContext';
 import ManagerDashboard from './pages/ManagerDashboard';
 import ManagerMenuPage from './pages/ManagerMenuPage';
 import AnnouncementForm from './pages/Announcement';
+import Suggestions from './pages/user/Suggestions';
 
 const MyMenuPage = lazy(() => import('./pages/MyMenuPage'));
 const RatingsPage = lazy(() => import('./pages/RatingsPage'));
@@ -71,6 +72,7 @@ export default function Router() {
         },
         { path: 'managermenupage', element: <ManagerMenuPage /> },
         { path: 'summary', element: <ManagerDashboard /> },
+        { path: 'suggestions', element: <Suggestions /> },
       ],
     },
     {

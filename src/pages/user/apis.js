@@ -1,0 +1,19 @@
+import axios from 'axios';
+
+const token = localStorage.getItem('token');
+const REACT_SERVER_URL = process.env.REACT_APP_SERVER_URL;
+const authToken = `Bearer ${token}`;
+
+export const voteSuggestion = async (data) => {
+  try {
+    const res = axios.patch(`${REACT_SERVER_URL}/user/dashboard/suggestion`, data, {
+      headers: {
+        Authorization: authToken,
+      },
+    });
+    return res;
+  } catch (err) {
+    const mute = err;
+    return null;
+  }
+};
