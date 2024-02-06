@@ -1,11 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Typography} from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import SuggestionCard from './Suggestions/SuggestionCards';
 import './index.css';
 import UserActionsList from './Suggestions/UserActionList';
+import { getAllSuggestions } from './apis';
+import CustomError from '../CustomErrorMessage';
 
 const Suggestions = () => {
+  const [suggestions, setSuggestions] = useState([]);
+
+  const fetchAllSuggestions = useCallback(async () => {
+    const res = await getAllSuggestions();
+    setSuggestions(res.data.suggestions);
+  }, []);
+
+  useEffect(() => {
+    let mount = true;
+    if (mount === true) {
+      fetchAllSuggestions();
+    }
+    return () => {
+      mount = false;
+    };
+  }, [fetchAllSuggestions]);
+
   return (
     <>
       <Container maxWidth="xl">
@@ -27,20 +46,24 @@ const Suggestions = () => {
               flexWrap: 'wrap',
               gap: '10px',
               flexDirection: 'row',
-              justifyContent: 'space-between',
-              maxHeight: '100vh',
+              justifyContent: 'flex-start',
+              alignContent: 'flex-start',
+              maxHeight: '94vh',
+              height: '94vh',
               overflow: 'scroll',
             }}
             className="hideScrollBar"
           >
-            <SuggestionCard />
-            <SuggestionCard />
-            <SuggestionCard />
-            <SuggestionCard />
-            <SuggestionCard />
-            <SuggestionCard />
+            {suggestions &&
+              suggestions.map((ele) => {
+                return <SuggestionCard suggestions={ele} key={ele._id}/>;
+              })}
+            {!suggestions && <CustomError>No Suggestion</CustomError>}
           </Container>
-          <Container sx={{ flex: 2 }}>
+          <Container
+            sx={{ flex: 2, maxHeight: '94vh', height: '94vh', overflow: 'scroll' }}
+            className="hideScrollBar"
+          >
             <UserActionsList />
           </Container>
         </Container>

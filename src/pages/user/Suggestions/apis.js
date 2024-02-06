@@ -23,6 +23,7 @@ export const postUserSuggestion = async (data) => {
     const res = await axios.post(`${REACT_SERVER_URL}/user/profile/suggestion`, data, {
       headers: {
         Authorization: authToken,
+        'Content-Type': 'multipart/form-data'
       },
     });
     return res;

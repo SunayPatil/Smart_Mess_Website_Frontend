@@ -12,10 +12,26 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import SuggestionForm from './SuggestionForm';
 import SuggestionCard from './SuggestionCards';
+import { getUserSuggestion } from './apis';
 
 export default function UserActionsList() {
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openView, setOpenView] = React.useState(false);
+  const [suggestions, setSuggestions] = React.useState([]);
+  const fetchUserSuggestions = React.useCallback(async () => {
+    const res = await getUserSuggestion();
+    setSuggestions(res.data.suggestions);
+  }, []);
+
+  React.useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      fetchUserSuggestions();
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [fetchUserSuggestions]);
 
   return (
     <List
@@ -91,7 +107,9 @@ export default function UserActionsList() {
             padding: '20px',
           }}
         >
-          <SuggestionCard />
+          {suggestions.map((ele) => {
+            return <SuggestionCard suggestions={ele} disable key={ele._id} />;
+          })}
         </Paper>
       </Collapse>
     </List>

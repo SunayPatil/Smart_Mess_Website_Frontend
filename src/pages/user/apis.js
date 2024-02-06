@@ -17,3 +17,17 @@ export const voteSuggestion = async (data) => {
     return null;
   }
 };
+
+export const getAllSuggestions = async () => {
+  try {
+    const res = axios.get(`${REACT_SERVER_URL}/user/dashboard/allSuggestions`, {
+      headers: {
+        Authorization: authToken,
+      },
+    });
+    return res;
+  } catch (err) {
+    const mute = err;
+    return null;
+  }
+};
