@@ -30,4 +30,6 @@ export const getAllSuggestions = async () => {
     const mute = err;
     return null;
   }
+
+  
 };
