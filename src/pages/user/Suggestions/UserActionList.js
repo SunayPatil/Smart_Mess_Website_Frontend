@@ -13,6 +13,7 @@ import Divider from '@mui/material/Divider';
 import SuggestionForm from './SuggestionForm';
 import SuggestionCard from './SuggestionCards';
 import { getUserSuggestion } from './apis';
+import { SocketContext } from '../../../Context/socket';
 
 export default function UserActionsList() {
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -22,6 +23,7 @@ export default function UserActionsList() {
     const res = await getUserSuggestion();
     setSuggestions(res.data.suggestions);
   }, []);
+  const socket = React.useContext(SocketContext);
 
   React.useEffect(() => {
     let mounted = true;
@@ -32,6 +34,32 @@ export default function UserActionsList() {
       mounted = false;
     };
   }, [fetchUserSuggestions]);
+
+  React.useEffect(() => {
+    let mount = true;
+    if (mount) {
+      socket.on('vote-update', (vote) => {
+        // console.log(vote);
+        setSuggestions((suggestions) => {
+          return suggestions.map((ele) => {
+            if (ele._id === vote._id) {
+              ele.downvotes = vote.downvotes;
+              ele.upvotes = vote.upvotes;
+              // console.log(ele);
+              return ele;
+            }
+            // console.log(ele);
+            return ele;
+          });
+        });
+        // console.log(suggestions);
+      });
+    }
+    return () => {
+      mount = false;
+      // socket.off();
+    };
+  }, [socket]);
 
   return (
     <List

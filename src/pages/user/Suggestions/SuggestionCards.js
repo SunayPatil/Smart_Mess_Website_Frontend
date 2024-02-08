@@ -30,7 +30,11 @@ export default function SuggestionCard(props) {
   const [expanded, setExpanded] = React.useState(false);
   const [upvotes, setUpvotes] = React.useState(props?.suggestions?.upvotes);
   const [downvotes, setDownvotes] = React.useState(props?.suggestions?.downvotes);
+  const setVote = props?.setVote;
   const disable = props?.disable;
+  if (disable===true) {
+    console.log(props?.suggestions);
+  }
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -39,9 +43,8 @@ export default function SuggestionCard(props) {
     const res = await voteSuggestion({ upvote: isUpvote, suggestionId });
     setUpvotes(res.data.upvotes);
     setDownvotes(res.data.downvotes);
+    setVote(res.data);
   };
-
-  console.log(props.suggestions?.upvotes?.length);
 
   return (
     <Card
@@ -68,7 +71,7 @@ export default function SuggestionCard(props) {
       )}
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {props?.suggestions?.suggestion.substring(0, Math.min(100, props?.suggestions?.suggestion?.length))}
+          {props?.suggestions?.suggestion?.substring(0, Math.min(100, props?.suggestions?.suggestion?.length))}
           {props?.suggestions?.suggestion?.length > 100 && <>...</>}
         </Typography>
       </CardContent>
