@@ -134,9 +134,9 @@ export default function RatingsPage() {
       res.forEach((allDaysItems) => {
         if (allDaysItems.Day === today) {
           allDaysItems.Items.forEach((foodItem) => {
-            if (!ids.has(foodItem._id)) {
+            if (!ids.has(foodItem?._id)) {
               todayItems.push(foodItem);
-              ids.add(foodItem._id);
+              ids.add(foodItem?._id);
             }
           });
         }
@@ -189,7 +189,7 @@ export default function RatingsPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = todaysItems.map((n) => n.MenuItem);
+      const newSelecteds = todaysItems?.map((n) => n.MenuItem);
       setSelected(newSelecteds);
       return;
     }
@@ -241,7 +241,7 @@ export default function RatingsPage() {
   const handleSubmitFoodReview = async () => {
     if (currentlyRating.value !== -1) {
       setLoading(true);
-      await giveRatingToFoodItem(currentlyRating.id, currentlyRating.value);
+      await giveRatingToFoodItem(currentlyRating?.id, currentlyRating?.value);
       await submitFoodReview(currentlyRating);
       await getRatedFoodItemVals();
       await getAllRatingsData();
@@ -307,7 +307,7 @@ export default function RatingsPage() {
                         <TableBody>
                           {todaysItems.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((row) => {
                             // console.log(row)
-                            const currRating = todaysItemsRatings.filter((ele) => ele.FoodItem === row._id);
+                            const currRating = todaysItemsRatings?.filter((ele) => ele?.FoodItem === row?._id);
                             // console.log(currRating);
                             const { _id, Name, Image } = row;
                             const selectedUser = selected.indexOf(MenuItem) !== -1;
@@ -325,10 +325,10 @@ export default function RatingsPage() {
                                 </TableCell>
 
                                 <TableCell align="left">
-                                  {ratedFoodItems.filter((e) => e.foodId === _id).length > 0 ? (
+                                  {ratedFoodItems?.filter((e) => e?.foodId === _id)?.length > 0 ? (
                                     <Rate
                                       style={{ fontSize: 'medium' }}
-                                      value={ratedFoodItems.filter((e) => e.foodId === _id)[0].rating}
+                                      value={ratedFoodItems?.filter((e) => e?.foodId === _id)[0]?.rating}
                                       disabled
                                     />
                                   ) : (
@@ -340,9 +340,9 @@ export default function RatingsPage() {
                                 </TableCell>
 
                                 <TableCell align="left">
-                                  {ratedFoodItems.filter((e) => e.foodId === _id).length > 0 ? (
+                                  {ratedFoodItems?.filter((e) => e?.foodId === _id)?.length > 0 ? (
                                     <Input
-                                      value={ratedFoodItems.filter((e) => e.foodId === _id)[0].comments}
+                                      value={ratedFoodItems?.filter((e) => e?.foodId === _id)[0]?.comments}
                                       disabled
                                     />
                                   ) : (
@@ -351,7 +351,7 @@ export default function RatingsPage() {
                                         onChange={(e) => {
                                           setCurrentlyRating({
                                             id: _id,
-                                            value: currentlyRating.value,
+                                            value: currentlyRating?.value,
                                             comments: e.target.value,
                                           });
                                         }}
