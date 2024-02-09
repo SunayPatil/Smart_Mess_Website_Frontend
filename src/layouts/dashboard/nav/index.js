@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
@@ -19,7 +19,6 @@ import navConfig from './config';
 
 const NAV_WIDTH = 280;
 
-
 const StyledAccount = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -37,27 +36,26 @@ Nav.propTypes = {
 
 export default function Nav({ openNav, onCloseNav }) {
   const { pathname } = useLocation();
-  const [user, setUser] = useState({})
-  const [navSectionData, setNavSectionData] = useState([])
-  const getUser = async()=>{
-    let user = await localStorage.getItem("user")
-    user = await JSON.parse(user)
-    setUser(user)
-    console.log(user)
-    const filterNavData = navConfig.filter((item)=>{
-      return item.role === user.Role || item.role === "all";
-    })
-    setNavSectionData(filterNavData)
+  const [user, setUser] = useState({});
+  const [navSectionData, setNavSectionData] = useState([]);
+  const getUser = async () => {
+    let user = await localStorage.getItem('user');
+    user = await JSON.parse(user);
+    setUser(user);
+    // console.log(user)
+    const filterNavData = navConfig.filter((item) => {
+      return item.role === user.Role || item.role === 'all';
+    });
+    setNavSectionData(filterNavData);
     // setNavSectionData(navConfig)
-
-  }
-  useEffect(()=>{
+  };
+  useEffect(() => {
     try {
-      getUser()
+      getUser();
     } catch (error) {
-      console.log("error")
+      console.log('error');
     }
-  }, [])
+  }, []);
   const isDesktop = useResponsive('up', 'lg');
 
   useEffect(() => {

@@ -34,18 +34,18 @@ const Main = styled('div')(({ theme }) => ({
 
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
-  const getUser = async()=>{
-    let user = await localStorage.getItem("user")
-    user = await JSON.parse(user)
-    console.log(user)
-  }
-  useEffect(()=>{
+  const getUser = async () => {
+    let user = await localStorage.getItem('user');
+    user = await JSON.parse(user);
+    // console.log(user)
+  };
+  useEffect(() => {
     try {
-      getUser()
+      getUser();
     } catch (error) {
-      console.log("error")
+      console.log('error');
     }
-  }, [])
+  }, []);
   return (
     <StyledRoot>
       <Header onOpenNav={() => setOpen(true)} />
