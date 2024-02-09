@@ -3,28 +3,29 @@ import { filter } from 'lodash';
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 // @mui
-import {
-  Card,
-  Table,
-  Stack,
-  Paper,
-  Avatar,
-  Button,
-  TableRow,
-  MenuItem,
-  TableBody,
-  TableCell,
-  Container,
-  Typography,
-  TableContainer,
-  TablePagination,
-  Alert,
-  Snackbar,
-} from '@mui/material';
+import Card from '@mui/material/Card';
+import Table from '@mui/material/Table';
+import Stack from '@mui/material/Stack';
+import Paper from '@mui/material/Paper';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import TableRow from '@mui/material/TableRow';
+import MenuItem from '@mui/material/MenuItem';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import TableContainer from '@mui/material/TableContainer';
+import TablePagination from '@mui/material/TablePagination';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 import { Rate, Spin, Input } from 'antd';
 import { ToastContainer, toast } from 'react-toastify';
 
 // components
+import MobileRatings from '../components/Ratings/RatingsMobile';
 import Scrollbar from '../components/scrollbar';
 // sections
 import { UserListHead } from '../sections/@dashboard/user';
@@ -78,6 +79,8 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function RatingsPage() {
+  const laptop = useMediaQuery('(min-width:1024px)');
+  const tablet = useMediaQuery('(max-width: 1024px)');
   const [user, setUser] = useState({});
   const getUser = async () => {
     let user = localStorage.getItem('user');
@@ -88,7 +91,7 @@ export default function RatingsPage() {
     try {
       getUser();
     } catch (error) {
-      // console.log("error")
+      const mute = error;
     }
   }, []);
   const date = new Date();
@@ -275,7 +278,7 @@ export default function RatingsPage() {
       {user?.Role === 'user' && (
         <>
           <Helmet>
-            <title> User | Minimal UI </title>
+            <title> Ratings </title>
           </Helmet>
 
           <Container>
@@ -288,117 +291,124 @@ export default function RatingsPage() {
             <Card>
               <Scrollbar>
                 <Spin spinning={loading} size="medium">
-                  <TableContainer sx={{ minWidth: 800 }}>
-                    <Table>
-                      <UserListHead
-                        order={order}
-                        orderBy={orderBy}
-                        headLabel={TABLE_HEAD}
-                        rowCount={todaysItems.length}
-                        numSelected={selected.length}
-                        onRequestSort={handleRequestSort}
-                        onSelectAllClick={handleSelectAllClick}
-                      />
+                  {laptop && (
+                    <TableContainer sx={{ minWidth: 800 }}>
+                      <Table>
+                        <UserListHead
+                          order={order}
+                          orderBy={orderBy}
+                          headLabel={TABLE_HEAD}
+                          rowCount={todaysItems.length}
+                          numSelected={selected.length}
+                          onRequestSort={handleRequestSort}
+                          onSelectAllClick={handleSelectAllClick}
+                        />
 
-                      <TableBody>
-                        {todaysItems.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((row) => {
-                          // console.log(row)
-                          const currRating = todaysItemsRatings.filter((ele) => ele.FoodItem === row._id);
-                          // console.log(currRating);
-                          const { _id, Name, Image } = row;
-                          const selectedUser = selected.indexOf(MenuItem) !== -1;
-                          return (
-                            <TableRow hover key={_id} tabIndex={-1} MealTime="checkbox" selected={selectedUser}>
-                              <TableCell padding="checkbox" />
+                        <TableBody>
+                          {todaysItems.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map((row) => {
+                            // console.log(row)
+                            const currRating = todaysItemsRatings.filter((ele) => ele.FoodItem === row._id);
+                            // console.log(currRating);
+                            const { _id, Name, Image } = row;
+                            const selectedUser = selected.indexOf(MenuItem) !== -1;
+                            return (
+                              <TableRow hover key={_id} tabIndex={-1} MealTime="checkbox" selected={selectedUser}>
+                                <TableCell padding="checkbox" />
 
-                              <TableCell component="th" scope="row" padding="none">
-                                <Stack direction="row" alignItems="center" spacing={2}>
-                                  <Avatar alt={MenuItem} src={Image} />
-                                  <Typography variant="subtitle2" noWrap>
-                                    {Name}
-                                  </Typography>
-                                </Stack>
-                              </TableCell>
+                                <TableCell component="th" scope="row" padding="none">
+                                  <Stack direction="row" alignItems="center" spacing={2}>
+                                    <Avatar alt={MenuItem} src={Image} />
+                                    <Typography variant="subtitle2" noWrap>
+                                      {Name}
+                                    </Typography>
+                                  </Stack>
+                                </TableCell>
 
-                              <TableCell align="left">
-                                {ratedFoodItems.filter((e) => e.foodId === _id).length > 0 ? (
-                                  <Rate
-                                    style={{ fontSize: 'medium' }}
-                                    value={ratedFoodItems.filter((e) => e.foodId === _id)[0].rating}
-                                    disabled
-                                  />
-                                ) : (
-                                  <Rate
-                                    style={{ fontSize: '15px' }}
-                                    onChange={(value) => handleRatingChange(value, _id)}
-                                  />
-                                )}
-                              </TableCell>
-
-                              <TableCell align="left">
-                                {ratedFoodItems.filter((e) => e.foodId === _id).length > 0 ? (
-                                  <Input value={ratedFoodItems.filter((e) => e.foodId === _id)[0].comments} disabled />
-                                ) : (
-                                  <div>
-                                    <Input
-                                      onChange={(e) => {
-                                        setCurrentlyRating({
-                                          id: _id,
-                                          value: currentlyRating.value,
-                                          comments: e.target.value,
-                                        });
-                                      }}
+                                <TableCell align="left">
+                                  {ratedFoodItems.filter((e) => e.foodId === _id).length > 0 ? (
+                                    <Rate
+                                      style={{ fontSize: 'medium' }}
+                                      value={ratedFoodItems.filter((e) => e.foodId === _id)[0].rating}
+                                      disabled
                                     />
-                                    <Button onClick={handleSubmitFoodReview}>Submit</Button>
-                                  </div>
-                                )}
-                              </TableCell>
+                                  ) : (
+                                    <Rate
+                                      style={{ fontSize: '15px' }}
+                                      onChange={(value) => handleRatingChange(value, _id)}
+                                    />
+                                  )}
+                                </TableCell>
 
-                              <TableCell align="left" component="th" scope="row" padding="none">
-                                {currRating.length > 0 ? currRating[0].Rating?.toFixed(2) : '-'}/5.00
+                                <TableCell align="left">
+                                  {ratedFoodItems.filter((e) => e.foodId === _id).length > 0 ? (
+                                    <Input
+                                      value={ratedFoodItems.filter((e) => e.foodId === _id)[0].comments}
+                                      disabled
+                                    />
+                                  ) : (
+                                    <div>
+                                      <Input
+                                        onChange={(e) => {
+                                          setCurrentlyRating({
+                                            id: _id,
+                                            value: currentlyRating.value,
+                                            comments: e.target.value,
+                                          });
+                                        }}
+                                      />
+                                      <Button onClick={handleSubmitFoodReview}>Submit</Button>
+                                    </div>
+                                  )}
+                                </TableCell>
+
+                                <TableCell align="left" component="th" scope="row" padding="none">
+                                  {currRating.length > 0 ? currRating[0].Rating?.toFixed(2) : '-'}/5.00
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })}
+                        </TableBody>
+
+                        {isNotFound && (
+                          <TableBody>
+                            <TableRow>
+                              <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                                <Paper
+                                  sx={{
+                                    textAlign: 'center',
+                                  }}
+                                >
+                                  <Typography variant="h6" paragraph>
+                                    Not found
+                                  </Typography>
+
+                                  <Typography variant="body2">
+                                    No results found for &nbsp;
+                                    <strong>&quot;{filterMenuItem}&quot;</strong>.
+                                    <br /> Try checking for typos or using complete words.
+                                  </Typography>
+                                </Paper>
                               </TableCell>
                             </TableRow>
-                          );
-                        })}
-                      </TableBody>
-
-                      {isNotFound && (
-                        <TableBody>
-                          <TableRow>
-                            <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                              <Paper
-                                sx={{
-                                  textAlign: 'center',
-                                }}
-                              >
-                                <Typography variant="h6" paragraph>
-                                  Not found
-                                </Typography>
-
-                                <Typography variant="body2">
-                                  No results found for &nbsp;
-                                  <strong>&quot;{filterMenuItem}&quot;</strong>.
-                                  <br /> Try checking for typos or using complete words.
-                                </Typography>
-                              </Paper>
-                            </TableCell>
-                          </TableRow>
-                        </TableBody>
-                      )}
-                    </Table>
-                  </TableContainer>
+                          </TableBody>
+                        )}
+                      </Table>
+                    </TableContainer>
+                  )}
                 </Spin>
               </Scrollbar>
-
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={todaysItems.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              />
+              {laptop && (
+                <TablePagination
+                  rowsPerPageOptions={[5, 10, 25]}
+                  component="div"
+                  count={todaysItems.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              )}
+              {tablet && <MobileRatings timetable={timeTableData} ratings={todaysItemsRatings}/>}
             </Card>
           </Container>
         </>
