@@ -197,17 +197,12 @@ function NotificationItem({ notification }) {
 // ----------------------------------------------------------------------
 
 function renderContent(notification) {
-  const title = (
-    <Typography variant="subtitle2">
-      {notification.title}
-      {/* <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
-        &nbsp; {noCase(notification.description)}
-      </Typography> */}
-    </Typography>
-  );
+  const createdAtDate = new Date(notification.createdAt);
+
+  const title = <Typography variant="subtitle2">{notification.title}</Typography>;
 
   return {
-    // avatar: null,
     title,
+    createdAt: createdAtDate,
   };
 }

@@ -27,7 +27,6 @@ const ApiState = (props) => {
         item.isUnRead = !item.read;
       });
       setNotifications(response);
-      console.log('response', response);
     } catch (error) {
       console.log(error);
     }
