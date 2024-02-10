@@ -24,7 +24,7 @@ import { getFoodReviews } from '../../utils/apis';
 const uniqueIDs = (itemsArray) => {
   const uniqId = new Set();
   itemsArray.forEach((item) => {
-    uniqId.add(item._id);
+    uniqId.add(item?._id);
   });
   return uniqId;
 };
@@ -37,7 +37,7 @@ const uniqueIDs = (itemsArray) => {
  */
 const filterRatings = (ratings, uniqIds) => {
   const filteredRatings = ratings.filter((ele) => {
-    if (uniqIds.has(ele.FoodItem)) {
+    if (uniqIds.has(ele?.FoodItem)) {
       return true;
     }
     return false;
@@ -54,7 +54,7 @@ const filterRatings = (ratings, uniqIds) => {
 const getItem = (id, items) => {
   if (items?.length > 0) {
     const currItem = items?.filter((ele) => {
-      if (ele._id === id) {
+      if (ele?._id === id) {
         return true;
       }
       return false;
@@ -190,7 +190,7 @@ const FoodCard = (props) => {
       >
         <FormControl required>
           <Rating
-            value={ratedItem ? ratedItem.rating : rating}
+            value={ratedItem ? ratedItem?.rating : rating}
             name="rating"
             onChange={(event, newValue) => {
               setRating(newValue);
@@ -205,14 +205,14 @@ const FoodCard = (props) => {
             maxRows="5"
             minRows="5"
             name="comments"
-            value={ratedItem ? ratedItem.comments : comments}
+            value={ratedItem ? ratedItem?.comments : comments}
             onChange={(e) => {
               setComments(e.target.value);
             }}
             disabled={ratedItem}
           />
         </FormControl>
-        <Button type="submit">Submit</Button>
+        {!ratedItem && <Button type="submit">Submit</Button>}
       </form>
     </Card>
   );
@@ -236,9 +236,9 @@ const MobileRatings = (props) => {
     if (mount) {
       getRatedFoodItems();
     }
-    return ()=>{
-      mount=false;
-    }
+    return () => {
+      mount = false;
+    };
   }, [getRatedFoodItems]);
   return (
     <Container
@@ -265,7 +265,7 @@ const MobileRatings = (props) => {
         {filteredRatings.map((ele) => {
           const item = getItem(ele?.FoodItem, allFoodItems);
           let ratedItem = ratedFoodItems.filter((e) => {
-            return e.foodId === ele.FoodItem;
+            return e?.foodId === ele?.FoodItem;
           });
           if (ratedItem?.length > 0) {
             ratedItem = ratedItem[0];
@@ -273,10 +273,26 @@ const MobileRatings = (props) => {
             ratedItem = null;
           }
           if (filterString === '') {
-            return <FoodCard item={item} ratings={ele} setRatedFoodItems={setRatedFoodItems} ratedItem={ratedItem} />;
+            return (
+              <FoodCard
+                item={item}
+                ratings={ele}
+                setRatedFoodItems={setRatedFoodItems}
+                ratedItem={ratedItem}
+                key={ele?.FoodItem}
+              />
+            );
           }
           if (filterString !== '' && item?.Name?.toLowerCase().includes(filterString.toLowerCase())) {
-            return <FoodCard item={item} ratings={ele} setRatedFoodItems={setRatedFoodItems} ratedItem={ratedItem} />;
+            return (
+              <FoodCard
+                item={item}
+                ratings={ele}
+                setRatedFoodItems={setRatedFoodItems}
+                ratedItem={ratedItem}
+                key={ele?.FoodItem}
+              />
+            );
           }
           return null;
         })}

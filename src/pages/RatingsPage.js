@@ -50,10 +50,10 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 
 function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
+  if (b?.orderBy < a?.orderBy) {
     return -1;
   }
-  if (b[orderBy] > a[orderBy]) {
+  if (b?.orderBy > a?.orderBy) {
     return 1;
   }
   return 0;
@@ -408,7 +408,7 @@ export default function RatingsPage() {
                   onRowsPerPageChange={handleChangeRowsPerPage}
                 />
               )}
-              {tablet && <MobileRatings timetable={timeTableData} ratings={todaysItemsRatings}/>}
+              {tablet && <MobileRatings timetable={timeTableData} ratings={todaysItemsRatings} />}
             </Card>
           </Container>
         </>
