@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { Container, TextField, Button, Typography } from '@mui/material';
 import { Navigate } from 'react-router-dom';
-import { addFeedbackForm } from '../utils/apis';
+import { addAnnouncementForm } from '../utils/apis';
 
 function AnnouncementForm() {
   const [title, setTitle] = useState('');
   const [user, setUser] = useState({});
   const [description, setDescription] = useState('');
+  const [link, setLink] = useState('');
 
   useEffect(() => {
     getUser();
   }, []);
 
   const handleSubmit = () => {
-    addFeedbackForm({ title, description }).then((res) => {
+    addAnnouncementForm({ title, description, link }).then((res) => {
       console.log(res);
     });
   };
 
   const getUser = async () => {
-    let user = await localStorage.getItem('user');
+    let user = localStorage.getItem('user');
     user = await JSON.parse(user);
     setUser(user);
   };
@@ -52,6 +53,16 @@ function AnnouncementForm() {
               rows={4}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              sx={{ marginBottom: 2 }}
+            />
+
+            <TextField
+              label="link"
+              variant="outlined"
+              fullWidth
+              rows={4}
+              value={link}
+              onChange={(e) => setLink(e.target.value)}
               sx={{ marginBottom: 2 }}
             />
             <Button variant="contained" color="primary" onClick={handleSubmit}>
