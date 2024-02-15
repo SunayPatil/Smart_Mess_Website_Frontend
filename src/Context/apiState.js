@@ -26,7 +26,17 @@ const ApiState = (props) => {
         item.createdAt = item.Date;
         item.isUnRead = !item.read;
       });
-      setNotifications(response);
+
+      const userJSON = localStorage.getItem('user');
+      let filteredResponse = response;
+
+      if (userJSON) {
+        const user = JSON.parse(userJSON);
+        if (user.Role === 'manager') {
+          filteredResponse = response.filter((item) => item.type !== 'feedback');
+        }
+      }
+      setNotifications(filteredResponse);
     } catch (error) {
       console.log(error);
     }

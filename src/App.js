@@ -26,7 +26,7 @@ export default function App() {
           </BrowserRouter>
         </HelmetProvider>
       </ApiState>
-      <ToastContainer position="top-right" autoClose={2000} limit={2} />
+      <ToastContainer position="top-center" autoClose={2000} hideProgressBar={false} limit={2} />
     </GoogleOAuthProvider>
   );
 }

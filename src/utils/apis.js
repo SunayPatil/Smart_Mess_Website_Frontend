@@ -246,9 +246,16 @@ const addFeedbackForm = async (data) => {
     // Log specific properties or values from the response and data objects
     console.log('Response Status:', response.status);
     console.log('Data:', data);
+    if (response.status === 200) {
+      toast.success('Feedback form added successfully');
+    }
+    if (response.status === 400) {
+      toast.error('Error adding feedback form');
+    }
 
     return response;
   } catch (err) {
+    toast.error('Error adding feedback form');
     console.log(err);
   }
   return null;
@@ -269,9 +276,15 @@ const addAnnouncementForm = async (data) => {
     // Log specific properties or values from the response and data objects
     console.log('Response Status:', response.status);
     console.log('Data:', data);
-
+    if (response.status === 200) {
+      toast.success('Announcement added successfully');
+    }
+    if (response.status === 400) {
+      toast.error('Error adding announcement');
+    }
     return response;
   } catch (err) {
+    toast.error('Error adding announcement');
     console.log(err);
   }
   return null;
