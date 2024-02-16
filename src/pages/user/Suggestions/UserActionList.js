@@ -19,19 +19,21 @@ export default function UserActionsList() {
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openView, setOpenView] = React.useState(false);
   const [suggestions, setSuggestions] = React.useState([]);
+  const socket = React.useContext(SocketContext);
+
   const deleteSuggestion = async (suggestionId) => {
-    await deleteUserSuggestion({ suggestionId });
+    const res = await deleteUserSuggestion({ suggestionId });
     setSuggestions((suggestions) => {
       return suggestions.filter((ele) => {
         return ele._id != suggestionId;
       });
     });
+    socket.emit('delete-suggestion', res.data.deletedSuggestion);
   };
   const fetchUserSuggestions = React.useCallback(async () => {
     const res = await getUserSuggestion();
     setSuggestions(res.data.suggestions);
   }, []);
-  const socket = React.useContext(SocketContext);
 
   React.useEffect(() => {
     let mounted = true;
@@ -43,24 +45,27 @@ export default function UserActionsList() {
     };
   }, [fetchUserSuggestions]);
 
+  
+  const socket_ChangeVote = React.useCallback((vote) => {
+    setSuggestions((suggestions) => {
+      return suggestions.map((ele) => {
+        if (ele._id === vote._id) {
+          ele.downvotes = vote.downvotes;
+          ele.upvotes = vote.upvotes;
+          // console.log(ele);
+          return ele;
+        }
+        // console.log(ele);
+        return ele;
+      });
+    });
+  }, []);
+
   React.useEffect(() => {
     let mount = true;
     if (mount) {
       socket.on('vote-update', (vote) => {
-        // console.log(vote);
-        setSuggestions((suggestions) => {
-          return suggestions.map((ele) => {
-            if (ele._id === vote._id) {
-              ele.downvotes = vote.downvotes;
-              ele.upvotes = vote.upvotes;
-              // console.log(ele);
-              return ele;
-            }
-            // console.log(ele);
-            return ele;
-          });
-        });
-        // console.log(suggestions);
+        socket_ChangeVote(vote);
       });
     }
     return () => {
@@ -146,11 +151,12 @@ export default function UserActionsList() {
             alignItems: 'center',
           }}
         >
-          {suggestions && suggestions.map((ele) => {
-            return (
-              <SuggestionCard suggestions={ele} disable key={ele._id} canDelete deleteSuggestion={deleteSuggestion} />
-            );
-          })}
+          {suggestions &&
+            suggestions.map((ele) => {
+              return (
+                <SuggestionCard suggestions={ele} disable key={ele._id} canDelete deleteSuggestion={deleteSuggestion} />
+              );
+            })}
         </Paper>
       </Collapse>
     </List>

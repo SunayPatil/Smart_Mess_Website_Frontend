@@ -17,6 +17,16 @@ const Suggestions = () => {
   const socket = useContext(SocketContext);
   // Vote Logic
   const [vote, setVote] = useState(null);
+
+  const socket_RemoveSuggestion = React.useCallback((deletedSuggestion) => {
+    // console.log({ deletedSuggestion });
+    setSuggestions((suggestions) => {
+      return suggestions.filter((ele) => {
+        return ele._id != deletedSuggestion._id;
+      });
+    });
+  }, []);
+
   useEffect(() => {
     let mount = true;
     if (mount) {
@@ -37,6 +47,9 @@ const Suggestions = () => {
         socket.emit('vote-cast', vote);
         setVote(null);
       }
+      socket.on('delete-suggestion', (deletedSuggestion) => {
+        socket_RemoveSuggestion(deletedSuggestion);
+      });
     }
     return () => {
       mount = false;
