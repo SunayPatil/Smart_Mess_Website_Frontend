@@ -48,6 +48,9 @@ export default function UserActionsList() {
   
   const socket_ChangeVote = React.useCallback((vote) => {
     setSuggestions((suggestions) => {
+      if(!suggestions){
+        return null;
+      }
       return suggestions.map((ele) => {
         if (ele._id === vote._id) {
           ele.downvotes = vote.downvotes;

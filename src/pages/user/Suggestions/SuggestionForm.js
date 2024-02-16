@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
@@ -10,6 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { v4 as uuid } from 'uuid';
 import { postUserSuggestion } from './apis';
 import { toast } from 'react-toastify';
+import { SocketContext } from 'src/Context/socket';
 
 const SuggestionForm = () => {
   const [suggestion, setSuggestion] = useState({
@@ -18,6 +19,8 @@ const SuggestionForm = () => {
     image: null,
     suggestionType: '',
   });
+
+  const socket = useContext(SocketContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,6 +40,8 @@ const SuggestionForm = () => {
         image: null,
         suggestionType: '',
       }));
+      document.getElementById("image").value=null;
+      socket.emit('new-post');
     } else {
       toast.error('Some Error Occured');
     }
@@ -120,7 +125,6 @@ const SuggestionForm = () => {
           aria-describedby="image"
           type="file"
           accept="image/png"
-          value={suggestion.image}
           onChange={(e) => {
             setSuggestion({ ...suggestion, image: e.target.files[0] });
           }}

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Container, Typography } from '@mui/material';
+import { useLinkClickHandler, useNavigate } from 'react-router-dom';
+import { Chip, Container, Typography } from '@mui/material';
 import { SocketContext } from '../../Context/socket';
 import SuggestionCard from './Suggestions/SuggestionCards';
 import './index.css';
@@ -8,6 +8,7 @@ import UserActionsList from './Suggestions/UserActionList';
 import { getAllSuggestions } from './apis';
 import CustomError from '../CustomErrorMessage';
 import Filter from './Suggestions/Filter';
+import { Autorenew, TourRounded } from '@mui/icons-material';
 
 // const socket = io.connect(process.env.REACT_APP_SOCKET_URL);
 
@@ -17,8 +18,23 @@ const Suggestions = () => {
   const socket = useContext(SocketContext);
   // Vote Logic
   const [vote, setVote] = useState(null);
+  const [updates, setUpdates] = useState(false);
 
-  const socket_RemoveSuggestion = React.useCallback((deletedSuggestion) => {
+  const socket_ChangeVote = useCallback((vote) => {
+    // console.log(vote);
+    setSuggestions((suggestions) => {
+      return suggestions.map((ele) => {
+        if (ele._id === vote._id) {
+          ele.downvotes = vote.downvotes;
+          ele.upvotes = vote.upvotes;
+          return ele;
+        }
+        return ele;
+      });
+    });
+  }, []);
+
+  const socket_RemoveSuggestion = useCallback((deletedSuggestion) => {
     // console.log({ deletedSuggestion });
     setSuggestions((suggestions) => {
       return suggestions.filter((ele) => {
@@ -31,17 +47,7 @@ const Suggestions = () => {
     let mount = true;
     if (mount) {
       socket.on('vote-update', (vote) => {
-        // console.log(vote);
-        setSuggestions((suggestions) => {
-          return suggestions.map((ele) => {
-            if (ele._id === vote._id) {
-              ele.downvotes = vote.downvotes;
-              ele.upvotes = vote.upvotes;
-              return ele;
-            }
-            return ele;
-          });
-        });
+        socket_ChangeVote(vote);
       });
       if (vote !== null) {
         socket.emit('vote-cast', vote);
@@ -49,6 +55,9 @@ const Suggestions = () => {
       }
       socket.on('delete-suggestion', (deletedSuggestion) => {
         socket_RemoveSuggestion(deletedSuggestion);
+      });
+      socket.on('new-post', () => {
+        setUpdates(true);
       });
     }
     return () => {
@@ -59,7 +68,7 @@ const Suggestions = () => {
 
   const fetchAllSuggestions = useCallback(async () => {
     const res = await getAllSuggestions();
-    console.log(res.data.suggestions);
+    // console.log({fetchedSuggestions:res.data.suggestions});
     setSuggestions(res.data.suggestions);
   }, []);
 
@@ -77,7 +86,12 @@ const Suggestions = () => {
 
   return (
     <>
-      <Container maxWidth="xl">
+      <Container
+        maxWidth="xl"
+        sx={{
+          position: 'relative',
+        }}
+      >
         <Typography variant="h4" gutterBottom>
           Suggestions
         </Typography>
@@ -106,14 +120,44 @@ const Suggestions = () => {
               maxHeight: '94vh',
               height: '94vh',
               overflow: 'scroll',
+              position:'relative'
             }}
             className="hideScrollBar"
           >
+            {updates && (
+              <div
+                style={{
+                  width: '100%',
+                  position: 'absolute',
+                  top: '2%',
+                  zIndex: '10',
+                  display:"flex",
+                  justifyContent:"center"
+                }}
+              >
+                <Chip
+                  sx={{
+                    position: 'relative',
+                    margin: 'auto',
+                    height:"auto",
+                    padding:"3px"
+                  }}
+                  variant="filled"
+                  component="button"
+                  color="primary"
+                  onClick={() => {
+                    fetchAllSuggestions();
+                    setUpdates(false);
+                  }}
+                  label={<Typography variant="h6">New Updates</Typography>}
+                />
+              </div>
+            )}
             {suggestions &&
               suggestions.map((ele) => {
                 return <SuggestionCard suggestions={ele} key={ele._id} setVote={setVote} />;
               })}
-            {!suggestions && <CustomError>No Suggestion</CustomError>}
+            {(!suggestions || suggestions.length===0) && <CustomError>No Suggestion</CustomError>}
           </Container>
           <Container sx={{ flex: 2, maxHeight: '94vh', height: '94vh', overflow: 'scroll' }} className="hideScrollBar">
             <UserActionsList />
