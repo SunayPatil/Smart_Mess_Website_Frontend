@@ -45,30 +45,11 @@ export default function UserActionsList() {
     };
   }, [fetchUserSuggestions]);
 
-  
-  const socket_ChangeVote = React.useCallback((vote) => {
-    setSuggestions((suggestions) => {
-      if(!suggestions){
-        return null;
-      }
-      return suggestions.map((ele) => {
-        if (ele._id === vote._id) {
-          ele.downvotes = vote.downvotes;
-          ele.upvotes = vote.upvotes;
-          // console.log(ele);
-          return ele;
-        }
-        // console.log(ele);
-        return ele;
-      });
-    });
-  }, []);
-
   React.useEffect(() => {
     let mount = true;
     if (mount) {
-      socket.on('vote-update', (vote) => {
-        socket_ChangeVote(vote);
+      socket.on('new-post', () => {
+        fetchUserSuggestions();
       });
     }
     return () => {
