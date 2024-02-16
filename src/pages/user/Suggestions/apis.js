@@ -29,7 +29,8 @@ export const postUserSuggestion = async (data) => {
     return res;
   } catch (err) {
     const mute = err;
-    return null;
+    // console.log(mute);
+    return mute.response;
   }
 };
 

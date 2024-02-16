@@ -7,11 +7,13 @@ import './index.css';
 import UserActionsList from './Suggestions/UserActionList';
 import { getAllSuggestions } from './apis';
 import CustomError from '../CustomErrorMessage';
+import Filter from './Suggestions/Filter';
 
 // const socket = io.connect(process.env.REACT_APP_SOCKET_URL);
 
 const Suggestions = () => {
   const [suggestions, setSuggestions] = useState([]);
+  const [typeFilter, setTypeFilter] = useState('');
   const socket = useContext(SocketContext);
   // Vote Logic
   const [vote, setVote] = useState(null);
@@ -58,23 +60,30 @@ const Suggestions = () => {
     };
   }, [fetchAllSuggestions]);
 
+  // TODO:Add filter option for the manager
+
   return (
     <>
       <Container maxWidth="xl">
         <Typography variant="h4" gutterBottom>
           Suggestions
         </Typography>
+        {/*
+        // TODO: Here is the filter component make the UI/UX more user friendly
+        */}
+        {/* <Filter typeFilter={typeFilter} setTypeFilter={setTypeFilter} /> */}
         <Container
           sx={{
             display: 'flex',
             margin: '0',
             width: '100%',
+            // flexDirection: 'column',
           }}
           maxWidth="xl"
         >
           <Container
             sx={{
-              flex: 5,
+              flex: 4,
               display: 'flex',
               flexWrap: 'wrap',
               gap: '10px',

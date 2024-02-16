@@ -14,13 +14,13 @@ const navConfig = [
   },
   {
     title: 'Menu',
-    path: '/dashboard/mymenupage',
+    path: '/dashboard/menuPage',
     icon: icon('ic_menu'),
     role: "user",
   },
   {
     title: 'Menu',
-    path: '/dashboard/managermenupage',
+    path: '/dashboard/menuPage',
     icon: icon('ic_menu'),
     role: "manager",
   },

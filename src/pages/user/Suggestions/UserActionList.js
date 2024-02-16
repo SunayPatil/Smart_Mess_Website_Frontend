@@ -12,13 +12,21 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import SuggestionForm from './SuggestionForm';
 import SuggestionCard from './SuggestionCards';
-import { getUserSuggestion } from './apis';
+import { deleteUserSuggestion, getUserSuggestion } from './apis';
 import { SocketContext } from '../../../Context/socket';
 
 export default function UserActionsList() {
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openView, setOpenView] = React.useState(false);
   const [suggestions, setSuggestions] = React.useState([]);
+  const deleteSuggestion = async (suggestionId) => {
+    await deleteUserSuggestion({ suggestionId });
+    setSuggestions((suggestions) => {
+      return suggestions.filter((ele) => {
+        return ele._id != suggestionId;
+      });
+    });
+  };
   const fetchUserSuggestions = React.useCallback(async () => {
     const res = await getUserSuggestion();
     setSuggestions(res.data.suggestions);
@@ -133,10 +141,15 @@ export default function UserActionsList() {
           elevation={3}
           sx={{
             padding: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
-          {suggestions.map((ele) => {
-            return <SuggestionCard suggestions={ele} disable key={ele._id} />;
+          {suggestions && suggestions.map((ele) => {
+            return (
+              <SuggestionCard suggestions={ele} disable key={ele._id} canDelete deleteSuggestion={deleteSuggestion} />
+            );
           })}
         </Paper>
       </Collapse>

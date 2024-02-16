@@ -14,6 +14,7 @@ import { red, green } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import dayjs from 'dayjs';
 import { voteSuggestion } from '../apis';
+import Delete from '@mui/icons-material/Delete';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -30,11 +31,7 @@ export default function SuggestionCard(props) {
   const [expanded, setExpanded] = React.useState(false);
   const [upvotes, setUpvotes] = React.useState(props?.suggestions?.upvotes);
   const [downvotes, setDownvotes] = React.useState(props?.suggestions?.downvotes);
-  const setVote = props?.setVote;
-  const disable = props?.disable;
-  if (disable===true) {
-    console.log(props?.suggestions);
-  }
+  const { setVote, disable, canDelete, deleteSuggestion } = props;
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -49,14 +46,40 @@ export default function SuggestionCard(props) {
   return (
     <Card
       sx={{
-        width: '85%',
+        width: '95%',
       }}
     >
-      <CardHeader
-        avatar={<Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={`${props?.suggestions?.userId?.Image}`} />}
-        title={props?.suggestions?.suggestionTitle}
-        subheader={dayjs(props?.suggestions?.createdAt).format('DD/MMM/YYYY, ddd')}
-      />
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '10px',
+        }}
+      >
+        <CardHeader
+          avatar={
+            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={`${props?.suggestions?.userId?.Image}`} />
+          }
+          title={props?.suggestions?.suggestionTitle}
+          subheader={dayjs(props?.suggestions?.createdAt).format('DD/MMM/YYYY, ddd')}
+          sx={{
+            padding: '10px',
+          }}
+        />
+        {canDelete && (
+          <Button
+            color="error"
+            variant="outlined"
+            onClick={() => {
+              deleteSuggestion(props?.suggestions?._id);
+            }}
+          >
+            <Delete />
+          </Button>
+        )}
+      </div>
       {props.suggestions?.image !== 'null' && (
         <CardMedia
           component="img"

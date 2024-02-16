@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Input from '@mui/material/Input';
@@ -9,6 +9,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { v4 as uuid } from 'uuid';
 import { postUserSuggestion } from './apis';
+import { toast } from 'react-toastify';
 
 const SuggestionForm = () => {
   const [suggestion, setSuggestion] = useState({
@@ -26,17 +27,24 @@ const SuggestionForm = () => {
     formData.append('suggestion', suggestion.suggestion);
     formData.append('suggestionId', uuid());
     formData.append('image', suggestion.image);
-    await postUserSuggestion(formData);
-    setSuggestion({
-      title: '',
-      suggestion: '',
-      image: null,
-      suggestionType: '',
-    })
+    const res = await postUserSuggestion(formData);
+    if (res.status === 200) {
+      toast.success('Post Successful');
+      setSuggestion((suggestion) => ({
+        ...suggestion,
+        title: '',
+        suggestion: '',
+        image: null,
+        suggestionType: '',
+      }));
+    } else {
+      toast.error('Some Error Occured');
+    }
   };
 
   return (
     <form
+      id="suggestionForm"
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -75,6 +83,7 @@ const SuggestionForm = () => {
           placeholder="Title"
           required
           variant="outlined"
+          value={suggestion?.title}
           onChange={(e) => {
             setSuggestion({ ...suggestion, title: e.target.value });
           }}
@@ -94,6 +103,7 @@ const SuggestionForm = () => {
           multiline
           minRows="10"
           maxRows="15"
+          value={suggestion?.suggestion}
           onChange={(e) => {
             setSuggestion({ ...suggestion, suggestion: e.target.value });
           }}
@@ -110,6 +120,7 @@ const SuggestionForm = () => {
           aria-describedby="image"
           type="file"
           accept="image/png"
+          value={suggestion.image}
           onChange={(e) => {
             setSuggestion({ ...suggestion, image: e.target.files[0] });
           }}
