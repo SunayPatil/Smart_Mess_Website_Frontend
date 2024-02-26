@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { isValidElement, useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import {
   Container,
@@ -12,6 +12,7 @@ import {
   FormControl,
   useMediaQuery,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { allItems, filterTimeTable } from '../../utils/filterTimeTable';
 import { getFoodReviews } from '../../utils/apis';
@@ -104,7 +105,7 @@ const Search = (props) => {
 };
 
 const FoodCard = (props) => {
-  const { setRatedFoodItems, ratedItem } = props;
+  const { setRatedFoodItems, ratedItem, isReturn, navigate } = props;
   const [rating, setRating] = useState(parseInt(props?.ratings?.Rating, 10));
   const [comments, setComments] = useState('');
   const isLargeMobile = useMediaQuery('(max-width:450px)');
@@ -142,6 +143,9 @@ const FoodCard = (props) => {
         setRatedFoodItems(res);
       }
       res = res.data;
+      if (isReturn) {
+        navigate('/dashboard/app');
+      }
     } catch (err) {
       const mute = err;
       console.log(mute);
@@ -220,6 +224,13 @@ const FoodCard = (props) => {
 
 const MobileRatings = (props) => {
   const { timetable, ratings } = props;
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(window.location.search);
+  const isHidden = searchParams.has('hidden');
+  const isValue = searchParams.has('value');
+  const hidden = isHidden;
+  const value = isValue ? searchParams.get('value') : null;
+  // console.log({ hidden, value });
   const allFoodItems = allItems(filterTimeTable(timetable));
   const uniqIds = uniqueIDs(allFoodItems);
   const filteredRatings = filterRatings(ratings, uniqIds);
@@ -235,6 +246,9 @@ const MobileRatings = (props) => {
     let mount = true;
     if (mount) {
       getRatedFoodItems();
+      if (hidden) {
+        setFilterString(value);
+      }
     }
     return () => {
       mount = false;
@@ -280,17 +294,34 @@ const MobileRatings = (props) => {
                 setRatedFoodItems={setRatedFoodItems}
                 ratedItem={ratedItem}
                 key={ele?.FoodItem}
+                isReturn={hidden}
+                navigate={navigate}
               />
             );
           }
-          if (filterString !== '' && item?.Name?.toLowerCase().includes(filterString.toLowerCase())) {
+          if (!hidden && filterString !== '' && item?.Name?.toLowerCase().includes(filterString.toLowerCase())) {
             return (
               <FoodCard
                 item={item}
                 ratings={ele}
                 setRatedFoodItems={setRatedFoodItems}
                 ratedItem={ratedItem}
+                isReturn={hidden}
                 key={ele?.FoodItem}
+                navigate={navigate}
+              />
+            );
+          }
+          if (hidden && filterString !== '' && item?.Name?.toLowerCase() === filterString.toLowerCase()) {
+            return (
+              <FoodCard
+                item={item}
+                ratings={ele}
+                setRatedFoodItems={setRatedFoodItems}
+                ratedItem={ratedItem}
+                isReturn={hidden}
+                key={ele?.FoodItem}
+                navigate={navigate}
               />
             );
           }
