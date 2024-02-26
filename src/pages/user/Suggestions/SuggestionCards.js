@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
+import {  useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
+import ArrowCircleUpSharpIcon from '@mui/icons-material/ArrowCircleUpSharp';
+import ArrowCircleDownSharpIcon from '@mui/icons-material/ArrowCircleDownSharp';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
@@ -35,16 +38,21 @@ export default function SuggestionCard(props) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
+ const navigate = useNavigate();
   const handleClick = async (isUpvote, suggestionId) => {
     const res = await voteSuggestion({ upvote: isUpvote, suggestionId });
     setUpvotes(res.data.upvotes);
     setDownvotes(res.data.downvotes);
     setVote(res.data);
   };
-
+  const handleCardClick = () => {
+    navigate(props?.suggestions?._id);
+  };
+  
   return (
+ 
     <Card
+    onClick={handleCardClick}
       sx={{
         width: '95%',
       }}
@@ -69,6 +77,7 @@ export default function SuggestionCard(props) {
           }}
         />
         {canDelete && (
+
           <Button
             color="error"
             variant="outlined"
@@ -77,7 +86,7 @@ export default function SuggestionCard(props) {
             }}
           >
             <Delete />
-          </Button>
+          </Button>                  
         )}
       </div>
       {props.suggestions?.image !== 'null' && (
@@ -98,6 +107,7 @@ export default function SuggestionCard(props) {
           {props?.suggestions?.suggestion?.length > 100 && <>...</>}
         </Typography>
       </CardContent>
+      {!canDelete && (
       <CardActions disableSpacing>
         <Button
           sx={{ color: green[700] }}
@@ -111,7 +121,7 @@ export default function SuggestionCard(props) {
               fontSize: '30px',
             }}
           >
-            &#128523;
+            <ArrowCircleUpSharpIcon />
           </span>
           : {upvotes?.length}
         </Button>
@@ -130,7 +140,7 @@ export default function SuggestionCard(props) {
               fontSize: '30px',
             }}
           >
-            &#129314;
+         <ArrowCircleDownSharpIcon />
           </span>
           : {downvotes?.length}
         </Button>
@@ -140,6 +150,15 @@ export default function SuggestionCard(props) {
           </ExpandMore>
         )}
       </CardActions>
+      )}
+      {canDelete && (
+        <Button
+        style={{margin: "10px"}}
+        color="success"
+         variant='outlined'>
+          Mark as Resolved
+        </Button>
+      )}
       {props?.suggestions?.suggestion?.length > 100 && (
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
@@ -148,5 +167,6 @@ export default function SuggestionCard(props) {
         </Collapse>
       )}
     </Card>
+
   );
 }

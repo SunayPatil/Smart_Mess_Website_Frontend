@@ -20,6 +20,7 @@ import ManagerDashboard from './pages/ManagerDashboard';
 import ManagerMenuPage from './pages/ManagerMenuPage';
 import AnnouncementForm from './pages/Announcement';
 import Suggestions from './pages/user/Suggestions';
+import SuggestionComments from './pages/user/SuggestionComments';
 
 const MyMenuPage = lazy(() => import('./pages/MyMenuPage'));
 const RatingsPage = lazy(() => import('./pages/RatingsPage'));
@@ -73,7 +74,7 @@ export default function Router() {
         // { path: 'managermenupage', element: <ManagerMenuPage /> },
         { path: 'summary', element: <ManagerDashboard /> },
         { path: 'suggestions', element: <Suggestions /> },
-        { path: 'suggestions/comments', element: <Suggestions /> },
+        { path: 'suggestions/:suggestionId', element: <SuggestionComments /> },
       ],
     },
     {

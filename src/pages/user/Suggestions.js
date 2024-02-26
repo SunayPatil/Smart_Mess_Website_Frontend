@@ -7,13 +7,17 @@ import './index.css';
 import UserActionsList from './Suggestions/UserActionList';
 import { getAllSuggestions } from './apis';
 import CustomError from '../CustomErrorMessage';
+import { Button } from '@mui/material';
 import Filter from './Suggestions/Filter';
 import { Autorenew, TourRounded } from '@mui/icons-material';
 
 // const socket = io.connect(process.env.REACT_APP_SOCKET_URL);
 
 const Suggestions = () => {
+  const navigate = useNavigate();
   const [suggestions, setSuggestions] = useState([]);
+  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
+  const [statusFilter, setStatusFilter] = useState('open'); // Default to showing open suggestions
   const [typeFilter, setTypeFilter] = useState('');
   const socket = useContext(SocketContext);
   // Vote Logic
@@ -83,6 +87,15 @@ const Suggestions = () => {
   }, [fetchAllSuggestions]);
 
   // TODO:Add filter option for the manager
+  useEffect(() => {
+    // Whenever suggestions or statusFilter changes, filter suggestions
+    filterSuggestions(suggestions, statusFilter);
+  }, [suggestions, statusFilter]);
+
+  const filterSuggestions = (suggestions, status) => {
+    const filtered = suggestions.filter(suggestion => suggestion.status === status);
+    setFilteredSuggestions(filtered);
+  };
 
   return (
     <>
@@ -92,13 +105,23 @@ const Suggestions = () => {
           position: 'relative',
         }}
       >
+      <div style={{display:"flex", gap:"20px"}}>
         <Typography variant="h4" gutterBottom>
-          Suggestions
+          Issues
         </Typography>
         {/*
         // TODO: Here is the filter component make the UI/UX more user friendly
         */}
         {/* <Filter typeFilter={typeFilter} setTypeFilter={setTypeFilter} /> */}
+        <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '10px', marginBottom: '20px' }}>
+          <Button variant={statusFilter === 'open' ? 'contained' : 'outlined'} color="primary" onClick={() => setStatusFilter('open')}>
+            Open
+          </Button>
+          <Button variant={statusFilter === 'closed' ? 'contained' : 'outlined'} color="secondary" onClick={() => setStatusFilter('closed')}>
+            Closed
+          </Button>
+        </div>
+        </div>
         <Container
           sx={{
             display: 'flex',
@@ -153,11 +176,11 @@ const Suggestions = () => {
                 />
               </div>
             )}
-            {suggestions &&
-              suggestions.map((ele) => {
-                return <SuggestionCard suggestions={ele} key={ele._id} setVote={setVote} />;
+            {filteredSuggestions &&
+              filteredSuggestions.map((ele) => {
+                return <SuggestionCard suggestions={ele} key={ele._id} setVote={setVote}  />;
               })}
-            {(!suggestions || suggestions.length === 0) && <CustomError>No Suggestion</CustomError>}
+            {(!filteredSuggestions || filteredSuggestions.length === 0) && <CustomError>No Suggestions</CustomError>}
           </Container>
           <Container sx={{ flex: 2, maxHeight: '94vh', height: '94vh', overflow: 'scroll' }} className="hideScrollBar">
             <UserActionsList />
