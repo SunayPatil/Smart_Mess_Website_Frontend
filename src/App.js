@@ -7,6 +7,7 @@ import { SocketContext, socket } from './Context/socket';
 import Router from './routes';
 // theme
 import ThemeProvider from './theme';
+
 import ScrollToTop from './components/scroll-to-top';
 import clientId from './constants/client-id';
 import ApiState from './Context/apiState';

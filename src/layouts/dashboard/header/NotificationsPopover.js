@@ -149,6 +149,8 @@ function NotificationItem({ notification }) {
   const { markAsRead } = context;
   const navigate = useNavigate();
 
+  const user = localStorage.getItem('user');
+
   return (
     <ListItemButton
       sx={{
@@ -161,12 +163,18 @@ function NotificationItem({ notification }) {
       }}
       onClick={() => {
         if (notification.type === 'feedback') {
+          if (user.role === 'user') {
+            navigate('/dashboard/products');
+            localStorage.setItem('feedbackId', notification.id);
+          }
+          markAsRead(notification.id);
           // window.location.href = '/dashboard/products';
-          navigate('/dashboard/products');
-          localStorage.setItem('feedbackId', notification.id);
         } else {
           markAsRead(notification.id);
           console.log(notification.id, 'notification id');
+          if (notification.Attachment) {
+            window.open(notification.Attachment, '_blank');
+          }
         }
       }}
     >
@@ -197,17 +205,12 @@ function NotificationItem({ notification }) {
 // ----------------------------------------------------------------------
 
 function renderContent(notification) {
-  const title = (
-    <Typography variant="subtitle2">
-      {notification.title}
-      {/* <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
-        &nbsp; {noCase(notification.description)}
-      </Typography> */}
-    </Typography>
-  );
+  const createdAtDate = new Date(notification.createdAt);
+
+  const title = <Typography variant="subtitle2">{notification.title}</Typography>;
 
   return {
-    // avatar: null,
     title,
+    createdAt: createdAtDate,
   };
 }

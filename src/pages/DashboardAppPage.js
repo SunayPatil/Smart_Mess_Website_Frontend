@@ -19,13 +19,13 @@ const MyMenuPage = () => {
 
   const [timeTableData, setTimeTableData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [mondayData, setMondayData] = useState([]);
-  const [tuesdayData, setTuesdayData] = useState([]);
-  const [wednesdayData, setWednesdayData] = useState([]);
-  const [thursdayData, setThursdayData] = useState([]);
-  const [fridayData, setFridayData] = useState([]);
-  const [saturdayData, setSaturdayData] = useState([]);
-  const [sundayData, setSundayData] = useState([]);
+  // const [mondayData, setMondayData] = useState([]);
+  // const [tuesdayData, setTuesdayData] = useState([]);
+  // const [wednesdayData, setWednesdayData] = useState([]);
+  // const [thursdayData, setThursdayData] = useState([]);
+  // const [fridayData, setFridayData] = useState([]);
+  // const [saturdayData, setSaturdayData] = useState([]);
+  // const [sundayData, setSundayData] = useState([]);
   const [defActiveKey, setDefActiveKey] = useState(0);
   const [itemRating, setItemRatings] = useState([]);
 
@@ -66,8 +66,11 @@ const MyMenuPage = () => {
   const [allData, setAllData] = useState([]);
 
   const navigate = useNavigate();
-  const handleCardPress = () => {
-    if (localStorage.getItem('user').role !== 'manager') {
+  const handleCardPress = (value) => {
+    if (value) {
+      const urlEncode = encodeURI(`/dashboard/ratings?hidden=true&value=${value}`);
+      navigate(urlEncode);
+    } else {
       navigate('/dashboard/ratings');
     }
   };
@@ -79,7 +82,7 @@ const MyMenuPage = () => {
     if (res?.length) {
       setAllData(res);
     }
-    console.log(ratings);
+    // console.log(ratings);
     setItemRatings(ratings);
     setTimeTableData(res);
     setLoading(false);
@@ -120,7 +123,7 @@ const MyMenuPage = () => {
   };
 
   const currentDayMenu = getCurrentDayMenu();
-  console.log(currentDayMenu);
+  // console.log(currentDayMenu)
 
   const items = [
     {
@@ -133,7 +136,9 @@ const MyMenuPage = () => {
             return (
               <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
                 <Card
-                  onClick={handleCardPress}
+                  onClick={() => {
+                    handleCardPress(item?.Name);
+                  }}
                   bordered
                   style={{
                     width: '100%',
@@ -170,7 +175,9 @@ const MyMenuPage = () => {
             return (
               <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
                 <Card
-                  onClick={handleCardPress}
+                  onClick={() => {
+                    handleCardPress(item?.Name);
+                  }}
                   bordered
                   style={{
                     width: '100%',
@@ -206,7 +213,9 @@ const MyMenuPage = () => {
             return (
               <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
                 <Card
-                  onClick={handleCardPress}
+                  onClick={() => {
+                    handleCardPress(item?.Name);
+                  }}
                   bordered
                   style={{
                     width: '100%',
@@ -242,7 +251,9 @@ const MyMenuPage = () => {
             return (
               <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
                 <Card
-                  onClick={handleCardPress}
+                  onClick={() => {
+                    handleCardPress(item?.Name);
+                  }}
                   bordered
                   style={{
                     width: '100%',
@@ -269,7 +280,6 @@ const MyMenuPage = () => {
       ),
     },
   ];
-  console.log(defActiveKey);
 
   return (
     <>
