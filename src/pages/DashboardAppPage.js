@@ -66,8 +66,13 @@ const MyMenuPage = () => {
   const [allData, setAllData] = useState([]);
 
   const navigate = useNavigate();
-  const handleCardPress = () => {
-    navigate('/dashboard/ratings');
+  const handleCardPress = (value) => {
+    if (value) {
+      const urlEncode = encodeURI(`/dashboard/ratings?hidden=true&value=${value}`);
+      navigate(urlEncode);
+    } else {
+      navigate('/dashboard/ratings');
+    }
   };
 
   const getTimeTableData = async () => {
@@ -131,7 +136,9 @@ const MyMenuPage = () => {
             return (
               <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
                 <Card
-                  onClick={handleCardPress}
+                  onClick={() => {
+                    handleCardPress(item?.Name);
+                  }}
                   bordered
                   style={{
                     width: '100%',
@@ -168,7 +175,9 @@ const MyMenuPage = () => {
             return (
               <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
                 <Card
-                  onClick={handleCardPress}
+                  onClick={() => {
+                    handleCardPress(item?.Name);
+                  }}
                   bordered
                   style={{
                     width: '100%',
@@ -204,7 +213,9 @@ const MyMenuPage = () => {
             return (
               <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
                 <Card
-                  onClick={handleCardPress}
+                  onClick={() => {
+                    handleCardPress(item?.Name);
+                  }}
                   bordered
                   style={{
                     width: '100%',
@@ -240,7 +251,9 @@ const MyMenuPage = () => {
             return (
               <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
                 <Card
-                  onClick={handleCardPress}
+                  onClick={() => {
+                    handleCardPress(item?.Name);
+                  }}
                   bordered
                   style={{
                     width: '100%',

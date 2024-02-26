@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { isValidElement, useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import {
   Container,
@@ -12,6 +12,7 @@ import {
   FormControl,
   useMediaQuery,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { allItems, filterTimeTable } from '../../utils/filterTimeTable';
 import { getFoodReviews } from '../../utils/apis';
@@ -24,7 +25,7 @@ import { getFoodReviews } from '../../utils/apis';
 const uniqueIDs = (itemsArray) => {
   const uniqId = new Set();
   itemsArray.forEach((item) => {
-    uniqId.add(item._id);
+    uniqId.add(item?._id);
   });
   return uniqId;
 };
@@ -37,7 +38,7 @@ const uniqueIDs = (itemsArray) => {
  */
 const filterRatings = (ratings, uniqIds) => {
   const filteredRatings = ratings.filter((ele) => {
-    if (uniqIds.has(ele.FoodItem)) {
+    if (uniqIds.has(ele?.FoodItem)) {
       return true;
     }
     return false;
@@ -54,7 +55,7 @@ const filterRatings = (ratings, uniqIds) => {
 const getItem = (id, items) => {
   if (items?.length > 0) {
     const currItem = items?.filter((ele) => {
-      if (ele._id === id) {
+      if (ele?._id === id) {
         return true;
       }
       return false;
@@ -104,7 +105,7 @@ const Search = (props) => {
 };
 
 const FoodCard = (props) => {
-  const { setRatedFoodItems, ratedItem } = props;
+  const { setRatedFoodItems, ratedItem, isReturn, navigate } = props;
   const [rating, setRating] = useState(parseInt(props?.ratings?.Rating, 10));
   const [comments, setComments] = useState('');
   const isLargeMobile = useMediaQuery('(max-width:450px)');
@@ -142,6 +143,9 @@ const FoodCard = (props) => {
         setRatedFoodItems(res);
       }
       res = res.data;
+      if (isReturn) {
+        navigate('/dashboard/app');
+      }
     } catch (err) {
       const mute = err;
       console.log(mute);
@@ -159,6 +163,8 @@ const FoodCard = (props) => {
         padding: '10px',
         margin: '10px',
         gap: '5px',
+        border: `${!ratedItem?"1px solid lightgray":''}`,
+        height: '100%'
       }}
     >
       <CardMedia
@@ -190,7 +196,7 @@ const FoodCard = (props) => {
       >
         <FormControl required>
           <Rating
-            value={ratedItem ? ratedItem.rating : rating}
+            value={ratedItem ? ratedItem?.rating : rating}
             name="rating"
             onChange={(event, newValue) => {
               setRating(newValue);
@@ -205,14 +211,14 @@ const FoodCard = (props) => {
             maxRows="5"
             minRows="5"
             name="comments"
-            value={ratedItem ? ratedItem.comments : comments}
+            value={ratedItem ? ratedItem?.comments : comments}
             onChange={(e) => {
               setComments(e.target.value);
             }}
             disabled={ratedItem}
           />
         </FormControl>
-        <Button type="submit">Submit</Button>
+        {!ratedItem && <Button type="submit">Submit</Button>}
       </form>
     </Card>
   );
@@ -220,6 +226,13 @@ const FoodCard = (props) => {
 
 const MobileRatings = (props) => {
   const { timetable, ratings } = props;
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(window.location.search);
+  const isHidden = searchParams.has('hidden');
+  const isValue = searchParams.has('value');
+  const hidden = isHidden;
+  const value = isValue ? searchParams.get('value') : null;
+  // console.log({ hidden, value });
   const allFoodItems = allItems(filterTimeTable(timetable));
   const uniqIds = uniqueIDs(allFoodItems);
   const filteredRatings = filterRatings(ratings, uniqIds);
@@ -235,14 +248,17 @@ const MobileRatings = (props) => {
     let mount = true;
     if (mount) {
       getRatedFoodItems();
+      if (hidden) {
+        setFilterString(value);
+      }
     }
-    return ()=>{
-      mount=false;
-    }
+    return () => {
+      mount = false;
+    };
   }, [getRatedFoodItems]);
   return (
     <Container
-      maxWidth="lg"
+      maxWidth="xl"
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -259,13 +275,13 @@ const MobileRatings = (props) => {
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: !isLargeMobile ? 'space-between' : 'center',
-          alignItems: 'center',
+          alignItems: 'baseline',
         }}
       >
         {filteredRatings.map((ele) => {
           const item = getItem(ele?.FoodItem, allFoodItems);
           let ratedItem = ratedFoodItems.filter((e) => {
-            return e.foodId === ele.FoodItem;
+            return e?.foodId === ele?.FoodItem;
           });
           if (ratedItem?.length > 0) {
             ratedItem = ratedItem[0];
@@ -273,10 +289,43 @@ const MobileRatings = (props) => {
             ratedItem = null;
           }
           if (filterString === '') {
-            return <FoodCard item={item} ratings={ele} setRatedFoodItems={setRatedFoodItems} ratedItem={ratedItem} />;
+            return (
+              <FoodCard
+                item={item}
+                ratings={ele}
+                setRatedFoodItems={setRatedFoodItems}
+                ratedItem={ratedItem}
+                key={ele?.FoodItem}
+                isReturn={hidden}
+                navigate={navigate}
+              />
+            );
           }
-          if (filterString !== '' && item?.Name?.toLowerCase().includes(filterString.toLowerCase())) {
-            return <FoodCard item={item} ratings={ele} setRatedFoodItems={setRatedFoodItems} ratedItem={ratedItem} />;
+          if (!hidden && filterString !== '' && item?.Name?.toLowerCase().includes(filterString.toLowerCase())) {
+            return (
+              <FoodCard
+                item={item}
+                ratings={ele}
+                setRatedFoodItems={setRatedFoodItems}
+                ratedItem={ratedItem}
+                isReturn={hidden}
+                key={ele?.FoodItem}
+                navigate={navigate}
+              />
+            );
+          }
+          if (hidden && filterString !== '' && item?.Name?.toLowerCase() === filterString.toLowerCase()) {
+            return (
+              <FoodCard
+                item={item}
+                ratings={ele}
+                setRatedFoodItems={setRatedFoodItems}
+                ratedItem={ratedItem}
+                isReturn={hidden}
+                key={ele?.FoodItem}
+                navigate={navigate}
+              />
+            );
           }
           return null;
         })}

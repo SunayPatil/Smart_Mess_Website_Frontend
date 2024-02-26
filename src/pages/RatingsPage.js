@@ -50,10 +50,10 @@ const TABLE_HEAD = [
 // ----------------------------------------------------------------------
 
 function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
+  if (b?.orderBy < a?.orderBy) {
     return -1;
   }
-  if (b[orderBy] > a[orderBy]) {
+  if (b?.orderBy > a?.orderBy) {
     return 1;
   }
   return 0;
@@ -281,7 +281,7 @@ export default function RatingsPage() {
             <title> Ratings </title>
           </Helmet>
 
-          <Container>
+          <Container maxWidth="xl">
             <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
               <Typography variant="h4" gutterBottom>
                 Ratings
@@ -291,7 +291,9 @@ export default function RatingsPage() {
             <Card>
               <Scrollbar>
                 <Spin spinning={loading} size="medium">
-                  {laptop && (
+                  <MobileRatings timetable={timeTableData} ratings={todaysItemsRatings} />
+                  {/* {laptop && 
+                  (
                     <TableContainer sx={{ minWidth: 800 }}>
                       <Table>
                         <UserListHead
@@ -394,10 +396,10 @@ export default function RatingsPage() {
                         )}
                       </Table>
                     </TableContainer>
-                  )}
+                  )} */}
                 </Spin>
               </Scrollbar>
-              {laptop && (
+              {/* {laptop && (
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25]}
                   component="div"
@@ -407,8 +409,8 @@ export default function RatingsPage() {
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}
                 />
-              )}
-              {tablet && <MobileRatings timetable={timeTableData} ratings={todaysItemsRatings}/>}
+              )} */}
+              {/* {tablet && <MobileRatings timetable={timeTableData} ratings={todaysItemsRatings} />} */}
             </Card>
           </Container>
         </>

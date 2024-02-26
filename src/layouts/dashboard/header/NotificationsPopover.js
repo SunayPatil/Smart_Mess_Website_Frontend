@@ -149,6 +149,8 @@ function NotificationItem({ notification }) {
   const { markAsRead } = context;
   const navigate = useNavigate();
 
+  const user = localStorage.getItem('user');
+
   return (
     <ListItemButton
       sx={{
@@ -161,12 +163,18 @@ function NotificationItem({ notification }) {
       }}
       onClick={() => {
         if (notification.type === 'feedback') {
+          if (user.role === 'user') {
+            navigate('/dashboard/products');
+            localStorage.setItem('feedbackId', notification.id);
+          }
+          markAsRead(notification.id);
           // window.location.href = '/dashboard/products';
-          navigate('/dashboard/products');
-          localStorage.setItem('feedbackId', notification.id);
         } else {
           markAsRead(notification.id);
           console.log(notification.id, 'notification id');
+          if (notification.Attachment) {
+            window.open(notification.Attachment, '_blank');
+          }
         }
       }}
     >
