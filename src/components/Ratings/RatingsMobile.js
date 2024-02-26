@@ -163,6 +163,8 @@ const FoodCard = (props) => {
         padding: '10px',
         margin: '10px',
         gap: '5px',
+        border: `${!ratedItem?"1px solid lightgray":''}`,
+        height: '100%'
       }}
     >
       <CardMedia
@@ -256,7 +258,7 @@ const MobileRatings = (props) => {
   }, [getRatedFoodItems]);
   return (
     <Container
-      maxWidth="lg"
+      maxWidth="xl"
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -273,7 +275,7 @@ const MobileRatings = (props) => {
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: !isLargeMobile ? 'space-between' : 'center',
-          alignItems: 'center',
+          alignItems: 'baseline',
         }}
       >
         {filteredRatings.map((ele) => {
