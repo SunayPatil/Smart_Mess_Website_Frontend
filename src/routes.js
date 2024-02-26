@@ -73,6 +73,7 @@ export default function Router() {
         // { path: 'managermenupage', element: <ManagerMenuPage /> },
         { path: 'summary', element: <ManagerDashboard /> },
         { path: 'suggestions', element: <Suggestions /> },
+        { path: 'suggestions/comments', element: <Suggestions /> },
       ],
     },
     {

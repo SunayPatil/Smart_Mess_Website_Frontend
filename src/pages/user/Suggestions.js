@@ -68,7 +68,7 @@ const Suggestions = () => {
 
   const fetchAllSuggestions = useCallback(async () => {
     const res = await getAllSuggestions();
-    // console.log({fetchedSuggestions:res.data.suggestions});
+    console.log({ fetchedSuggestions: res.data.suggestions });
     setSuggestions(res.data.suggestions);
   }, []);
 
@@ -120,7 +120,7 @@ const Suggestions = () => {
               maxHeight: '94vh',
               height: '94vh',
               overflow: 'scroll',
-              position:'relative'
+              position: 'relative',
             }}
             className="hideScrollBar"
           >
@@ -131,16 +131,16 @@ const Suggestions = () => {
                   position: 'absolute',
                   top: '2%',
                   zIndex: '10',
-                  display:"flex",
-                  justifyContent:"center"
+                  display: 'flex',
+                  justifyContent: 'center',
                 }}
               >
                 <Chip
                   sx={{
                     position: 'relative',
                     margin: 'auto',
-                    height:"auto",
-                    padding:"3px"
+                    height: 'auto',
+                    padding: '3px',
                   }}
                   variant="filled"
                   component="button"
@@ -157,7 +157,7 @@ const Suggestions = () => {
               suggestions.map((ele) => {
                 return <SuggestionCard suggestions={ele} key={ele._id} setVote={setVote} />;
               })}
-            {(!suggestions || suggestions.length===0) && <CustomError>No Suggestion</CustomError>}
+            {(!suggestions || suggestions.length === 0) && <CustomError>No Suggestion</CustomError>}
           </Container>
           <Container sx={{ flex: 2, maxHeight: '94vh', height: '94vh', overflow: 'scroll' }} className="hideScrollBar">
             <UserActionsList />
