@@ -55,6 +55,12 @@ const navConfig = [
     role: "manager",
   },
   {
+    title:'Analytics',
+    path: '/dashboard/analytics',
+    icon: icon('ic_charts'),
+    role:"user"
+  },
+  {
     title: 'Add Feedback Form',
     path: '/dashboard/feedback',
     icon: icon('ic_summary'),
