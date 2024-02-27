@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { allItems, filterTimeTable } from '../../utils/filterTimeTable';
 import { getFoodReviews } from '../../utils/apis';
+import { find } from 'lodash';
 
 /**
  *
@@ -105,7 +106,8 @@ const Search = (props) => {
 };
 
 const FoodCard = (props) => {
-  const { setRatedFoodItems, ratedItem, isReturn, navigate } = props;
+  const { item, setRatedFoodItems, ratedItem, isReturn, navigate } = props;
+  // console.log({ item });
   const [rating, setRating] = useState(parseInt(props?.ratings?.Rating, 10));
   const [comments, setComments] = useState('');
   const isLargeMobile = useMediaQuery('(max-width:450px)');
@@ -115,7 +117,7 @@ const FoodCard = (props) => {
       let res = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/user/dashboard/giveRating`,
         {
-          foodId: props?.ratings?.FoodItem,
+          foodId: props?.item?._id,
           rating,
         },
         {
@@ -151,77 +153,78 @@ const FoodCard = (props) => {
       console.log(mute);
     }
   };
-
-  return (
-    <Card
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: !isLargeMobile ? '200px' : '250px',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: '10px',
-        margin: '10px',
-        gap: '5px',
-        border: `${!ratedItem?"1px solid lightgray":''}`,
-        height: '100%'
-      }}
-    >
-      <CardMedia
-        image={props?.item?.Image}
-        component="img"
+  if (item) {
+    return (
+      <Card
         sx={{
-          borderRadius: '100%',
-          height: '80px',
-          width: '80px',
-          objectFit: 'cover',
-        }}
-        loading="lazy"
-      />
-      <Typography variant="h4" component="p" textAlign="center">
-        {props?.item?.Name?.slice(0, 10)}
-        {props?.item?.Name?.length > 10 ? '...' : ''}
-      </Typography>
-      <Typography variant="body" component="p" textAlign="center">
-        {parseFloat(props?.ratings?.Rating).toFixed(2)}/5
-      </Typography>
-      <form
-        style={{
           display: 'flex',
+          flexDirection: 'column',
+          width: !isLargeMobile ? '200px' : '250px',
           justifyContent: 'center',
           alignItems: 'center',
-          flexDirection: 'column',
+          padding: '10px',
+          margin: '10px',
+          gap: '5px',
+          border: `${!ratedItem ? '1px solid lightgray' : ''}`,
+          height: '100%',
         }}
-        onSubmit={handleSubmit}
       >
-        <FormControl required>
-          <Rating
-            value={ratedItem ? ratedItem?.rating : rating}
-            name="rating"
-            onChange={(event, newValue) => {
-              setRating(newValue);
-            }}
-            disabled={ratedItem}
-          />
-        </FormControl>
-        <FormControl required>
-          <TextField
-            placeholder="Enter Review"
-            multiline
-            maxRows="5"
-            minRows="5"
-            name="comments"
-            value={ratedItem ? ratedItem?.comments : comments}
-            onChange={(e) => {
-              setComments(e.target.value);
-            }}
-            disabled={ratedItem}
-          />
-        </FormControl>
-        {!ratedItem && <Button type="submit">Submit</Button>}
-      </form>
-    </Card>
-  );
+        <CardMedia
+          image={props?.item?.Image}
+          component="img"
+          sx={{
+            borderRadius: '100%',
+            height: '80px',
+            width: '80px',
+            objectFit: 'cover',
+          }}
+          loading="lazy"
+        />
+        <Typography variant="h4" component="p" textAlign="center">
+          {props?.item?.Name?.slice(0, 10)}
+          {props?.item?.Name?.length > 10 ? '...' : ''}
+        </Typography>
+        <Typography variant="body" component="p" textAlign="center">
+          {props?.ratings ? `${parseFloat(props?.ratings?.Rating).toFixed(2)}/5` : 'Unrated'}
+        </Typography>
+        <form
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+          }}
+          onSubmit={handleSubmit}
+        >
+          <FormControl required>
+            <Rating
+              value={ratedItem ? ratedItem?.rating : rating ? rating : '-'}
+              name="rating"
+              onChange={(event, newValue) => {
+                setRating(newValue);
+              }}
+              disabled={ratedItem}
+            />
+          </FormControl>
+          <FormControl required>
+            <TextField
+              placeholder="Enter Review"
+              multiline
+              maxRows="5"
+              minRows="5"
+              name="comments"
+              value={ratedItem ? ratedItem?.comments : comments}
+              onChange={(e) => {
+                setComments(e.target.value);
+              }}
+              disabled={ratedItem}
+            />
+          </FormControl>
+          {!ratedItem && <Button type="submit">Submit</Button>}
+        </form>
+      </Card>
+    );
+  }
 };
 
 const MobileRatings = (props) => {
@@ -234,9 +237,11 @@ const MobileRatings = (props) => {
   const value = isValue ? searchParams.get('value') : null;
   // console.log({ hidden, value });
   const allFoodItems = allItems(filterTimeTable(timetable));
+  const uniqFoodItems = _.uniqBy(allFoodItems, (ele) => ele?._id);
   const uniqIds = uniqueIDs(allFoodItems);
   const filteredRatings = filterRatings(ratings, uniqIds);
   // console.log(getItem(filteredRatings[0]?.FoodItem, allFoodItems));
+  // console.log({ filteredRatings, allFoodItems });
   const [filterString, setFilterString] = useState('');
   const [ratedFoodItems, setRatedFoodItems] = useState([]);
   const isLargeMobile = useMediaQuery('(max-width:480px)');
@@ -278,7 +283,51 @@ const MobileRatings = (props) => {
           alignItems: 'baseline',
         }}
       >
-        {filteredRatings.map((ele) => {
+        {uniqFoodItems.map((foodItem) => {
+          const rating = _.find(ratings, { FoodItem: foodItem?._id });
+          const ratedItems = _.find(ratedFoodItems, { foodId: foodItem?._id });
+          if (filterString === '') {
+            return (
+              <FoodCard
+                item={foodItem}
+                ratings={rating}
+                setRatedFoodItems={setRatedFoodItems}
+                ratedItem={ratedItems}
+                key={foodItem?.FoodItem}
+                isReturn={hidden}
+                navigate={navigate}
+              />
+            );
+          }
+          if (!hidden && filterString !== '' && item?.Name?.toLowerCase().includes(filterString.toLowerCase())) {
+            return (
+              <FoodCard
+                item={foodItem}
+                ratings={rating}
+                setRatedFoodItems={setRatedFoodItems}
+                ratedItem={ratedItems}
+                key={foodItem?.FoodItem}
+                isReturn={hidden}
+                navigate={navigate}
+              />
+            );
+          }
+          if (hidden && filterString !== '' && item?.Name?.toLowerCase() === filterString.toLowerCase()) {
+            return (
+              <FoodCard
+                item={foodItem}
+                ratings={rating}
+                setRatedFoodItems={setRatedFoodItems}
+                ratedItem={ratedItems}
+                key={foodItem?.FoodItem}
+                isReturn={hidden}
+                navigate={navigate}
+              />
+            );
+          }
+          return null;
+        })}
+        {/* {filteredRatings.map((ele) => {
           const item = getItem(ele?.FoodItem, allFoodItems);
           let ratedItem = ratedFoodItems.filter((e) => {
             return e?.foodId === ele?.FoodItem;
@@ -328,7 +377,7 @@ const MobileRatings = (props) => {
             );
           }
           return null;
-        })}
+        })} */}
       </div>
     </Container>
   );
