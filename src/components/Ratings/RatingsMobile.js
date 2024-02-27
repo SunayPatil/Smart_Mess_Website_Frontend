@@ -327,57 +327,6 @@ const MobileRatings = (props) => {
           }
           return null;
         })}
-        {/* {filteredRatings.map((ele) => {
-          const item = getItem(ele?.FoodItem, allFoodItems);
-          let ratedItem = ratedFoodItems.filter((e) => {
-            return e?.foodId === ele?.FoodItem;
-          });
-          if (ratedItem?.length > 0) {
-            ratedItem = ratedItem[0];
-          } else {
-            ratedItem = null;
-          }
-          if (filterString === '') {
-            return (
-              <FoodCard
-                item={item}
-                ratings={ele}
-                setRatedFoodItems={setRatedFoodItems}
-                ratedItem={ratedItem}
-                key={ele?.FoodItem}
-                isReturn={hidden}
-                navigate={navigate}
-              />
-            );
-          }
-          if (!hidden && filterString !== '' && item?.Name?.toLowerCase().includes(filterString.toLowerCase())) {
-            return (
-              <FoodCard
-                item={item}
-                ratings={ele}
-                setRatedFoodItems={setRatedFoodItems}
-                ratedItem={ratedItem}
-                isReturn={hidden}
-                key={ele?.FoodItem}
-                navigate={navigate}
-              />
-            );
-          }
-          if (hidden && filterString !== '' && item?.Name?.toLowerCase() === filterString.toLowerCase()) {
-            return (
-              <FoodCard
-                item={item}
-                ratings={ele}
-                setRatedFoodItems={setRatedFoodItems}
-                ratedItem={ratedItem}
-                isReturn={hidden}
-                key={ele?.FoodItem}
-                navigate={navigate}
-              />
-            );
-          }
-          return null;
-        })} */}
       </div>
     </Container>
   );
