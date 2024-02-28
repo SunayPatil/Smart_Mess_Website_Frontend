@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import {  useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -18,6 +19,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import dayjs from 'dayjs';
 import { voteSuggestion } from '../apis';
 import Delete from '@mui/icons-material/Delete';
+import {markAsresolved} from './apis';
+
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -35,6 +38,7 @@ export default function SuggestionCard(props) {
   const [upvotes, setUpvotes] = React.useState(props?.suggestions?.upvotes);
   const [downvotes, setDownvotes] = React.useState(props?.suggestions?.downvotes);
   const { setVote, disable, canDelete, deleteSuggestion } = props;
+  const suggestionid =props.suggestions._id;
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -48,11 +52,24 @@ export default function SuggestionCard(props) {
   const handleCardClick = () => {
     navigate(props?.suggestions?._id);
   };
-  
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
  
     <Card
-    onClick={handleCardClick}
+   
       sx={{
         width: '95%',
       }}
@@ -108,7 +125,8 @@ export default function SuggestionCard(props) {
         </Typography>
       </CardContent>
       {!canDelete && (
-      <CardActions disableSpacing>
+      <CardActions disableSpacing style={isDesktop ? {display: "flex", justifyContent: "space-between"} : {display: "flex", flexDirection:"column", justifyContent: "space-between",marginBottom:"10px"}}>
+      <div>
         <Button
           sx={{ color: green[700] }}
           disabled={disable}
@@ -144,6 +162,11 @@ export default function SuggestionCard(props) {
           </span>
           : {downvotes?.length}
         </Button>
+        </div>
+        <Button 
+         variant="contained"
+          color="primary"
+         onClick={handleCardClick}  >View Suggestions</Button>
         {props?.suggestions?.suggestion?.length > 100 && (
           <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
             <ExpandMoreIcon />
@@ -155,7 +178,8 @@ export default function SuggestionCard(props) {
         <Button
         style={{margin: "10px"}}
         color="success"
-         variant='outlined'>
+         variant='outlined'
+         onClick={() => markAsresolved(props.suggestions._id)}>
           Mark as Resolved
         </Button>
       )}

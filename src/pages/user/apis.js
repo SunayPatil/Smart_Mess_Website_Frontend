@@ -17,7 +17,19 @@ export const voteSuggestion = async (data) => {
     return null;
   }
 };
-
+export const voteSuggestionComment = async (data) => {
+  try {
+    const res = axios.patch(`${REACT_SERVER_URL}/user/dashboard/suggestion/comment`, data, {
+      headers: {
+        Authorization: authToken,
+      },
+    });
+    return res;
+  } catch (err) {
+    const mute = err;
+    return null;
+  }
+};
 export const getAllSuggestions = async () => {
   try {
     const res = axios.get(`${REACT_SERVER_URL}/user/dashboard/allSuggestions`, {
