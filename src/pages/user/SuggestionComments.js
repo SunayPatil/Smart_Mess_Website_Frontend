@@ -7,7 +7,7 @@ const SuggestionComments = () => {
   const { suggestion } = location.state || {};
 
   if (!suggestion) {
-    return <Typography>No suggestion data available</Typography>;
+    return <Typography>No suggestion data available :</Typography>;
   }
 
   return (
