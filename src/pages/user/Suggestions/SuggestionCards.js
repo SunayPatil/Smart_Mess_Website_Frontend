@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -19,8 +19,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import dayjs from 'dayjs';
 import { voteSuggestion } from '../apis';
 import Delete from '@mui/icons-material/Delete';
-import {markAsresolved} from './apis';
-
+import { markAsresolved } from './apis';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -38,11 +37,11 @@ export default function SuggestionCard(props) {
   const [upvotes, setUpvotes] = React.useState(props?.suggestions?.upvotes);
   const [downvotes, setDownvotes] = React.useState(props?.suggestions?.downvotes);
   const { setVote, disable, canDelete, deleteSuggestion } = props;
-  const suggestionid =props.suggestions._id;
+  const suggestionid = props.suggestions._id;
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
- const navigate = useNavigate();
+  const navigate = useNavigate();
   const handleClick = async (isUpvote, suggestionId) => {
     const res = await voteSuggestion({ upvote: isUpvote, suggestionId });
     setUpvotes(res.data.upvotes);
@@ -59,17 +58,15 @@ export default function SuggestionCard(props) {
       setIsDesktop(window.innerWidth >= 768);
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
   return (
- 
     <Card
-   
       sx={{
         width: '95%',
       }}
@@ -94,7 +91,6 @@ export default function SuggestionCard(props) {
           }}
         />
         {canDelete && (
-
           <Button
             color="error"
             variant="outlined"
@@ -103,7 +99,7 @@ export default function SuggestionCard(props) {
             }}
           >
             <Delete />
-          </Button>                  
+          </Button>
         )}
       </div>
       {props.suggestions?.image !== 'null' && (
@@ -125,61 +121,68 @@ export default function SuggestionCard(props) {
         </Typography>
       </CardContent>
       {!canDelete && (
-      <CardActions disableSpacing style={isDesktop ? {display: "flex", justifyContent: "space-between"} : {display: "flex", flexDirection:"column", justifyContent: "space-between",marginBottom:"10px"}}>
-      <div>
-        <Button
-          sx={{ color: green[700] }}
-          disabled={disable}
-          onClick={() => {
-            handleClick(true, props?.suggestions?._id);
-          }}
+        <CardActions
+          disableSpacing
+          style={
+            isDesktop
+              ? { display: 'flex', justifyContent: 'space-between' }
+              : { display: 'flex', flexDirection: 'column', justifyContent: 'space-between', marginBottom: '10px' }
+          }
         >
-          <span
-            style={{
-              fontSize: '30px',
-            }}
-          >
-            <ArrowCircleUpSharpIcon />
-          </span>
-          : {upvotes?.length}
-        </Button>
+          <div>
+            <Button
+              sx={{ color: green[700] }}
+              disabled={disable}
+              onClick={() => {
+                handleClick(true, props?.suggestions?._id);
+              }}
+            >
+              <span
+                style={{
+                  fontSize: '30px',
+                }}
+              >
+                <ArrowCircleUpSharpIcon />
+              </span>
+              : {upvotes?.length}
+            </Button>
 
-        <Button
-          sx={{
-            color: red[700],
-          }}
-          disabled={disable}
-          onClick={() => {
-            handleClick(false, props?.suggestions?._id);
-          }}
-        >
-          <span
-            style={{
-              fontSize: '30px',
-            }}
-          >
-         <ArrowCircleDownSharpIcon />
-          </span>
-          : {downvotes?.length}
-        </Button>
-        </div>
-        <Button 
-         variant="contained"
-          color="primary"
-         onClick={handleCardClick}  >View Suggestions</Button>
-        {props?.suggestions?.suggestion?.length > 100 && (
-          <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
-            <ExpandMoreIcon />
-          </ExpandMore>
-        )}
-      </CardActions>
+            <Button
+              sx={{
+                color: red[700],
+              }}
+              disabled={disable}
+              onClick={() => {
+                handleClick(false, props?.suggestions?._id);
+              }}
+            >
+              <span
+                style={{
+                  fontSize: '30px',
+                }}
+              >
+                <ArrowCircleDownSharpIcon />
+              </span>
+              : {downvotes?.length}
+            </Button>
+          </div>
+          <Button variant="contained" color="primary" onClick={handleCardClick}>
+            View Suggestions
+          </Button>
+          {props?.suggestions?.suggestion?.length > 100 && (
+            <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
+              <ExpandMoreIcon />
+            </ExpandMore>
+          )}
+        </CardActions>
       )}
       {canDelete && (
         <Button
-        style={{margin: "10px"}}
-        color="success"
-         variant='outlined'
-         onClick={() => markAsresolved(props.suggestions._id)}>
+          style={{ margin: '10px' }}
+          color="success"
+          variant="outlined"
+          onClick={() => markAsresolved(props.suggestions._id)}
+        >
           Mark as Resolved
         </Button>
       )}
@@ -191,6 +194,5 @@ export default function SuggestionCard(props) {
         </Collapse>
       )}
     </Card>
-
   );
 }

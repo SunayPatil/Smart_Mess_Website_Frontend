@@ -23,7 +23,7 @@ export const postUserSuggestion = async (data) => {
     const res = await axios.post(`${REACT_SERVER_URL}/user/profile/suggestion`, data, {
       headers: {
         Authorization: authToken,
-        'Content-Type': 'multipart/form-data'
+        'Content-Type': 'multipart/form-data',
       },
     });
     return res;
@@ -45,7 +45,7 @@ export const postSuggestionComment = async (data) => {
     const mute = err;
     return null;
   }
-}
+};
 
 export const patchUserSuggestion = async (data) => {
   try {
@@ -79,37 +79,39 @@ export const deleteUserSuggestion = async (data) => {
 };
 
 export const deleteUserSuggestionComment = async (data) => {
-  try{
-    const res = await axios.delete(`${REACT_SERVER_URL}/user/profile/suggestion/comment`,{
-      params:{
-        commentId:data.commentId
-      },
-      headers:{
-        Authorization:authToken
-      }
-    });
-    return res;
-  }
-  catch(err){
-    const mute = err;
-    return null;
-  }
-}
- 
-export  const markAsresolved = async (suggestionId) => {
   try {
-    const res = await axios.patch(`${REACT_SERVER_URL}/user/profile/suggestion/markAsClosed`, {
+    const res = await axios.delete(`${REACT_SERVER_URL}/user/profile/suggestion/comment`, {
       params: {
-        suggestionId: suggestionId,
+        commentId: data.commentId,
       },
       headers: {
         Authorization: authToken,
       },
     });
-    console.log(res);
     return res;
   } catch (err) {
     const mute = err;
+    return null;
+  }
+};
+
+export const markAsresolved = async (suggestionId) => {
+  try {
+    const res = await axios.patch(
+      `${REACT_SERVER_URL}/user/profile/suggestion/markAsClosed`,
+      {
+        suggestionId: suggestionId,
+      },
+      {
+        headers: {
+          Authorization: authToken,
+        },
+      }
+    );
+    console.log(res);
+    return res;
+  } catch (err) {
+    console.error(err);
     return null;
   }
 };
