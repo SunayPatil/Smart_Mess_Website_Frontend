@@ -67,7 +67,7 @@ const MyMenuPage = () => {
 
   const navigate = useNavigate();
   const handleCardPress = (value) => {
-    const role = localStorage.getItem('user')?.Role;
+    const role = JSON.parse(localStorage.getItem('user'))?.Role;
     if (value && role === 'user') {
       const urlEncode = encodeURI(`/dashboard/ratings?hidden=true&value=${value}`);
       navigate(urlEncode);
