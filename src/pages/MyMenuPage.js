@@ -94,35 +94,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Breakfast';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -135,35 +131,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Lunch';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -176,35 +168,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Snacks';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -217,35 +205,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Dinner';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -261,35 +245,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Breakfast';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -302,35 +282,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Lunch';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -343,35 +319,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Snacks';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -384,35 +356,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Dinner';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -428,35 +396,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Breakfast';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -469,35 +433,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Lunch';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -510,35 +470,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Snacks';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -551,35 +507,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Dinner';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -595,35 +547,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Breakfast';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -636,35 +584,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Lunch';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -677,35 +621,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Snacks';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -718,35 +658,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Dinner';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -762,35 +698,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Breakfast';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -803,35 +735,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Lunch';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -844,35 +772,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Snacks';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -885,35 +809,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Dinner';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -929,35 +849,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Breakfast';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -970,35 +886,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Lunch';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -1011,35 +923,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Snacks';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -1052,35 +960,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Dinner';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -1096,35 +1000,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Breakfast';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -1137,35 +1037,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Lunch';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -1178,35 +1074,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Snacks';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
@@ -1219,35 +1111,31 @@ const MyMenuPage = () => {
             .filter((day) => {
               return day.Type === 'Dinner';
             })[0]
-            ?.Items?.map((item, index) => (
-              <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                <Card
-                  bordered
-                  style={{
-                    width: 240,
-                  }}
-                  cover={
-                    <img
-                      style={{ height: '160px', objectFit: 'cover' }}
-                      alt="example"
-                      src={item?.Image}
-                      loading="lazy"
-                    />
-                  }
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Meta title={item?.Name} />
-                    {isManager && <DeleteIcon />}
-                  </div>
-                </Card>
-              </Grid>
-            ))}
+            ?.Items?.map((item, index) => {
+              if (item) {
+                return (
+                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+                    <Card
+                      bordered
+                      style={{
+                        width: 240,
+                      }}
+                      cover={
+                        <img
+                          style={{ height: '160px', objectFit: 'cover' }}
+                          alt="example"
+                          src={item?.Image}
+                          loading="lazy"
+                        />
+                      }
+                    >
+                      <Meta title={item?.Name} />
+                    </Card>
+                  </Grid>
+                );
+              }
+              return <></>;
+            })}
         </Grid>
       ),
     },
