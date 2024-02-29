@@ -93,10 +93,9 @@ const Suggestions = () => {
   }, [suggestions, statusFilter]);
 
   const filterSuggestions = (suggestions, status) => {
-    const filtered = suggestions.filter(suggestion => suggestion.status === status);
+    const filtered = suggestions.filter((suggestion) => suggestion.status === status);
     setFilteredSuggestions(filtered);
   };
-
   return (
     <>
       <Container
@@ -105,22 +104,30 @@ const Suggestions = () => {
           position: 'relative',
         }}
       >
-      <div style={{display:"flex", gap:"20px"}}>
-        <Typography variant="h4" gutterBottom>
-          Issues
-        </Typography>
-        {/*
+        <div style={{ display: 'flex', gap: '20px' }}>
+          <Typography variant="h4" gutterBottom>
+            Issues
+          </Typography>
+          {/*
         // TODO: Here is the filter component make the UI/UX more user friendly
         */}
-        {/* <Filter typeFilter={typeFilter} setTypeFilter={setTypeFilter} /> */}
-        <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '10px', marginBottom: '20px' }}>
-          <Button variant={statusFilter === 'open' ? 'contained' : 'outlined'} color="primary" onClick={() => setStatusFilter('open')}>
-            Open
-          </Button>
-          <Button variant={statusFilter === 'closed' ? 'contained' : 'outlined'} color="secondary" onClick={() => setStatusFilter('closed')}>
-            Closed
-          </Button>
-        </div>
+          {/* <Filter typeFilter={typeFilter} setTypeFilter={setTypeFilter} /> */}
+          <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '10px', marginBottom: '20px' }}>
+            <Button
+              variant={statusFilter === 'open' ? 'contained' : 'outlined'}
+              color="primary"
+              onClick={() => setStatusFilter('open')}
+            >
+              Open
+            </Button>
+            <Button
+              variant={statusFilter === 'closed' ? 'contained' : 'outlined'}
+              color="secondary"
+              onClick={() => setStatusFilter('closed')}
+            >
+              Closed
+            </Button>
+          </div>
         </div>
         <Container
           sx={{
@@ -178,7 +185,7 @@ const Suggestions = () => {
             )}
             {filteredSuggestions &&
               filteredSuggestions.map((ele) => {
-                return <SuggestionCard suggestions={ele} key={ele._id} setVote={setVote}  />;
+                return <SuggestionCard suggestions={ele} key={ele._id} setVote={setVote} />;
               })}
             {(!filteredSuggestions || filteredSuggestions.length === 0) && <CustomError>No Suggestions</CustomError>}
           </Container>

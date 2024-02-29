@@ -32,12 +32,12 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function SuggestionCard(props) {
+export default function CommentCard(props) {
   const [expanded, setExpanded] = React.useState(false);
   const [upvotes, setUpvotes] = React.useState(props?.suggestions?.upvotes);
   const [downvotes, setDownvotes] = React.useState(props?.suggestions?.downvotes);
   const { setVote, disable, canDelete, deleteSuggestion } = props;
-  const suggestionid = props.key;
+  const suggestionid = props.suggestions._id;
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -84,7 +84,7 @@ export default function SuggestionCard(props) {
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={`${props?.suggestions?.userId?.Image}`} />
           }
-          title={props?.suggestions?.suggestionTitle}
+          title={props?.suggestions?.suggestionTitle && props.suggestions.suggestionTitle}
           subheader={dayjs(props?.suggestions?.createdAt).format('DD/MMM/YYYY, ddd')}
           sx={{
             padding: '10px',
@@ -102,22 +102,10 @@ export default function SuggestionCard(props) {
           </Button>
         )}
       </div>
-      {props.suggestions?.image !== 'null' && (
-        <CardMedia
-          component="img"
-          height="200px"
-          src={props.suggestions?.image}
-          alt="Paella dish"
-          sx={{
-            objectFit: 'contain',
-            background: 'inherit',
-          }}
-        />
-      )}
+
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {props?.suggestions?.suggestion?.substring(0, Math.min(100, props?.suggestions?.suggestion?.length))}
-          {props?.suggestions?.suggestion?.length > 100 && <>...</>}
+          {props.suggestions.comment}
         </Typography>
       </CardContent>
       {!canDelete && (
@@ -166,11 +154,6 @@ export default function SuggestionCard(props) {
               : {downvotes?.length}
             </Button>
           </div>
-          {!props.discusson && (
-            <Button variant="contained" color="primary" onClick={handleCardClick}>
-              View Discussions
-            </Button>
-          )}
 
           {props?.suggestions?.suggestion?.length > 100 && (
             <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
@@ -192,7 +175,7 @@ export default function SuggestionCard(props) {
       {props?.suggestions?.suggestion?.length > 100 && (
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography paragraph>{props.suggestions?.suggestion}</Typography>
+            <Typography paragraph>{props.suggestions?.comment}</Typography>
           </CardContent>
         </Collapse>
       )}

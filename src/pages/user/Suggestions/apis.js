@@ -33,17 +33,19 @@ export const postUserSuggestion = async (data) => {
     return mute.response;
   }
 };
+
 export const postSuggestionComment = async (data) => {
   try {
     const res = await axios.post(`${REACT_SERVER_URL}/user/profile/suggestion/comment`, data, {
       headers: {
         Authorization: authToken,
+        'Content-Type': 'application/json', // Change content type to application/json
       },
     });
     return res;
   } catch (err) {
-    const mute = err;
-    return null;
+    console.error('Error posting suggestion comment:', err);
+    throw err;
   }
 };
 
