@@ -21,7 +21,7 @@ const CommentForm = ({ Id }) => {
     // formData.append('commentId', uuid());
     formData.append('comment', comment.comment);
     const res = await postSuggestionComment(formData);
-    if (res.status === 200) {
+    if (res.status === 200 || res.status === 204) {
       toast.success('Post Successful');
       setComment('');
 
