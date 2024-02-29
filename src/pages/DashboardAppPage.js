@@ -128,7 +128,7 @@ const MyMenuPage = () => {
   const items = [
     {
       key: '1',
-      label: 'Breakfast',
+      label: 'Breakfast(07:30AM - 09:00AM)',
       children: (
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu?.Breakfast?.Items?.map((item, index) => {
@@ -182,7 +182,7 @@ const MyMenuPage = () => {
 
     {
       key: '2',
-      label: 'Lunch',
+      label: 'Lunch(12:30PM - 02:00PM)',
       children: (
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu?.Lunch?.Items?.map((item, index) => {
@@ -235,7 +235,7 @@ const MyMenuPage = () => {
     },
     {
       key: '3',
-      label: 'Snacks',
+      label: 'Snacks(04:30PM - 06:00PM)',
       children: (
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu?.Snacks?.Items?.map((item, index) => {
@@ -288,7 +288,7 @@ const MyMenuPage = () => {
     },
     {
       key: '4',
-      label: 'Dinner',
+      label: 'Dinner(07:30PM - 09:00PM)',
       children: (
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu?.Dinner?.Items?.map((item, index) => {
