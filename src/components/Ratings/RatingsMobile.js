@@ -225,7 +225,7 @@ const FoodCard = (props) => {
       </Card>
     );
   }
-  return <></>
+  return <></>;
 };
 
 const MobileRatings = (props) => {
@@ -274,7 +274,7 @@ const MobileRatings = (props) => {
       }}
       disableGutters
     >
-      <Search setFilterString={setFilterString} filterString={filterString} />
+      {!hidden && <Search setFilterString={setFilterString} filterString={filterString} />}
       <div
         style={{
           margin: '10px 20px',
