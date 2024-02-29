@@ -64,7 +64,7 @@ export default function CommentCard(props) {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-  console.log(props?.comments?.id);
+  console.log(props?.comments?.userId);
   return (
     <Card
       sx={{
@@ -109,60 +109,7 @@ export default function CommentCard(props) {
           {props.comments.comment}
         </Typography>
       </CardContent>
-      {!canDelete && (
-        <CardActions
-          disableSpacing
-          style={
-            isDesktop
-              ? { display: 'flex', justifyContent: 'space-between' }
-              : { display: 'flex', flexDirection: 'column', justifyContent: 'space-between', marginBottom: '10px' }
-          }
-        >
-          <div>
-            <Button
-              sx={{ color: green[700] }}
-              disabled={disable}
-              onClick={() => {
-                handleClick(true, props?.comments?._id);
-              }}
-            >
-              <span
-                style={{
-                  fontSize: '30px',
-                }}
-              >
-                <ArrowCircleUpSharpIcon />
-              </span>
-              : {upvotes?.length}
-            </Button>
-
-            <Button
-              sx={{
-                color: red[700],
-              }}
-              disabled={disable}
-              onClick={() => {
-                handleClick(false, props?.comments?._id);
-              }}
-            >
-              <span
-                style={{
-                  fontSize: '30px',
-                }}
-              >
-                <ArrowCircleDownSharpIcon />
-              </span>
-              : {downvotes?.length}
-            </Button>
-          </div>
-
-          {/* {props?.suggestions?.suggestion?.length > 100 && (
-            <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
-              <ExpandMoreIcon />
-            </ExpandMore>
-          )} */}
-        </CardActions>
-      )}
+      
       {/* {canDelete && props?.suggestions?.status == 'open' && (
         <Button
           style={{ margin: '10px' }}
