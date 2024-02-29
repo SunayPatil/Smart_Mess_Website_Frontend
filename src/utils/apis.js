@@ -246,54 +246,87 @@ const addFeedbackForm = async (data) => {
     // Log specific properties or values from the response and data objects
     console.log('Response Status:', response.status);
     console.log('Data:', data);
+    if (response.status === 200) {
+      toast.success('Feedback form added successfully');
+    }
+    if (response.status === 400) {
+      toast.error('Error adding feedback form');
+    }
 
     return response;
   } catch (err) {
+    toast.error('Error adding feedback form');
     console.log(err);
   }
   return null;
 };
 
+const addAnnouncementForm = async (data) => {
+  try {
+    const url = `${process.env.REACT_APP_SERVER_URL}/manager/dashboard/makeAnnouncement`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    // Log specific properties or values from the response and data objects
+    console.log('Response Status:', response.status);
+    console.log('Data:', data);
+    if (response.status === 200) {
+      toast.success('Announcement added successfully');
+    }
+    if (response.status === 400) {
+      toast.error('Error adding announcement');
+    }
+    return response;
+  } catch (err) {
+    toast.error('Error adding announcement');
+    console.log(err);
+  }
+  return null;
+};
 
 const getFoodReviews = async () => {
-  try{
+  try {
     const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/getFoodReview`;
-    let res = await fetch(url,{
-      method:"GET",
-      headers:{
-        Authorization:`Bearer ${localStorage.getItem('token')}`
-      }
+    let res = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
     });
     res = await res.json();
     // console.log(res);
     return res;
-  }catch(err){
+  } catch (err) {
     console.log(err);
     return [];
   }
-} 
-
+};
 
 const submitFoodReview = async (data) => {
-  try{
+  try {
     const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/submitFoodReview`;
     console.log(data);
-    let res = await fetch(url,{
-      method:"POST",
-      headers:{
+    let res = await fetch(url, {
+      method: 'POST',
+      headers: {
         'Content-Type': 'application/json',
-        Authorization:`Bearer ${localStorage.getItem('token')}`
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
     res = await res.json();
     return res;
-  }catch(err){
+  } catch (err) {
     console.log(err);
     return [];
   }
-}
-
+};
 
 export {
   Signin,
@@ -308,8 +341,7 @@ export {
   getFoodItemRating,
   getManagerTimeTable,
   addFeedbackForm,
+  addAnnouncementForm,
   getFoodReviews,
-  submitFoodReview
+  submitFoodReview,
 };
-
-

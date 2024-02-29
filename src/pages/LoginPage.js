@@ -1,4 +1,4 @@
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { gapi } from 'gapi-script';
 import { GoogleLogin, GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
@@ -7,7 +7,13 @@ import { Spin } from 'antd';
 // @mui
 import { Navigate, useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
+import Link from '@mui/material/Link';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import useMediaQuery from '@mui/material/useMediaQuery';
 // hooks
 import useResponsive from '../hooks/useResponsive';
 // components
@@ -17,7 +23,6 @@ import Iconify from '../components/iconify';
 import { LoginForm } from '../sections/auth/login';
 import clientId from '../constants/client-id';
 import { Signin, handleNotification } from '../utils/apis';
-
 
 // ----------------------------------------------------------------------
 
@@ -47,31 +52,21 @@ const StyledContent = styled('div')(({ theme }) => ({
   padding: theme.spacing(12, 0),
 }));
 
-
-
 // ----------------------------------------------------------------------
 
 export default function LoginPage() {
   const mdUp = useResponsive('up', 'md');
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false)
-  useEffect(()=>{
-    const token = localStorage.getItem("token")
-    if(token){
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
       navigate('/dashboard', { replace: true });
     }
-  }, [])
-
-  // const onSuccess = (res) => {
-  //   console.log('login success ', res.profileObj);
-  //   navigate('/dashboard', { replace: true });
-  // };
-  // const onFailure = (res) => {
-  //   console.log('login failed ', res);
-  // };
+  }, []);
 
   const googleSuccess = async (res) => {
-    setLoading(true)
+    setLoading(true);
     console.log('google success');
     console.log(res);
     const code = res.code; // code is the authorization code that we need to send to the backend to get the id_token
@@ -81,22 +76,21 @@ export default function LoginPage() {
         const response = await Signin(code);
         const { token, user } = await response.json();
         localStorage.setItem('token', token);
-        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem('user', JSON.stringify(user));
         console.log(user);
         await handleNotification();
         navigate('/dashboard', { replace: true });
-        console.log("sucessfully logged in");
+        console.log('sucessfully logged in');
       } catch (err) {
         console.log(err);
       }
     }
-    setLoading(false)
-    
+    setLoading(false);
   };
 
   const googleFailure = (err) => {
     console.log(err);
-    // need to add toast error message  
+    // need to add toast error message
   };
 
   const googlelogin = useGoogleLogin({
@@ -113,23 +107,99 @@ export default function LoginPage() {
       });
     }
     gapi.load('client', start);
-    setLoading(false)
+    setLoading(false);
   }, []);
+
+  const isLaptop = useMediaQuery('(min-width:1020px)');
+  const isTablet = useMediaQuery('(min-width:425px)') && !isLaptop;
+  const isMobile = useMediaQuery('(max-width:425px)') && !isTablet;
+  const [bgFilter, setBgFilter] = useState('');
+  console.log({ isLaptop, isMobile, isTablet });
 
   return (
     <>
       <Helmet>
-        <title> Login | Minimal UI </title>
+        <title> Login | SmartMess </title>
       </Helmet>
-      <Spin spinning={loading} size='medium'>
-        <StyledRoot>
-          {mdUp && <Logo
+      <Spin spinning={loading} size="medium">
+        <Container
+          maxWidth="xl"
+          disableGutters
+          sx={{
+            position: 'relative',
+            width: '100vw',
+            height: '100vh',
+            overflow: 'clip',
+          }}
+        >
+          <img
+            src={`https://res.cloudinary.com/dowydptqe/image/upload/w_${
+              isLaptop ? '3000' : isTablet ? '2000' : isMobile ? '1000' : 'auto'
+            }/f_auto,q_auto/v1/smart_mess/zdsrw9hbetv5lnkqvcyx`}
+            style={{
+              height: '100%',
+              width: '100%',
+              objectFit: 'cover',
+              position: 'absolute',
+            }}
+            alt="IIT Dh Mess"
+          />
+          <Logo
             sx={{
               position: 'fixed',
               top: { xs: 16, sm: 24, md: 40 },
               left: { xs: 16, sm: 24, md: 40 },
             }}
-          />}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              height: '100%',
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Stack
+              direction="row"
+              justifyContent="center"
+              spacing={2}
+              sx={{
+                padding: '100px',
+                borderRadius: '10px',
+                backdropFilter: bgFilter,
+                transition: '0.3s',
+              }}
+              component="div"
+              onMouseEnter={() => {
+                setBgFilter((bgFilter) => {
+                  bgFilter = 'brightness(0.95) blur(4px)';
+                  return bgFilter;
+                });
+              }}
+              onMouseLeave={() => {
+                setBgFilter((bgFilter) => {
+                  bgFilter = '';
+                  return bgFilter;
+                });
+              }}
+            >
+              <GoogleButton onClick={googlelogin} />
+            </Stack>
+          </div>
+        </Container>
+
+        {/* <StyledRoot>
+          {mdUp && (
+            <Logo
+              sx={{
+                position: 'fixed',
+                top: { xs: 16, sm: 24, md: 40 },
+                left: { xs: 16, sm: 24, md: 40 },
+              }}
+            />
+          )}
 
           {mdUp && (
             <StyledSection>
@@ -140,56 +210,26 @@ export default function LoginPage() {
             </StyledSection>
           )}
 
-          
-
-
           <Container maxWidth="sm">
             <StyledContent>
-           
-            <Stack direction="row" justifyContent="center" >
-            {!mdUp && <Logo
-            sx={{
-             
-              width: "100px",
-              minHeight: "100px"
-            }}
-          />}
-            </Stack>
-            <br />
+              <Stack direction="row" justifyContent="center">
+                {!mdUp && (
+                  <Logo
+                    sx={{
+                      width: '100px',
+                      minHeight: '100px',
+                    }}
+                  />
+                )}
+              </Stack>
+              <br />
               <Stack direction="row" justifyContent="center" spacing={2}>
-                {/* <Button fullWidth size="large" color="inherit" variant="outlined">
-                  <Iconify icon="eva:facebook-fill" color="#1877F2" width={22} height={22} />
-                </Button> */}
-
-                {/* <Button fullWidth size="large" color="inherit" variant="outlined">
-                  <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={22} height={22} />
-                </Button> */}
-             
-
-              {/* <Button className="Button-login" onClick={googlelogin}>
-                <div className="login-btn">SIGN IN</div>
-              </Button> */}
-
-           
-              <GoogleButton
-   onClick={googlelogin}
-/>
-</Stack>
-              {/* <Button fullWidth size="large" color="inherit" variant="outlined">
-                <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
-              </Button> */}
-
-              {/* <Divider sx={{ my: 3 }}>
-                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                  OR
-                </Typography>
-              </Divider>
-
-              <LoginForm /> */}
+                <GoogleButton onClick={googlelogin} />
+              </Stack>
             </StyledContent>
           </Container>
-        </StyledRoot>
-        </Spin>
+        </StyledRoot> */}
+      </Spin>
     </>
   );
 }

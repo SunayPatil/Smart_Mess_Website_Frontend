@@ -19,6 +19,7 @@ import ApiContext from './Context/apiContext';
 import ManagerDashboard from './pages/ManagerDashboard';
 import ManagerMenuPage from './pages/ManagerMenuPage';
 import AnnouncementForm from './pages/Announcement';
+import AnalyticsPage from './pages/AnalyticsPage';
 import Suggestions from './pages/user/Suggestions';
 import SuggestionComments from './pages/user/SuggestionComments';
 
@@ -60,6 +61,7 @@ export default function Router() {
           ),
         },
         { path: 'products', element: <ProductsPage /> },
+        { path: 'analytics', element: <AnalyticsPage />},
         { path: 'addfooditem', element: <ManagerAddFood /> },
         { path: 'feedback', element: <FeedBackForm /> },
         { path: 'announcement', element: <AnnouncementForm /> },
