@@ -70,9 +70,9 @@ export default function SuggestionCard(props) {
       sx={{
         width: '95%',
       }}
-      style={{
-        ...(props.iscomment && { marginTop: '10px' }),
-      }}
+      style={
+        {marginTop: '10px'}
+      }
     >
       <div
         style={{

@@ -58,7 +58,7 @@ const navConfig = [
     title:'Analytics',
     path: '/dashboard/analytics',
     icon: icon('ic_charts'),
-    role:"user"
+    role:"user",
   },
   {
     title: 'Add Feedback Form',
@@ -72,7 +72,10 @@ const navConfig = [
     icon: icon('ic_summary'),
     role: "manager",
   }
-
+,{
+  title:'Issues',
+  path: '/dashboard/suggestions', icon: icon('ic_issues'),role:"user"
+}
 ];
 
 export default navConfig;
