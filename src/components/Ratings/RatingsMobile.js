@@ -12,6 +12,7 @@ import {
   FormControl,
   useMediaQuery,
 } from '@mui/material';
+import { find, uniqBy } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { allItems, filterTimeTable } from '../../utils/filterTimeTable';
@@ -115,7 +116,7 @@ const FoodCard = (props) => {
       let res = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/user/dashboard/giveRating`,
         {
-          foodId: props?.ratings?.FoodItem,
+          foodId: props?.item?._id,
           rating,
         },
         {
@@ -163,8 +164,8 @@ const FoodCard = (props) => {
         padding: '10px',
         margin: '10px',
         gap: '5px',
-        border: `${!ratedItem?"1px solid lightgray":''}`,
-        height: '100%'
+        border: `${!ratedItem ? '1px solid lightgray' : ''}`,
+        height: '100%',
       }}
     >
       <CardMedia
@@ -183,7 +184,7 @@ const FoodCard = (props) => {
         {props?.item?.Name?.length > 10 ? '...' : ''}
       </Typography>
       <Typography variant="body" component="p" textAlign="center">
-        {parseFloat(props?.ratings?.Rating).toFixed(2)}/5
+        {props?.ratings ? `${parseFloat(props?.ratings?.Rating).toFixed(2)}/5` : 'Unrated'}
       </Typography>
       <form
         style={{
@@ -201,6 +202,7 @@ const FoodCard = (props) => {
             onChange={(event, newValue) => {
               setRating(newValue);
             }}
+            precision={0.2}
             disabled={ratedItem}
           />
         </FormControl>
@@ -234,9 +236,11 @@ const MobileRatings = (props) => {
   const value = isValue ? searchParams.get('value') : null;
   // console.log({ hidden, value });
   const allFoodItems = allItems(filterTimeTable(timetable));
+  const uniqFoodItems = uniqBy(allFoodItems, (ele) => ele?._id);
   const uniqIds = uniqueIDs(allFoodItems);
   const filteredRatings = filterRatings(ratings, uniqIds);
   // console.log(getItem(filteredRatings[0]?.FoodItem, allFoodItems));
+  // console.log({ filteredRatings, allFoodItems });
   const [filterString, setFilterString] = useState('');
   const [ratedFoodItems, setRatedFoodItems] = useState([]);
   const isLargeMobile = useMediaQuery('(max-width:480px)');
@@ -278,51 +282,44 @@ const MobileRatings = (props) => {
           alignItems: 'baseline',
         }}
       >
-        {filteredRatings.map((ele) => {
-          const item = getItem(ele?.FoodItem, allFoodItems);
-          let ratedItem = ratedFoodItems.filter((e) => {
-            return e?.foodId === ele?.FoodItem;
-          });
-          if (ratedItem?.length > 0) {
-            ratedItem = ratedItem[0];
-          } else {
-            ratedItem = null;
-          }
+        {uniqFoodItems.map((foodItem) => {
+          const rating = find(ratings, { FoodItem: foodItem?._id });
+          const ratedItems = find(ratedFoodItems, { foodId: foodItem?._id });
           if (filterString === '') {
             return (
               <FoodCard
-                item={item}
-                ratings={ele}
+                item={foodItem}
+                ratings={rating}
                 setRatedFoodItems={setRatedFoodItems}
-                ratedItem={ratedItem}
-                key={ele?.FoodItem}
+                ratedItem={ratedItems}
+                key={foodItem?.FoodItem}
                 isReturn={hidden}
                 navigate={navigate}
               />
             );
           }
-          if (!hidden && filterString !== '' && item?.Name?.toLowerCase().includes(filterString.toLowerCase())) {
+          if (!hidden && filterString !== '' && foodItem?.Name?.toLowerCase().includes(filterString.toLowerCase())) {
             return (
               <FoodCard
-                item={item}
-                ratings={ele}
+                item={foodItem}
+                ratings={rating}
                 setRatedFoodItems={setRatedFoodItems}
-                ratedItem={ratedItem}
+                ratedItem={ratedItems}
+                key={foodItem?.FoodItem}
                 isReturn={hidden}
-                key={ele?.FoodItem}
                 navigate={navigate}
               />
             );
           }
-          if (hidden && filterString !== '' && item?.Name?.toLowerCase() === filterString.toLowerCase()) {
+          if (hidden && filterString !== '' && foodItem?.Name?.toLowerCase() === filterString.toLowerCase()) {
             return (
               <FoodCard
-                item={item}
-                ratings={ele}
+                item={foodItem}
+                ratings={rating}
                 setRatedFoodItems={setRatedFoodItems}
-                ratedItem={ratedItem}
+                ratedItem={ratedItems}
+                key={foodItem?.FoodItem}
                 isReturn={hidden}
-                key={ele?.FoodItem}
                 navigate={navigate}
               />
             );

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Card, Collapse, Spin } from 'antd';
 
-import { Container, Grid, Typography } from '@mui/material';
+import { Container, Grid, Typography, Rating } from '@mui/material';
 
 import { getDashTimeTable, getFoodItemRating } from '../utils/apis';
 
@@ -132,6 +132,7 @@ const MyMenuPage = () => {
       children: (
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu?.Breakfast?.Items?.map((item, index) => {
+            const numberOfReviews = itemRating.filter((ele) => item?._id === ele.FoodItem)[0]?.NumberOfReviews;
             const rating = itemRating.filter((ele) => item?._id === ele.FoodItem)[0]?.Rating.toPrecision(2);
             return (
               <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
@@ -153,7 +154,21 @@ const MyMenuPage = () => {
                   }
                 >
                   {typeof rating !== 'undefined' ? (
-                    <Meta title={`${item?.Name}(${rating}/5)`} />
+                    <>
+                      <Meta title={`${item?.Name}`} />
+                      <div
+                        style={{
+                          display: 'flex',
+                          gap: '3px',
+                          fontSize: '12px',
+                          alignItems: 'center',
+                          justifyContent: 'flex-end',
+                        }}
+                      >
+                        <Rating name="read-only" value={rating} readOnly precision={0.1} />
+                        <span>{numberOfReviews}</span>
+                      </div>
+                    </>
                   ) : (
                     <Meta title={item?.Name} />
                   )}
@@ -171,6 +186,7 @@ const MyMenuPage = () => {
       children: (
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu?.Lunch?.Items?.map((item, index) => {
+            const numberOfReviews = itemRating.filter((ele) => item?._id === ele.FoodItem)[0]?.NumberOfReviews;
             const rating = itemRating.filter((ele) => item?._id === ele.FoodItem)[0]?.Rating.toPrecision(2);
             return (
               <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
@@ -192,7 +208,21 @@ const MyMenuPage = () => {
                   }
                 >
                   {typeof rating !== 'undefined' ? (
-                    <Meta title={`${item?.Name}(${rating}/5)`} />
+                    <>
+                      <Meta title={`${item?.Name}`} />
+                      <div
+                        style={{
+                          display: 'flex',
+                          gap: '3px',
+                          fontSize: '12px',
+                          alignItems: 'center',
+                          justifyContent: 'flex-end',
+                        }}
+                      >
+                        <Rating name="read-only" value={rating} readOnly precision={0.1} />
+                        <span>{numberOfReviews}</span>
+                      </div>
+                    </>
                   ) : (
                     <Meta title={item?.Name} />
                   )}
@@ -209,6 +239,7 @@ const MyMenuPage = () => {
       children: (
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu?.Snacks?.Items?.map((item, index) => {
+            const numberOfReviews = itemRating.filter((ele) => item?._id === ele.FoodItem)[0]?.NumberOfReviews;
             const rating = itemRating.filter((ele) => item?._id === ele.FoodItem)[0]?.Rating.toPrecision(2);
             return (
               <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
@@ -230,7 +261,21 @@ const MyMenuPage = () => {
                   }
                 >
                   {typeof rating !== 'undefined' ? (
-                    <Meta title={`${item?.Name}(${rating}/5)`} />
+                    <>
+                      <Meta title={`${item?.Name}`} />
+                      <div
+                        style={{
+                          display: 'flex',
+                          gap: '3px',
+                          fontSize: '12px',
+                          alignItems: 'center',
+                          justifyContent: 'flex-end',
+                        }}
+                      >
+                        <Rating name="read-only" value={rating} readOnly precision={0.1} />
+                        <span>{numberOfReviews}</span>
+                      </div>
+                    </>
                   ) : (
                     <Meta title={item?.Name} />
                   )}
@@ -247,6 +292,7 @@ const MyMenuPage = () => {
       children: (
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
           {currentDayMenu?.Dinner?.Items?.map((item, index) => {
+            const numberOfReviews = itemRating.filter((ele) => item?._id === ele.FoodItem)[0]?.NumberOfReviews;
             const rating = itemRating.filter((ele) => item?._id === ele.FoodItem)[0]?.Rating.toPrecision(2);
             return (
               <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
@@ -268,7 +314,21 @@ const MyMenuPage = () => {
                   }
                 >
                   {typeof rating !== 'undefined' ? (
-                    <Meta title={`${item?.Name}(${rating}/5)`} />
+                    <>
+                      <Meta title={`${item?.Name}`} />
+                      <div
+                        style={{
+                          display: 'flex',
+                          gap: '3px',
+                          fontSize: '12px',
+                          alignItems: 'center',
+                          justifyContent: 'flex-end',
+                        }}
+                      >
+                        <Rating name="read-only" value={rating} readOnly precision={0.1} />
+                        <span>{numberOfReviews}</span>
+                      </div>
+                    </>
                   ) : (
                     <Meta title={item?.Name} />
                   )}
