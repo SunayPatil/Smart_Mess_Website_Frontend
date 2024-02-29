@@ -106,7 +106,7 @@ const Search = (props) => {
 };
 
 const FoodCard = (props) => {
-  const { setRatedFoodItems, ratedItem, isReturn, navigate } = props;
+  const { item, setRatedFoodItems, ratedItem, isReturn, navigate } = props;
   const [rating, setRating] = useState(parseInt(props?.ratings?.Rating, 10));
   const [comments, setComments] = useState('');
   const isLargeMobile = useMediaQuery('(max-width:450px)');
@@ -152,78 +152,80 @@ const FoodCard = (props) => {
       console.log(mute);
     }
   };
-
-  return (
-    <Card
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: !isLargeMobile ? '200px' : '250px',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: '10px',
-        margin: '10px',
-        gap: '5px',
-        border: `${!ratedItem ? '1px solid lightgray' : ''}`,
-        height: '100%',
-      }}
-    >
-      <CardMedia
-        image={props?.item?.Image}
-        component="img"
+  if (item) {
+    return (
+      <Card
         sx={{
-          borderRadius: '100%',
-          height: '80px',
-          width: '80px',
-          objectFit: 'cover',
-        }}
-        loading="lazy"
-      />
-      <Typography variant="h4" component="p" textAlign="center">
-        {props?.item?.Name?.slice(0, 10)}
-        {props?.item?.Name?.length > 10 ? '...' : ''}
-      </Typography>
-      <Typography variant="body" component="p" textAlign="center">
-        {props?.ratings ? `${parseFloat(props?.ratings?.Rating).toFixed(2)}/5` : 'Unrated'}
-      </Typography>
-      <form
-        style={{
           display: 'flex',
+          flexDirection: 'column',
+          width: !isLargeMobile ? '200px' : '250px',
           justifyContent: 'center',
           alignItems: 'center',
-          flexDirection: 'column',
+          padding: '10px',
+          margin: '10px',
+          gap: '5px',
+          border: `${!ratedItem ? '1px solid lightgray' : ''}`,
+          height: '100%',
         }}
-        onSubmit={handleSubmit}
       >
-        <FormControl required>
-          <Rating
-            value={ratedItem ? ratedItem?.rating : rating}
-            name="rating"
-            onChange={(event, newValue) => {
-              setRating(newValue);
-            }}
-            precision={0.2}
-            disabled={ratedItem}
-          />
-        </FormControl>
-        <FormControl required>
-          <TextField
-            placeholder="Enter Review"
-            multiline
-            maxRows="5"
-            minRows="5"
-            name="comments"
-            value={ratedItem ? ratedItem?.comments : comments}
-            onChange={(e) => {
-              setComments(e.target.value);
-            }}
-            disabled={ratedItem}
-          />
-        </FormControl>
-        {!ratedItem && <Button type="submit">Submit</Button>}
-      </form>
-    </Card>
-  );
+        <CardMedia
+          image={props?.item?.Image}
+          component="img"
+          sx={{
+            borderRadius: '100%',
+            height: '80px',
+            width: '80px',
+            objectFit: 'cover',
+          }}
+          loading="lazy"
+        />
+        <Typography variant="h4" component="p" textAlign="center">
+          {props?.item?.Name?.slice(0, 10)}
+          {props?.item?.Name?.length > 10 ? '...' : ''}
+        </Typography>
+        <Typography variant="body" component="p" textAlign="center">
+          {props?.ratings ? `${parseFloat(props?.ratings?.Rating).toFixed(2)}/5` : 'Unrated'}
+        </Typography>
+        <form
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+          }}
+          onSubmit={handleSubmit}
+        >
+          <FormControl required>
+            <Rating
+              value={ratedItem ? ratedItem?.rating : rating}
+              name="rating"
+              onChange={(event, newValue) => {
+                setRating(newValue);
+              }}
+              precision={0.2}
+              disabled={ratedItem}
+            />
+          </FormControl>
+          <FormControl required>
+            <TextField
+              placeholder="Enter Review"
+              multiline
+              maxRows="5"
+              minRows="5"
+              name="comments"
+              value={ratedItem ? ratedItem?.comments : comments}
+              onChange={(e) => {
+                setComments(e.target.value);
+              }}
+              disabled={ratedItem}
+            />
+          </FormControl>
+          {!ratedItem && <Button type="submit">Submit</Button>}
+        </form>
+      </Card>
+    );
+  }
+  return <></>
 };
 
 const MobileRatings = (props) => {
