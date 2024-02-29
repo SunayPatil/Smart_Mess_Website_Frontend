@@ -11,10 +11,10 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import CommentForm from './CommentForm';
-import SuggestionCard from './SuggestionCards';
 import { deleteUserSuggestionComment, getUserSuggestion } from './apis';
 import { getoneSuggestion } from 'src/pages/user/apis.js';
 import { SocketContext } from '../../../Context/socket';
+import CommentCard from './CommentCard';
 
 export default function UserActionsListComment({ Id }) {
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -23,8 +23,8 @@ export default function UserActionsListComment({ Id }) {
   const socket = React.useContext(SocketContext);
   const suggestionId = Id;
 
-  const deleteSuggestion = async (suggestionId) => {
-    const res = await deleteUserSuggestionComment({ suggestionId, commentId: suggestionId });
+  const deleteComment = async (commentId) => {
+    const res = await deleteUserSuggestionComment({ suggestionId: suggestionId, commentId: commentId });
     setComments((comments) => {
       return comments.filter((ele) => {
         return ele._id != suggestionId;
@@ -32,6 +32,7 @@ export default function UserActionsListComment({ Id }) {
     });
     // socket.emit('delete-suggestion', res.data.deletedSuggestion);
   };
+  
   const fetchUserComments = React.useCallback(async () => {
     const res = await getoneSuggestion(suggestionId).then((res) => {
       //   console.log(res);
@@ -142,9 +143,7 @@ export default function UserActionsListComment({ Id }) {
           }}
         >
           {comments.map((ele) => {
-            return (
-              <SuggestionCard comments={ele} disable key={ele._id} canDelete deleteSuggestion={deleteSuggestion} iscomment={true} />
-            );
+            return <CommentCard comments={ele} disable key={ele._id} canDelete deleteComment={deleteComment} />;
           })}
         </Paper>
       </Collapse>

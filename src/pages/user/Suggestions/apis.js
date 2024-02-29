@@ -82,17 +82,22 @@ export const deleteUserSuggestion = async (data) => {
 
 export const deleteUserSuggestionComment = async (data) => {
   try {
-    const res = await axios.delete(`${REACT_SERVER_URL}/user/profile/suggestion/comment`, {
-      params: {
+    console.log('data', data);
+    const res = await axios.post(
+      `${REACT_SERVER_URL}/user/profile/suggestion/deleteComment`,
+      {
         commentId: data.commentId,
+        suggestionId: data.suggestionId,
       },
-      headers: {
-        Authorization: authToken,
-      },
-    });
+      {
+        headers: {
+          Authorization: authToken,
+        },
+      }
+    );
     return res;
   } catch (err) {
-    const mute = err;
+    console.error(err);
     return null;
   }
 };

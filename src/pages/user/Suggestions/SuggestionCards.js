@@ -71,9 +71,8 @@ export default function SuggestionCard(props) {
         width: '95%',
       }}
       style={{
-  ...(props.iscomment && { marginTop: "10px" })
-}}
-
+        ...(props.iscomment && { marginTop: '10px' }),
+      }}
     >
       <div
         style={{
@@ -107,20 +106,20 @@ export default function SuggestionCard(props) {
         )}
       </div>
       {!props.iscomment && props.suggestions?.image !== 'null' && (
-  <CardMedia
-    component="img"
-    height="200px"
-    src={props.suggestions?.image}
-    alt="Paella dish"
-    sx={{
-      objectFit: 'contain',
-      background: 'inherit',
-    }}
-  />
-)}
+        <CardMedia
+          component="img"
+          height="200px"
+          src={props.suggestions?.image}
+          alt="Paella dish"
+          sx={{
+            objectFit: 'contain',
+            background: 'inherit',
+          }}
+        />
+      )}
 
       <CardContent>
-        <Typography variant="body2" color="text.secondary" style={{fontSize:"18px"}}>
+        <Typography variant="body2" color="text.secondary" style={{ fontSize: '18px' }}>
           {props?.suggestions?.suggestion?.substring(0, Math.min(100, props?.suggestions?.suggestion?.length))}
           {props?.comments?.comment}
           {props?.suggestions?.suggestion?.length > 100 && <>...</>}
@@ -150,7 +149,7 @@ export default function SuggestionCard(props) {
               >
                 <ArrowCircleUpSharpIcon />
               </span>
-              : {upvotes?.length}
+              : {props?.suggestions?.upvotes?.length}
             </Button>
 
             <Button
@@ -169,7 +168,7 @@ export default function SuggestionCard(props) {
               >
                 <ArrowCircleDownSharpIcon />
               </span>
-              : {downvotes?.length}
+              : {props?.suggestions.downvotes?.length}
             </Button>
           </div>
           {!props.discusson && (

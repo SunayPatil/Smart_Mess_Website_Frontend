@@ -34,22 +34,22 @@ const ExpandMore = styled((props) => {
 
 export default function CommentCard(props) {
   const [expanded, setExpanded] = React.useState(false);
-  const [upvotes, setUpvotes] = React.useState(props?.suggestions?.upvotes);
-  const [downvotes, setDownvotes] = React.useState(props?.suggestions?.downvotes);
-  const { setVote, disable, canDelete, deleteSuggestion } = props;
-  const suggestionid = props.suggestions._id;
+  const [upvotes, setUpvotes] = React.useState(props?.comments?.upvotes);
+  const [downvotes, setDownvotes] = React.useState(props?.comments?.downvotes);
+  const { setVote, disable, canDelete, deleteComment } = props;
+  const commentid = props.comments._id;
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
   const navigate = useNavigate();
-  const handleClick = async (isUpvote, suggestionId) => {
-    const res = await voteSuggestion({ upvote: isUpvote, suggestionId });
+  const handleClick = async (isUpvote, commentId) => {
+    const res = await voteSuggestion({ upvote: isUpvote, commentId });
     setUpvotes(res.data.upvotes);
     setDownvotes(res.data.downvotes);
     setVote(res.data);
   };
   const handleCardClick = () => {
-    navigate(props?.suggestions?._id);
+    navigate(props?.comments?._id);
   };
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
 
@@ -64,12 +64,13 @@ export default function CommentCard(props) {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
+  console.log(props?.comments?.id);
   return (
     <Card
       sx={{
         width: '95%',
       }}
+      style={{ marginTop: '10px' }}
     >
       <div
         style={{
@@ -84,8 +85,8 @@ export default function CommentCard(props) {
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={`${props?.suggestions?.userId?.Image}`} />
           }
-          title={props?.suggestions?.suggestionTitle && props.suggestions.suggestionTitle}
-          subheader={dayjs(props?.suggestions?.createdAt).format('DD/MMM/YYYY, ddd')}
+          // title={props?.suggestions?.suggestionTitle && props.suggestions.suggestionTitle}
+          subheader={dayjs(props?.comments?.createdAt).format('DD/MMM/YYYY, ddd')}
           sx={{
             padding: '10px',
           }}
@@ -95,7 +96,7 @@ export default function CommentCard(props) {
             color="error"
             variant="outlined"
             onClick={() => {
-              deleteSuggestion(props?.suggestions?._id);
+              deleteComment(props?.comments?.id);
             }}
           >
             <Delete />
@@ -104,8 +105,8 @@ export default function CommentCard(props) {
       </div>
 
       <CardContent>
-        <Typography variant="body1" color="text.secondary" style={{fontSize:"18px"}}>
-          {props.suggestions.comment}
+        <Typography variant="body1" color="text.secondary" style={{ fontSize: '18px' }}>
+          {props.comments.comment}
         </Typography>
       </CardContent>
       {!canDelete && (
@@ -122,7 +123,7 @@ export default function CommentCard(props) {
               sx={{ color: green[700] }}
               disabled={disable}
               onClick={() => {
-                handleClick(true, props?.suggestions?._id);
+                handleClick(true, props?.comments?._id);
               }}
             >
               <span
@@ -141,7 +142,7 @@ export default function CommentCard(props) {
               }}
               disabled={disable}
               onClick={() => {
-                handleClick(false, props?.suggestions?._id);
+                handleClick(false, props?.comments?._id);
               }}
             >
               <span
@@ -155,14 +156,14 @@ export default function CommentCard(props) {
             </Button>
           </div>
 
-          {props?.suggestions?.suggestion?.length > 100 && (
+          {/* {props?.suggestions?.suggestion?.length > 100 && (
             <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
               <ExpandMoreIcon />
             </ExpandMore>
-          )}
+          )} */}
         </CardActions>
       )}
-      {canDelete && props?.suggestions?.status == 'open' && (
+      {/* {canDelete && props?.suggestions?.status == 'open' && (
         <Button
           style={{ margin: '10px' }}
           color="success"
@@ -171,14 +172,7 @@ export default function CommentCard(props) {
         >
           Mark as Resolved
         </Button>
-      )}
-      {props?.suggestions?.suggestion?.length > 100 && (
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            {/* <Typography paragraph>{props.suggestions?.comment}</Typography> */}
-          </CardContent>
-        </Collapse>
-      )}
+      )} */}
     </Card>
   );
 }

@@ -72,7 +72,7 @@ const Suggestions = () => {
 
   const fetchAllSuggestions = useCallback(async () => {
     const res = await getAllSuggestions();
-    console.log({ fetchedSuggestions: res.data.suggestions });
+    // console.log({ fetchedSuggestions: res.data.suggestions });
     setSuggestions(res.data.suggestions);
   }, []);
 

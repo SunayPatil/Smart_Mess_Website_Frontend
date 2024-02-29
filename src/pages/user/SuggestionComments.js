@@ -18,7 +18,7 @@ import CommentCard from './Suggestions/CommentCard';
 const SuggestionComment = () => {
   const navigate = useNavigate();
   const { suggestionId } = useParams();
-  const [suggestionComment, setSuggestions] = useState([]);
+  const [suggestionComment, setSuggestionComment] = useState([]);
 
   const socket = useContext(SocketContext);
   // Vote Logic
@@ -27,7 +27,7 @@ const SuggestionComment = () => {
 
   const socket_ChangeVote = useCallback((vote) => {
     // console.log(vote);
-    setSuggestions((suggestions) => {
+    setSuggestionComment((suggestions) => {
       return suggestions.map((ele) => {
         if (ele._id === vote._id) {
           ele.downvotes = vote.downvotes;
@@ -41,7 +41,7 @@ const SuggestionComment = () => {
 
   const socket_RemoveSuggestion = useCallback((deletedSuggestion) => {
     // console.log({ deletedSuggestion });
-    setSuggestions((suggestions) => {
+    setSuggestionComment((suggestions) => {
       return suggestions.filter((ele) => {
         return ele._id != deletedSuggestion._id;
       });
@@ -73,12 +73,12 @@ const SuggestionComment = () => {
 
   const fetchSuggestion = useCallback(async () => {
     const res = await getoneSuggestion(suggestionId);
-    setSuggestions(res.data.suggestion);
+    setSuggestionComment(res.data.suggestion);
   }, []);
 
-  useEffect(() => {
-    console.log(suggestionComment);
-  }, [suggestionComment]);
+  // useEffect(() => {
+  //   console.log(suggestionComment);
+  // }, [suggestionComment]);
 
   useEffect(() => {
     let mount = true;
@@ -155,7 +155,8 @@ const SuggestionComment = () => {
             <SuggestionCard suggestions={suggestionComment} key={suggestionId} setVote={setVote} discusson={true} />
             {suggestionComment &&
               suggestionComment.children?.map((ele) => {
-                return <CommentCard suggestions={ele} key={ele._id} setVote={setVote} />;
+                // comment
+                return <CommentCard comments={ele} key={ele._id} setVote={setVote} />;
               })}
 
             {(!suggestionComment || suggestionComment.length === 0) && <CustomError>No Suggestions</CustomError>}
