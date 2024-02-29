@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const token = localStorage.getItem('token');
 const REACT_SERVER_URL = process.env.REACT_APP_SERVER_URL;
-const authToken = `Bearer ${token}`;
 
 export const getUserSuggestion = async () => {
   try {
+    const token = localStorage.getItem('token');
+    const authToken = `Bearer ${token}`;
     const res = await axios.get(`${REACT_SERVER_URL}/user/profile/suggestion`, {
       headers: {
         Authorization: authToken,
@@ -20,6 +20,8 @@ export const getUserSuggestion = async () => {
 
 export const postUserSuggestion = async (data) => {
   try {
+    const token = localStorage.getItem('token');
+    const authToken = `Bearer ${token}`;
     const res = await axios.post(`${REACT_SERVER_URL}/user/profile/suggestion`, data, {
       headers: {
         Authorization: authToken,
@@ -36,6 +38,8 @@ export const postUserSuggestion = async (data) => {
 
 export const postSuggestionComment = async (data) => {
   try {
+    const token = localStorage.getItem('token');
+    const authToken = `Bearer ${token}`;
     const res = await axios.post(`${REACT_SERVER_URL}/user/profile/suggestion/comment`, data, {
       headers: {
         Authorization: authToken,
@@ -51,6 +55,8 @@ export const postSuggestionComment = async (data) => {
 
 export const patchUserSuggestion = async (data) => {
   try {
+    const token = localStorage.getItem('token');
+    const authToken = `Bearer ${token}`;
     const res = await axios.patch(`${REACT_SERVER_URL}/user/profile/suggestion`, data, {
       headers: {
         Authorization: authToken,
@@ -65,6 +71,8 @@ export const patchUserSuggestion = async (data) => {
 
 export const deleteUserSuggestion = async (data) => {
   try {
+    const token = localStorage.getItem('token');
+    const authToken = `Bearer ${token}`;
     const res = await axios.delete(`${REACT_SERVER_URL}/user/profile/suggestion`, {
       params: {
         suggestionId: data.suggestionId,
@@ -82,6 +90,8 @@ export const deleteUserSuggestion = async (data) => {
 
 export const deleteUserSuggestionComment = async (data) => {
   try {
+    const token = localStorage.getItem('token');
+    const authToken = `Bearer ${token}`;
     console.log('data', data);
     const res = await axios.post(
       `${REACT_SERVER_URL}/user/profile/suggestion/deleteComment`,
@@ -104,6 +114,8 @@ export const deleteUserSuggestionComment = async (data) => {
 
 export const markAsresolved = async (suggestionId) => {
   try {
+    const token = localStorage.getItem('token');
+    const authToken = `Bearer ${token}`;
     const res = await axios.patch(
       `${REACT_SERVER_URL}/user/profile/suggestion/markAsClosed`,
       {

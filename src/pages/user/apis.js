@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const token = localStorage.getItem('token');
 const REACT_SERVER_URL = process.env.REACT_APP_SERVER_URL;
-const authToken = `Bearer ${token}`;
 
 export const voteSuggestion = async (data) => {
   try {
+    const token = localStorage.getItem('token');
+    const authToken = `Bearer ${token}`;
     const res = axios.patch(`${REACT_SERVER_URL}/user/dashboard/suggestion`, data, {
       headers: {
         Authorization: authToken,
@@ -19,6 +19,8 @@ export const voteSuggestion = async (data) => {
 };
 export const voteSuggestionComment = async (data) => {
   try {
+    const token = localStorage.getItem('token');
+    const authToken = `Bearer ${token}`;
     const res = axios.patch(`${REACT_SERVER_URL}/user/dashboard/suggestion/comment`, data, {
       headers: {
         Authorization: authToken,
@@ -32,6 +34,8 @@ export const voteSuggestionComment = async (data) => {
 };
 export const getAllSuggestions = async () => {
   try {
+    const token = localStorage.getItem('token');
+    const authToken = `Bearer ${token}`;
     const res = axios.get(`${REACT_SERVER_URL}/user/dashboard/allSuggestions`, {
       headers: {
         Authorization: authToken,
@@ -65,16 +69,16 @@ export const getAllSuggestions = async () => {
 // };
 export const getoneSuggestion = async (suggestionId) => {
   try {
-    const res = await axios.get(
-      `${REACT_SERVER_URL}/user/profile/oneSuggestion`, {
-        params: {
-          suggestionId: suggestionId,
-        },
-        headers: {
-          Authorization: authToken,
-        },
-      }
-    );
+    const token = localStorage.getItem('token');
+    const authToken = `Bearer ${token}`;
+    const res = await axios.get(`${REACT_SERVER_URL}/user/profile/oneSuggestion`, {
+      params: {
+        suggestionId: suggestionId,
+      },
+      headers: {
+        Authorization: authToken,
+      },
+    });
     console.log(res);
     return res;
   } catch (err) {
