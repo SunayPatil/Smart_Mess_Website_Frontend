@@ -143,7 +143,7 @@ export default function UserActionsListComment({ Id }) {
         >
           {comments.map((ele) => {
             return (
-              <SuggestionCard comments={ele} disable key={ele._id} canDelete deleteSuggestion={deleteSuggestion} />
+              <SuggestionCard comments={ele} disable key={ele._id} canDelete deleteSuggestion={deleteSuggestion} iscomment={true} />
             );
           })}
         </Paper>

@@ -104,7 +104,7 @@ export default function CommentCard(props) {
       </div>
 
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body1" color="text.secondary" style={{fontSize:"18px"}}>
           {props.suggestions.comment}
         </Typography>
       </CardContent>
@@ -175,7 +175,7 @@ export default function CommentCard(props) {
       {props?.suggestions?.suggestion?.length > 100 && (
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography paragraph>{props.suggestions?.comment}</Typography>
+            {/* <Typography paragraph>{props.suggestions?.comment}</Typography> */}
           </CardContent>
         </Collapse>
       )}
