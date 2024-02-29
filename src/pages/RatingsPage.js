@@ -124,6 +124,7 @@ export default function RatingsPage() {
       setTodaysItemsRatings(res);
     }
   };
+  
 
   const getTimeTableData = async () => {
     setLoading(true);

@@ -2,6 +2,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { ToastContainer } from 'react-toastify';
+import { SocketContext, socket } from './Context/socket';
 // routes
 import Router from './routes';
 // theme
@@ -14,19 +15,22 @@ import 'react-toastify/dist/ReactToastify.css';
 // ----------------------------------------------------------------------
 
 export default function App() {
+
   return (
     <GoogleOAuthProvider clientId={clientId}>
-      <ApiState>
-        <HelmetProvider>
-          <BrowserRouter>
-            <ThemeProvider>
-              <ScrollToTop />
-              <Router />
-            </ThemeProvider>
-          </BrowserRouter>
-        </HelmetProvider>
-      </ApiState>
-      <ToastContainer position="top-center" autoClose={2000} hideProgressBar={false} limit={2} />
+      <SocketContext.Provider value={socket}>
+        <ApiState>
+          <HelmetProvider>
+            <BrowserRouter>
+              <ThemeProvider>
+                <ScrollToTop />
+                <Router />
+              </ThemeProvider>
+            </BrowserRouter>
+          </HelmetProvider>
+        </ApiState>
+      </SocketContext.Provider>
+      <ToastContainer position="top-right" autoClose={2000} limit={2} />
     </GoogleOAuthProvider>
   );
 }

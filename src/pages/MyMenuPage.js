@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Collapse, Spin } from 'antd';
 
 import { Grid, Typography, Container } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { getDashTimeTable } from '../utils/apis';
 
@@ -25,11 +26,13 @@ const MyMenuPage = () => {
   const [saturdayData, setSaturdayData] = useState([]);
   const [sundayData, setSundayData] = useState([]);
 
-  console.log(mondayData);
+  // console.log(mondayData);
   const breakfastArr = mondayData.filter((day) => {
     return day.Type === 'Breakfast';
   });
   console.log(breakfastArr.Items);
+
+  const isManager = localStorage.getItem('user').role === 'manager';
 
   const getTimeTableData = async () => {
     setLoading(true);

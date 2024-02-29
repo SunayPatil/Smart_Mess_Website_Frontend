@@ -20,6 +20,8 @@ import ManagerDashboard from './pages/ManagerDashboard';
 import ManagerMenuPage from './pages/ManagerMenuPage';
 import AnnouncementForm from './pages/Announcement';
 import AnalyticsPage from './pages/AnalyticsPage';
+import Suggestions from './pages/user/Suggestions';
+import SuggestionComments from './pages/user/SuggestionComments';
 
 const MyMenuPage = lazy(() => import('./pages/MyMenuPage'));
 const RatingsPage = lazy(() => import('./pages/RatingsPage'));
@@ -48,7 +50,7 @@ export default function Router() {
       children: [
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },
-        { path: 'menu', element: <MenuPage /> },
+        // { path: 'menu', element: <MenuPage /> },
         { path: 'products', element: <ProductsPage /> },
         {
           path: 'ratings',
@@ -64,15 +66,20 @@ export default function Router() {
         { path: 'feedback', element: <FeedBackForm /> },
         { path: 'announcement', element: <AnnouncementForm /> },
         {
-          path: 'mymenupage',
+          path: 'menuPage',
           element: (
             <Suspense fallback={<h1>The page is loading please wait...</h1>}>
               <MyMenuPage />
             </Suspense>
           ),
         },
-        { path: 'managermenupage', element: <ManagerMenuPage /> },
+        // { path: 'managermenupage', element: <ManagerMenuPage /> },
         { path: 'summary', element: <ManagerDashboard /> },
+        { path: 'suggestions', element: <Suggestions /> },
+        {
+          path: 'suggestions/:suggestionId',
+          element: <SuggestionComments />,
+        },
       ],
     },
     {
