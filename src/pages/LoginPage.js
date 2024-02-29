@@ -123,13 +123,13 @@ export default function LoginPage() {
       </Helmet>
       <Spin spinning={loading} size="medium">
         <Container
-          maxWidth="xl"
           disableGutters
           sx={{
             position: 'relative',
             width: '100vw',
             height: '100vh',
             overflow: 'clip',
+            minWidth:"100vw"
           }}
         >
           <img
