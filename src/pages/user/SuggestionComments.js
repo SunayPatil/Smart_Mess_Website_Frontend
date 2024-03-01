@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState, useContext } from 'react';
 import { useLinkClickHandler, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { Chip, Container, Typography } from '@mui/material';
+import { Chip, Container, Typography, Drawer, useMediaQuery, Fab } from '@mui/material';
 import { SocketContext } from '../../Context/socket';
 import SuggestionCard from './Suggestions/SuggestionCards';
 import './index.css';
@@ -10,7 +10,8 @@ import { getoneSuggestion } from './apis';
 import CustomError from '../CustomErrorMessage';
 import { Button } from '@mui/material';
 import Filter from './Suggestions/Filter';
-import { Autorenew, TourRounded } from '@mui/icons-material';
+import Dehaze from '@mui/icons-material/Dehaze';
+import CloseIcon from '@mui/icons-material/Close';
 import CommentCard from './Suggestions/CommentCard';
 
 // const socket = io.connect(process.env.REACT_APP_SOCKET_URL);
@@ -19,6 +20,12 @@ const SuggestionComment = () => {
   const navigate = useNavigate();
   const { suggestionId } = useParams();
   const [suggestionComment, setSuggestionComment] = useState([]);
+  const [isDrawarOpen, setIsDrawarOpen] = useState(false);
+  const media = {
+    isLaptop: useMediaQuery('(min-width:1023px)'),
+    isTablet: useMediaQuery('(min-width:427px)') && useMediaQuery('(max-width:1022px)'),
+    isMobile: useMediaQuery('(max-width:426px)'),
+  };
 
   const socket = useContext(SocketContext);
   // Vote Logic
@@ -161,9 +168,52 @@ const SuggestionComment = () => {
 
             {(!suggestionComment || suggestionComment.length === 0) && <CustomError>No Suggestions</CustomError>}
           </Container>
-          <Container sx={{ flex: 2, maxHeight: '94vh', height: '94vh', overflow: 'scroll' }} className="hideScrollBar">
-            <UserActionsListComment Id={suggestionId} />
-          </Container>
+          {media.isLaptop && (
+            <Container
+              sx={{ flex: 2, maxHeight: '94vh', height: '94vh', overflow: 'scroll' }}
+              className="hideScrollBar"
+            >
+              <UserActionsListComment Id={suggestionId} />
+            </Container>
+          )}
+          {!media.isLaptop && (
+            <>
+              <Fab
+                sx={{
+                  position: 'fixed',
+                  bottom: '20px',
+                  right: '20px',
+                  height: '50px',
+                  width: '50px',
+                  zIndex: '2000',
+                }}
+                color="primary"
+                onClick={() => {
+                  setIsDrawarOpen(!isDrawarOpen);
+                }}
+              >
+                {!isDrawarOpen ? <Dehaze /> : <CloseIcon />}
+              </Fab>
+              <Drawer
+                open={isDrawarOpen}
+                anchor="right"
+                onClose={() => {
+                  setIsDrawarOpen(!isDrawarOpen);
+                }}
+              >
+                <div
+                  style={{
+                    width: '85vw',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <UserActionsListComment Id={suggestionId} />
+                </div>
+              </Drawer>
+            </>
+          )}
         </Container>
       </Container>
     </>

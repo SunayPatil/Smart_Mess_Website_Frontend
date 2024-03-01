@@ -27,7 +27,7 @@ const Suggestions = () => {
     isTablet: useMediaQuery('(min-width:427px)') && useMediaQuery('(max-width:1022px)'),
     isMobile: useMediaQuery('(max-width:426px)'),
   };
-  console.log(media);
+  // console.log(media);
 
   const socket = useContext(SocketContext);
   // Vote Logic
@@ -232,10 +232,19 @@ const Suggestions = () => {
               >
                 {!isDrawarOpen ? <Dehaze /> : <CloseIcon />}
               </Fab>
-              <Drawer open={isDrawarOpen} anchor="right">
+              <Drawer
+                open={isDrawarOpen}
+                anchor="right"
+                onClose={() => {
+                  setIsDrawarOpen(!isDrawarOpen);
+                }}
+              >
                 <div
                   style={{
-                    width: '100vw',
+                    width: '85vw',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }}
                 >
                   <UserActionsList isMobile={media.isMobile} />
