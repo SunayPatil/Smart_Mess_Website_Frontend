@@ -12,10 +12,11 @@ import ScrollToTop from './components/scroll-to-top';
 import clientId from './constants/client-id';
 import ApiState from './Context/apiState';
 import 'react-toastify/dist/ReactToastify.css';
+import { Suspense } from 'react';
+import Backdrop  from '@mui/material/Backdrop';
 // ----------------------------------------------------------------------
 
 export default function App() {
-
   return (
     <GoogleOAuthProvider clientId={clientId}>
       <SocketContext.Provider value={socket}>
@@ -24,7 +25,9 @@ export default function App() {
             <BrowserRouter>
               <ThemeProvider>
                 <ScrollToTop />
-                <Router />
+                <Suspense fallback={<Backdrop />}>
+                  <Router />
+                </Suspense>
               </ThemeProvider>
             </BrowserRouter>
           </HelmetProvider>

@@ -4,27 +4,33 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
 //
-// import BlogPage from './pages/BlogPage';
-import LoginPage from './pages/LoginPage';
-import Page404 from './pages/Page404';
-import ProductsPage from './pages/ProductsPage';
-import DashboardAppPage from './pages/DashboardAppPage';
-import MenuPage from './pages/MenuPage';
-// import RatingsPage from './pages/RatingsPage';
-
-import ManagerAddFood from './pages/ManagerAddFood';
-// import MyMenuPage from './pages/MyMenuPage';
-import FeedBackForm from './pages/FeedBackForm';
 import ApiContext from './Context/apiContext';
-import ManagerDashboard from './pages/ManagerDashboard';
-import ManagerMenuPage from './pages/ManagerMenuPage';
-import AnnouncementForm from './pages/Announcement';
-import AnalyticsPage from './pages/AnalyticsPage';
-import Suggestions from './pages/user/Suggestions';
-import SuggestionComments from './pages/user/SuggestionComments';
 
+// import LoginPage from './pages/LoginPage';
+// import Page404 from './pages/Page404';
+// import ProductsPage from './pages/ProductsPage';
+// import DashboardAppPage from './pages/DashboardAppPage';
+// import ManagerAddFood from './pages/ManagerAddFood';
+// import FeedBackForm from './pages/FeedBackForm';
+// import ManagerDashboard from './pages/ManagerDashboard';
+// import AnnouncementForm from './pages/Announcement';
+// import AnalyticsPage from './pages/AnalyticsPage';
+// import Suggestions from './pages/user/Suggestions';
+// import SuggestionComments from './pages/user/SuggestionComments';
+
+const LoginPage = React.lazy(() => import('./pages/LoginPage'));
+const Page404 = React.lazy(() => import('./pages/Page404'));
+const ProductsPage = React.lazy(() => import('./pages/ProductsPage'));
+const DashboardAppPage = React.lazy(() => import('./pages/DashboardAppPage'));
+const ManagerAddFood = React.lazy(() => import('./pages/ManagerAddFood'));
+const FeedBackForm = React.lazy(() => import('./pages/FeedBackForm'));
+const ManagerDashboard = React.lazy(() => import('./pages/ManagerDashboard'));
+const AnnouncementForm = React.lazy(() => import('./pages/Announcement'));
 const MyMenuPage = lazy(() => import('./pages/MyMenuPage'));
 const RatingsPage = lazy(() => import('./pages/RatingsPage'));
+const Suggestions = lazy(() => import('./pages/user/Suggestions'));
+const SuggestionComments = lazy(() => import('./pages/user/SuggestionComments'));
+const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage'));
 
 // ----------------------------------------------------------------------
 
@@ -54,23 +60,17 @@ export default function Router() {
         { path: 'products', element: <ProductsPage /> },
         {
           path: 'ratings',
-          element: (
-            <Suspense fallback={<h1>The page is loading please wait...</h1>}>
-              <RatingsPage />
-            </Suspense>
-          ),
+          element: <RatingsPage />,
         },
         { path: 'products', element: <ProductsPage /> },
-        { path: 'analytics', element: <AnalyticsPage />},
+        { path: 'analytics', element: <AnalyticsPage /> },
         { path: 'addfooditem', element: <ManagerAddFood /> },
         { path: 'feedback', element: <FeedBackForm /> },
         { path: 'announcement', element: <AnnouncementForm /> },
         {
           path: 'menuPage',
           element: (
-            <Suspense fallback={<h1>The page is loading please wait...</h1>}>
               <MyMenuPage />
-            </Suspense>
           ),
         },
         // { path: 'managermenupage', element: <ManagerMenuPage /> },
