@@ -1,17 +1,14 @@
 import React, { useCallback, useEffect, useState, useContext } from 'react';
 import { useLinkClickHandler, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import { Chip, Container, Typography, Drawer, useMediaQuery, Fab } from '@mui/material';
+import { Chip, Container, Typography, Drawer, Fab } from '@mui/material';
 import { SocketContext } from '../../Context/socket';
 import SuggestionCard from './Suggestions/SuggestionCards';
 import './index.css';
 import UserActionsListComment from './Suggestions/UserActionListComment';
 import { getoneSuggestion } from './apis';
 import CustomError from '../CustomErrorMessage';
-import { Button ,Fab , Drawer } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import Dehaze from '@mui/icons-material/Dehaze';
-import CloseIcon from '@mui/icons-material/Close';
 import Filter from './Suggestions/Filter';
 import Dehaze from '@mui/icons-material/Dehaze';
 import CloseIcon from '@mui/icons-material/Close';
