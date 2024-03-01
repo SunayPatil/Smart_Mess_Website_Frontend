@@ -78,7 +78,7 @@ const ManagerAddFood = () => {
     }
   }, [])
 
-  const fileteredDataForDelete = timeTableData?.slice(0)?.filter((item) => (item.Day === deleteDay && item.Type === deleteType))
+  const fileteredDataForDelete = timeTableData?.slice(0)?.filter((item) => (item?.Day === deleteDay && item?.Type === deleteType))
   console.log(fileteredDataForDelete)
   const fetchAllFoodItems = async () => {
     const res = await getAllFoodIitems()
@@ -261,7 +261,7 @@ const ManagerAddFood = () => {
               onChange={foodItemChange}
               value={selFoodItem}
               filterOption={filterOption}
-              options={foodItems.map((item) => ({ 'value': item.Id, 'label': item.Name }))}
+              options={foodItems.map((item) => ({ 'value': item?.Id, 'label': item?.Name }))}
             />
           </Form.Item>
 
@@ -333,7 +333,7 @@ const ManagerAddFood = () => {
 
           <Form.Item name="mealItem" label="Food Items" rules={[{ required: true }]}>
             <Select allowClear>
-              {fileteredDataForDelete[0]?.Items?.map((item) => (<Option key={item._id} value={item._id}>{item.Name}</Option>))}
+              {fileteredDataForDelete[0]?.Items?.map((item) => (<Option key={item?._id} value={item?._id}>{item?.Name}</Option>))}
             </Select>
           </Form.Item>
 

@@ -37,7 +37,7 @@ export default function SuggestionCard(props) {
   const [expanded, setExpanded] = React.useState(false);
   const [upvotes, setUpvotes] = React.useState(props?.suggestions?.upvotes);
   const [downvotes, setDownvotes] = React.useState(props?.suggestions?.downvotes);
-  const { setVote, disable, canDelete, deleteSuggestion } = props;
+  const { setVote, disable, canDelete, deleteSuggestion ,discusson} = props;
   const suggestionid = props.key;
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -125,7 +125,7 @@ export default function SuggestionCard(props) {
           {props?.suggestions?.suggestion?.length > 100 && <>...</>}
         </Typography>
       </CardContent>
-      {!canDelete && (
+      {!canDelete &&   (
         <CardActions
           disableSpacing
           style={
@@ -149,7 +149,7 @@ export default function SuggestionCard(props) {
               >
                 <ArrowCircleUpSharpIcon />
               </span>
-              : {props?.suggestions?.upvotes?.length}
+              {!discusson ? `: ${upvotes?.length}` : `${props?.suggestions?.upvotes?.length}`}
             </Button>
 
             <Button
@@ -168,7 +168,7 @@ export default function SuggestionCard(props) {
               >
                 <ArrowCircleDownSharpIcon />
               </span>
-              : {props?.suggestions.downvotes?.length}
+              {!discusson ? `: ${downvotes?.length}` : `${props?.suggestions?.downvotes?.length}`}
             </Button>
           </div>
           {!props.discusson && (
@@ -184,6 +184,8 @@ export default function SuggestionCard(props) {
           )}
         </CardActions>
       )}
+
+      
       {canDelete && props?.suggestions?.status == 'open' && (
         <Button
           style={{ margin: '10px' }}
