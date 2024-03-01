@@ -15,7 +15,8 @@ import SuggestionCard from './SuggestionCards';
 import { deleteUserSuggestion, getUserSuggestion } from './apis';
 import { SocketContext } from '../../../Context/socket';
 
-export default function UserActionsList() {
+export default function UserActionsList(props) {
+  const { isMobile } = props;
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openView, setOpenView] = React.useState(false);
   const [suggestions, setSuggestions] = React.useState([]);
@@ -60,7 +61,7 @@ export default function UserActionsList() {
 
   return (
     <List
-      sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+      sx={{ width: '100%', maxWidth: !isMobile ? 360 : '100%', bgcolor: 'background.paper' }}
       component="nav"
       aria-labelledby="nested-list-subheader"
     >

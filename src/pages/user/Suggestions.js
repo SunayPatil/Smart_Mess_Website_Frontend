@@ -1,15 +1,17 @@
 import React, { useCallback, useEffect, useState, useContext } from 'react';
 import { useLinkClickHandler, useNavigate } from 'react-router-dom';
-import { Chip, Container, Typography } from '@mui/material';
+import { Chip, Container, Typography, Button, Fab, Drawer } from '@mui/material';
 import { SocketContext } from '../../Context/socket';
+import DehazeIcon from '@mui/icons-material/Dehaze';
 import SuggestionCard from './Suggestions/SuggestionCards';
 import './index.css';
 import UserActionsList from './Suggestions/UserActionList';
 import { getAllSuggestions } from './apis';
 import CustomError from '../CustomErrorMessage';
-import { Button } from '@mui/material';
 import Filter from './Suggestions/Filter';
-import { Autorenew, TourRounded } from '@mui/icons-material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Dehaze from '@mui/icons-material/Dehaze';
+import CloseIcon from '@mui/icons-material/Close';
 
 // const socket = io.connect(process.env.REACT_APP_SOCKET_URL);
 
@@ -19,6 +21,14 @@ const Suggestions = () => {
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [statusFilter, setStatusFilter] = useState('open'); // Default to showing open suggestions
   const [typeFilter, setTypeFilter] = useState('');
+  const [isDrawarOpen, setIsDrawarOpen] = useState(false);
+  const media = {
+    isLaptop: useMediaQuery('(min-width:1023px)'),
+    isTablet: useMediaQuery('(min-width:375px)') && useMediaQuery('(max-width:1022px)'),
+    isMobile: useMediaQuery('(max-width:374px)'),
+  };
+  console.log(media);
+
   const socket = useContext(SocketContext);
   // Vote Logic
   const [vote, setVote] = useState(null);
@@ -104,7 +114,7 @@ const Suggestions = () => {
           position: 'relative',
         }}
       >
-        <div style={{ display: 'flex', gap: '20px' }}>
+        <div style={{ display: 'flex', gap: '20px', justifyContent: !media.isMobile ? 'flex-start' : 'space-between' }}>
           <Typography variant="h4" gutterBottom>
             Issues
           </Typography>
@@ -112,7 +122,13 @@ const Suggestions = () => {
         // TODO: Here is the filter component make the UI/UX more user friendly
         */}
           {/* <Filter typeFilter={typeFilter} setTypeFilter={setTypeFilter} /> */}
-          <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '10px', marginBottom: '20px' }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: '10px',
+              marginBottom: '20px',
+            }}
+          >
             <Button
               variant={statusFilter === 'open' ? 'contained' : 'outlined'}
               color="primary"
@@ -135,6 +151,7 @@ const Suggestions = () => {
             margin: '0',
             width: '100%',
             // flexDirection: 'column',
+            padding: !media.isMobile ? '' : '0px',
           }}
           maxWidth="xl"
         >
@@ -185,13 +202,47 @@ const Suggestions = () => {
             )}
             {filteredSuggestions &&
               filteredSuggestions.map((ele) => {
-                return <SuggestionCard suggestions={ele} key={ele._id} setVote={setVote} />;
+                return <SuggestionCard suggestions={ele} key={ele._id} setVote={setVote} isMobile={media.isMobile} />;
               })}
             {(!filteredSuggestions || filteredSuggestions.length === 0) && <CustomError>No Suggestions</CustomError>}
           </Container>
-          <Container sx={{ flex: 2, maxHeight: '94vh', height: '94vh', overflow: 'scroll' }} className="hideScrollBar">
-            <UserActionsList />
-          </Container>
+          {media.isLaptop && (
+            <Container
+              sx={{ flex: 2, maxHeight: '94vh', height: '94vh', overflow: 'scroll' }}
+              className="hideScrollBar"
+            >
+              <UserActionsList />
+            </Container>
+          )}
+          {!media.isLaptop && (
+            <>
+              <Fab
+                sx={{
+                  position: 'fixed',
+                  bottom: '20px',
+                  right: '20px',
+                  height: '50px',
+                  width: '50px',
+                  zIndex: '2000',
+                }}
+                color="primary"
+                onClick={() => {
+                  setIsDrawarOpen(!isDrawarOpen);
+                }}
+              >
+                {!isDrawarOpen ? <Dehaze /> : <CloseIcon />}
+              </Fab>
+              <Drawer open={isDrawarOpen} anchor="right">
+                <div
+                  style={{
+                    width: '100vw',
+                  }}
+                >
+                  <UserActionsList isMobile={media.isMobile} />
+                </div>
+              </Drawer>
+            </>
+          )}
         </Container>
       </Container>
     </>

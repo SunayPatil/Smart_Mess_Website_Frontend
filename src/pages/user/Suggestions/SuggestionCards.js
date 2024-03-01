@@ -33,6 +33,7 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function SuggestionCard(props) {
+  const { isMobile } = props;
   const [expanded, setExpanded] = React.useState(false);
   const [upvotes, setUpvotes] = React.useState(props?.suggestions?.upvotes);
   const [downvotes, setDownvotes] = React.useState(props?.suggestions?.downvotes);
@@ -68,11 +69,9 @@ export default function SuggestionCard(props) {
   return (
     <Card
       sx={{
-        width: '95%',
+        width: !isMobile ? '95%' : '100%',
       }}
-      style={
-        {marginTop: '10px'}
-      }
+      style={{ marginTop: '10px' }}
     >
       <div
         style={{
@@ -80,7 +79,7 @@ export default function SuggestionCard(props) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '10px',
+          padding: !isMobile ? '10px' : '0px',
         }}
       >
         <CardHeader
@@ -92,6 +91,7 @@ export default function SuggestionCard(props) {
           sx={{
             padding: '10px',
           }}
+          subheaderTypographyProps={{ fontSize: '12px' }}
         />
         {canDelete && (
           <Button
