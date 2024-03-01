@@ -8,7 +8,10 @@ import './index.css';
 import UserActionsListComment from './Suggestions/UserActionListComment';
 import { getoneSuggestion } from './apis';
 import CustomError from '../CustomErrorMessage';
-import { Button } from '@mui/material';
+import { Button ,Fab , Drawer } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Dehaze from '@mui/icons-material/Dehaze';
+import CloseIcon from '@mui/icons-material/Close';
 import Filter from './Suggestions/Filter';
 import Dehaze from '@mui/icons-material/Dehaze';
 import CloseIcon from '@mui/icons-material/Close';
@@ -31,7 +34,8 @@ const SuggestionComment = () => {
   // Vote Logic
   const [vote, setVote] = useState(null);
   const [updates, setUpdates] = useState(false);
-
+  const isLaptop = useMediaQuery('(min-width:1023px)');
+  const isMobile = useMediaQuery('(max-width:600px)');
   const socket_ChangeVote = useCallback((vote) => {
     // console.log(vote);
     setSuggestionComment((suggestions) => {

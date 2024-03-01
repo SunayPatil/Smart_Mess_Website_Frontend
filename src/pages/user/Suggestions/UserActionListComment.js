@@ -16,7 +16,7 @@ import { getoneSuggestion } from 'src/pages/user/apis.js';
 import { SocketContext } from '../../../Context/socket';
 import CommentCard from './CommentCard';
 
-export default function UserActionsListComment({ Id }) {
+export default function UserActionsListComment({ Id },{isMobile}) {
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openView, setOpenView] = React.useState(false);
   const [comments, setComments] = React.useState([]);
@@ -67,7 +67,7 @@ export default function UserActionsListComment({ Id }) {
 
   return (
     <List
-      sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+      sx={{ width: '100%', maxWidth: !isMobile ? 360 : '100%', bgcolor: 'background.paper' }}
       component="nav"
       aria-labelledby="nested-list-subheader"
     >
