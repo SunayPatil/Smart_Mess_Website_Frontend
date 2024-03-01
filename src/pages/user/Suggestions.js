@@ -24,8 +24,8 @@ const Suggestions = () => {
   const [isDrawarOpen, setIsDrawarOpen] = useState(false);
   const media = {
     isLaptop: useMediaQuery('(min-width:1023px)'),
-    isTablet: useMediaQuery('(min-width:375px)') && useMediaQuery('(max-width:1022px)'),
-    isMobile: useMediaQuery('(max-width:374px)'),
+    isTablet: useMediaQuery('(min-width:427px)') && useMediaQuery('(max-width:1022px)'),
+    isMobile: useMediaQuery('(max-width:426px)'),
   };
   console.log(media);
 
