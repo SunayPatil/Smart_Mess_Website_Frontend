@@ -8,7 +8,10 @@ import './index.css';
 import UserActionsListComment from './Suggestions/UserActionListComment';
 import { getoneSuggestion } from './apis';
 import CustomError from '../CustomErrorMessage';
-import { Button } from '@mui/material';
+import { Button ,Fab , Drawer } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Dehaze from '@mui/icons-material/Dehaze';
+import CloseIcon from '@mui/icons-material/Close';
 import Filter from './Suggestions/Filter';
 import { Autorenew, TourRounded } from '@mui/icons-material';
 import CommentCard from './Suggestions/CommentCard';
@@ -19,12 +22,13 @@ const SuggestionComment = () => {
   const navigate = useNavigate();
   const { suggestionId } = useParams();
   const [suggestionComment, setSuggestionComment] = useState([]);
-
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const socket = useContext(SocketContext);
   // Vote Logic
   const [vote, setVote] = useState(null);
   const [updates, setUpdates] = useState(false);
-
+  const isLaptop = useMediaQuery('(min-width:1023px)');
+  const isMobile = useMediaQuery('(max-width:600px)');
   const socket_ChangeVote = useCallback((vote) => {
     // console.log(vote);
     setSuggestionComment((suggestions) => {
@@ -161,9 +165,24 @@ const SuggestionComment = () => {
 
             {(!suggestionComment || suggestionComment.length === 0) && <CustomError>No Suggestions</CustomError>}
           </Container>
-          <Container sx={{ flex: 2, maxHeight: '94vh', height: '94vh', overflow: 'scroll' }} className="hideScrollBar">
-            <UserActionsListComment Id={suggestionId} />
-          </Container>
+          {isLaptop ? (
+            <Container sx={{ flex: 2, maxHeight: '94vh', overflow: 'scroll' }} className="hideScrollBar">
+              <UserActionsListComment Id={suggestionId} />
+            </Container>
+          ) : (
+            <>
+              <Fab
+                sx={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: '2000' }}
+                color="primary"
+                onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+              >
+                {isDrawerOpen ? <CloseIcon /> : <Dehaze />}
+              </Fab>
+              <Drawer open={isDrawerOpen} anchor="right">
+                <UserActionsListComment Id={suggestionId} isMobile={isMobile} />
+              </Drawer>
+            </>
+          )}
         </Container>
       </Container>
     </>
