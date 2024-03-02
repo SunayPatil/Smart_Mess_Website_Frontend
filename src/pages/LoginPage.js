@@ -1,26 +1,20 @@
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { gapi } from 'gapi-script';
-import { GoogleLogin, GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
+import {  useGoogleLogin } from '@react-oauth/google';
 import GoogleButton from 'react-google-button';
 import { Spin } from 'antd';
 // @mui
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-import Link from '@mui/material/Link';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import useMediaQuery from '@mui/material/useMediaQuery';
 // hooks
 import useResponsive from '../hooks/useResponsive';
 // components
 import Logo from '../components/logo';
-import Iconify from '../components/iconify';
 // sections
-import { LoginForm } from '../sections/auth/login';
 import clientId from '../constants/client-id';
 import { Signin, handleNotification } from '../utils/apis';
 
@@ -135,7 +129,7 @@ export default function LoginPage() {
           <img
             src={`https://res.cloudinary.com/dowydptqe/image/upload/w_${
               isLaptop ? '3000' : isTablet ? '2000' : isMobile ? '1000' : 'auto'
-            }/f_auto,q_auto/v1/smart_mess/zdsrw9hbetv5lnkqvcyx`}
+            }/f_auto,q_${isLaptop?'70':'40'}/v1/smart_mess/zdsrw9hbetv5lnkqvcyx`}
             style={{
               height: '100%',
               width: '100%',

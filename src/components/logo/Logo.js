@@ -21,8 +21,9 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
   const logo = (
     <Box
       component="img"
-      src="/IITDHlogo.png" 
+      src="/IITDHlogo.webp" 
       sx={{ width: 60, height: 60, cursor: 'pointer', ...sx, objectFit: "contain" }}
+      loading='lazy'
     />
   );
 
