@@ -160,14 +160,26 @@ const SuggestionComment = () => {
                 />
               </div>
             )}
+{/*            
             <SuggestionCard suggestions={suggestionComment} key={suggestionId} setVote={setVote} discusson={true} />
             {suggestionComment &&
               suggestionComment.children?.map((ele) => {
                 // comment
                 return <CommentCard comments={ele} key={ele._id} setVote={setVote} />;
               })}
-
-            {(!suggestionComment || suggestionComment.length === 0) && <CustomError>No Suggestions</CustomError>}
+              {(!suggestionComment || suggestionComment.length === 0) && <CustomError>No Comments</CustomError>} */}
+              {suggestionComment && suggestionComment.children  ? (
+    <>
+      <SuggestionCard suggestions={suggestionComment} key={suggestionId} setVote={setVote} discusson={true} />
+      {suggestionComment.children.map((ele) => (
+        <CommentCard comments={ele} key={ele._id} setVote={setVote} />
+      ))}
+    </>
+  ) : (
+    <CustomError>No Comments</CustomError>
+  )
+}
+  
           </Container>
           {media.isLaptop && (
             <Container

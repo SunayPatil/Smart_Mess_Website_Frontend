@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -22,7 +23,21 @@ export default function UserActionsListComment({ Id },{isMobile}) {
   const [comments, setComments] = React.useState([]);
   const socket = React.useContext(SocketContext);
   const suggestionId = Id;
-
+  const [user, setUser] = React.useState({});
+  const getUser = async () => {
+    let user = await localStorage.getItem('user');
+    user = await JSON.parse(user);
+    setUser(user);
+    
+  };
+  console.log(user);
+  useEffect(() => {
+    try {
+      getUser();
+    } catch (error) {
+      console.log('error');
+    }
+  }, []);
   const deleteComment = async (commentId) => {
     const res = await deleteUserSuggestionComment({ suggestionId: suggestionId, commentId: commentId });
     setComments((comments) => {
@@ -143,7 +158,10 @@ export default function UserActionsListComment({ Id },{isMobile}) {
           }}
         >
           {comments.map((ele) => {
-            return <CommentCard comments={ele} disable key={ele._id} canDelete deleteComment={deleteComment} />;
+            if(ele.userId == user._id){
+              return <CommentCard comments={ele} key={ele._id} canDelete deleteComment={deleteComment} />;
+            }
+           
           })}
         </Paper>
       </Collapse>

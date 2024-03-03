@@ -35,9 +35,9 @@ const ExpandMore = styled((props) => {
 export default function SuggestionCard(props) {
   const { isMobile } = props;
   const [expanded, setExpanded] = React.useState(false);
-  const [upvotes, setUpvotes] = React.useState(props?.suggestions?.upvotes);
-  const [downvotes, setDownvotes] = React.useState(props?.suggestions?.downvotes);
-  const { setVote, disable, canDelete, deleteSuggestion ,discusson} = props;
+  const { setVote, disable, canDelete, deleteSuggestion ,discusson , suggestions} = props;
+  const [upvotes, setUpvotes] = useState(suggestions?.upvotes || props?.suggestions?.suggestion?.upvotes );
+  const [downvotes, setDownvotes] = useState(suggestions?.downvotes || props?.suggestions?.suggestion?.downvotes);
   const suggestionid = props.key;
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -53,7 +53,7 @@ export default function SuggestionCard(props) {
     navigate(props?.suggestions?._id);
   };
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
-
+  
   useEffect(() => {
     const handleResize = () => {
       setIsDesktop(window.innerWidth >= 768);
@@ -105,7 +105,7 @@ export default function SuggestionCard(props) {
           </Button>
         )}
       </div>
-      {!props.iscomment && props.suggestions?.image !== 'null' && (
+      {!props.iscomment && props.suggestions?.image !== 'null' && props.suggestions?.image !=='undefined' && (
         <CardMedia
           component="img"
           height="200px"
@@ -149,7 +149,7 @@ export default function SuggestionCard(props) {
               >
                 <ArrowCircleUpSharpIcon />
               </span>
-              {!discusson ? `: ${upvotes?.length}` : `${props?.suggestions?.upvotes?.length}`}
+              {upvotes?.length}
             </Button>
 
             <Button
@@ -168,7 +168,7 @@ export default function SuggestionCard(props) {
               >
                 <ArrowCircleDownSharpIcon />
               </span>
-              {!discusson ? `: ${downvotes?.length}` : `${props?.suggestions?.downvotes?.length}`}
+              {downvotes?.length}
             </Button>
           </div>
           {!props.discusson && (
