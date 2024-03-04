@@ -220,7 +220,14 @@ const FoodCard = (props) => {
               disabled={ratedItem}
             />
           </FormControl>
-          {!ratedItem && <Button type="submit">Submit</Button>}
+          {
+        !ratedItem ? (
+          <Button type="submit">Submit</Button>
+        ) : (
+          <Button type="submit" disabled>Submitted</Button>
+        )
+        }
+
         </form>
       </Card>
     );
