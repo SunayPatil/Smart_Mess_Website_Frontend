@@ -17,7 +17,7 @@ import { getoneSuggestion } from 'src/pages/user/apis.js';
 import { SocketContext } from '../../../Context/socket';
 import CommentCard from './CommentCard';
 
-export default function UserActionsListComment({ Id },{isMobile}) {
+export default function UserActionsListComment({ Id }, { isMobile }) {
   const [openAdd, setOpenAdd] = React.useState(false);
   const [openView, setOpenView] = React.useState(false);
   const [comments, setComments] = React.useState([]);
@@ -28,9 +28,8 @@ export default function UserActionsListComment({ Id },{isMobile}) {
     let user = await localStorage.getItem('user');
     user = await JSON.parse(user);
     setUser(user);
-    
   };
-  console.log(user);
+
   useEffect(() => {
     try {
       getUser();
@@ -47,7 +46,7 @@ export default function UserActionsListComment({ Id },{isMobile}) {
     });
     // socket.emit('delete-suggestion', res.data.deletedSuggestion);
   };
-  
+
   const fetchUserComments = React.useCallback(async () => {
     const res = await getoneSuggestion(suggestionId).then((res) => {
       //   console.log(res);
@@ -79,6 +78,8 @@ export default function UserActionsListComment({ Id },{isMobile}) {
   //       // socket.off();
   //     };
   //   }, [socket]);
+
+  console.log(comments);
 
   return (
     <List
@@ -158,10 +159,9 @@ export default function UserActionsListComment({ Id },{isMobile}) {
           }}
         >
           {comments.map((ele) => {
-            if(ele.userId == user._id){
+            if (ele.userId._id == user._id) {
               return <CommentCard comments={ele} key={ele._id} canDelete deleteComment={deleteComment} />;
             }
-           
           })}
         </Paper>
       </Collapse>

@@ -64,7 +64,7 @@ export default function CommentCard(props) {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-  console.log(props?.comments?.userId);
+
   return (
     <Card
       sx={{
@@ -82,10 +82,8 @@ export default function CommentCard(props) {
         }}
       >
         <CardHeader
-          avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={`${props?.suggestions?.userId?.Image}`} />
-          }
-          // title={props?.suggestions?.suggestionTitle && props.suggestions.suggestionTitle}
+          avatar={<Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={`${props?.comments?.userId?.Image}`} />}
+          title={props?.comments?.userId?.Username}
           subheader={dayjs(props?.comments?.createdAt).format('DD/MMM/YYYY, ddd')}
           sx={{
             padding: '10px',
@@ -106,10 +104,14 @@ export default function CommentCard(props) {
 
       <CardContent>
         <Typography variant="body1" color="text.secondary" style={{ fontSize: '18px' }}>
-          {props.comments.comment}
+          {canDelete
+            ? props.comments.comment.length > 100
+              ? props.comments.comment.substring(0, 100) + '...'
+              : props.comments.comment
+            : props.comments.comment}
         </Typography>
       </CardContent>
-      
+
       {/* {canDelete && props?.suggestions?.status == 'open' && (
         <Button
           style={{ margin: '10px' }}
