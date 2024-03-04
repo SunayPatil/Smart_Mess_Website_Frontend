@@ -105,10 +105,10 @@ export default function CommentCard(props) {
       <CardContent>
         <Typography variant="body1" color="text.secondary" style={{ fontSize: '18px' }}>
           {canDelete
-            ? props.comments.comment.length > 100
-              ? props.comments.comment.substring(0, 100) + '...'
-              : props.comments.comment
-            : props.comments.comment}
+            ? props?.comments?.comment.length > 100
+              ? props?.comments?.comment.substring(0, 100) + '...'
+              : props?.comments?.comment
+            : props?.comments?.comment}
         </Typography>
       </CardContent>
 
