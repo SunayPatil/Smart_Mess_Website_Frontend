@@ -35,8 +35,8 @@ const ExpandMore = styled((props) => {
 export default function SuggestionCard(props) {
   const { isMobile } = props;
   const [expanded, setExpanded] = React.useState(false);
-  const { setVote, disable, canDelete, deleteSuggestion ,discusson , suggestions} = props;
-  const [upvotes, setUpvotes] = useState(suggestions?.upvotes || props?.suggestions?.suggestion?.upvotes );
+  const { setVote, disable, canDelete, deleteSuggestion, discusson, suggestions } = props;
+  const [upvotes, setUpvotes] = useState(suggestions?.upvotes || props?.suggestions?.suggestion?.upvotes);
   const [downvotes, setDownvotes] = useState(suggestions?.downvotes || props?.suggestions?.suggestion?.downvotes);
   const suggestionid = props.key;
   const handleExpandClick = () => {
@@ -53,7 +53,7 @@ export default function SuggestionCard(props) {
     navigate(props?.suggestions?._id);
   };
   const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 768);
-  
+
   useEffect(() => {
     const handleResize = () => {
       setIsDesktop(window.innerWidth >= 768);
@@ -83,10 +83,9 @@ export default function SuggestionCard(props) {
         }}
       >
         <CardHeader
-          avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={`${props?.suggestions?.userId?.Image}`} />
-          }
-          title={props?.suggestions?.suggestionTitle}
+          avatar={<Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={props?.suggestions?.userId?.Image} />}
+          // title={props?.suggestions?.suggestionTitle}
+          title={props?.suggestions?.userId?.Username}
           subheader={dayjs(props?.suggestions?.createdAt).format('DD/MMM/YYYY, ddd')}
           sx={{
             padding: '10px',
@@ -105,7 +104,7 @@ export default function SuggestionCard(props) {
           </Button>
         )}
       </div>
-      {!props.iscomment && props.suggestions?.image !== 'null' && props.suggestions?.image !=='undefined' && (
+      {!props.iscomment && props.suggestions?.image !== 'null' && props.suggestions?.image !== 'undefined' && (
         <CardMedia
           component="img"
           height="200px"
@@ -119,13 +118,19 @@ export default function SuggestionCard(props) {
       )}
 
       <CardContent>
+        <Typography variant="h3" color="text.primary" style={{ fontSize: '22px', paddingBottom: '20px' }}>
+          {props?.suggestions?.suggestionTitle}
+        </Typography>
         <Typography variant="body2" color="text.secondary" style={{ fontSize: '18px' }}>
-          {props?.suggestions?.suggestion?.substring(0, Math.min(100, props?.suggestions?.suggestion?.length))}
+          {canDelete
+            ? props?.suggestions?.suggestion?.substring(0, Math.min(100, props?.suggestions?.suggestion?.length))
+            : props?.suggestions?.suggestion}
+
           {props?.comments?.comment}
-          {props?.suggestions?.suggestion?.length > 100 && <>...</>}
+          {canDelete && props?.suggestions?.suggestion?.length > 100 && <>...</>}
         </Typography>
       </CardContent>
-      {!canDelete &&   (
+      {!canDelete && (
         <CardActions
           disableSpacing
           style={
@@ -177,7 +182,7 @@ export default function SuggestionCard(props) {
             </Button>
           )}
 
-          {props?.suggestions?.suggestion?.length > 100 && (
+          {canDelete && props?.suggestions?.suggestion?.length > 100 && (
             <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
               <ExpandMoreIcon />
             </ExpandMore>
@@ -185,7 +190,6 @@ export default function SuggestionCard(props) {
         </CardActions>
       )}
 
-      
       {canDelete && props?.suggestions?.status == 'open' && (
         <Button
           style={{ margin: '10px' }}
