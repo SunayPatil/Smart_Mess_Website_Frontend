@@ -165,7 +165,7 @@ const FoodCard = (props) => {
           margin: '10px',
           gap: '5px',
           border: `${!ratedItem ? '1px solid lightgray' : ''}`,
-          height: '100%',
+          height: '420px',
         }}
       >
         <CardMedia
@@ -179,7 +179,7 @@ const FoodCard = (props) => {
           }}
           loading="lazy"
         />
-        <Typography variant="h4" component="p" textAlign="center">
+        <Typography variant="h5" component="p" textAlign="center">
           {props?.item?.Name?.slice(0, 10)}
           {props?.item?.Name?.length > 10 ? '...' : ''}
         </Typography>
@@ -280,7 +280,7 @@ const MobileRatings = (props) => {
           margin: '10px 20px',
           display: 'flex',
           flexWrap: 'wrap',
-          justifyContent: !isLargeMobile ? 'space-between' : 'center',
+          justifyContent: !isLargeMobile ? '' : 'center',
           alignItems: 'baseline',
         }}
       >
@@ -288,7 +288,7 @@ const MobileRatings = (props) => {
           const rating = find(ratings, { FoodItem: foodItem?._id });
           const ratedItems = find(ratedFoodItems, { foodId: foodItem?._id });
           if (filterString === '') {
-            return (
+            return (        
               <FoodCard
                 item={foodItem}
                 ratings={rating}
