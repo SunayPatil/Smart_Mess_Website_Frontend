@@ -20,6 +20,7 @@ import dayjs from 'dayjs';
 import { voteSuggestion } from '../apis';
 import Delete from '@mui/icons-material/Delete';
 import { markAsresolved } from './apis';
+import { SocketContext } from 'src/Context/socket';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -38,6 +39,7 @@ export default function SuggestionCard(props) {
   const { setVote, disable, canDelete, deleteSuggestion, discusson, suggestions } = props;
   const [upvotes, setUpvotes] = useState(suggestions?.upvotes || props?.suggestions?.suggestion?.upvotes);
   const [downvotes, setDownvotes] = useState(suggestions?.downvotes || props?.suggestions?.suggestion?.downvotes);
+  const socket = React.useContext(SocketContext);
   const suggestionid = props.key;
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -47,7 +49,8 @@ export default function SuggestionCard(props) {
     const res = await voteSuggestion({ upvote: isUpvote, suggestionId });
     setUpvotes(res.data.upvotes);
     setDownvotes(res.data.downvotes);
-    setVote(res.data);
+    // setVote(res.data);
+    socket.emit('vote-cast', res.data);
   };
   const handleCardClick = () => {
     navigate(props?.suggestions?._id);

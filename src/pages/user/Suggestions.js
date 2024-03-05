@@ -35,21 +35,24 @@ const Suggestions = () => {
   const [updates, setUpdates] = useState(false);
 
   const socket_ChangeVote = useCallback((vote) => {
-    // console.log(vote);
-    setSuggestions((suggestions) => {
+    console.log(vote);
+    setSuggestions(() => {
       return suggestions.map((ele) => {
         if (ele._id === vote._id) {
-          ele.downvotes = vote.downvotes;
-          ele.upvotes = vote.upvotes;
-          return ele;
+          return {
+            ...ele,
+            downvotes: vote.downvotes,
+            upvotes: vote.upvotes,
+          };
         }
         return ele;
       });
     });
+    // console.log(suggestions);
   }, []);
 
   const socket_RemoveSuggestion = useCallback((deletedSuggestion) => {
-    // console.log({ deletedSuggestion });
+    console.log({ deletedSuggestion });
     setSuggestions((suggestions) => {
       return suggestions.filter((ele) => {
         return ele._id != deletedSuggestion._id;
@@ -63,10 +66,6 @@ const Suggestions = () => {
       socket.on('vote-update', (vote) => {
         socket_ChangeVote(vote);
       });
-      if (vote !== null) {
-        socket.emit('vote-cast', vote);
-        setVote(null);
-      }
       socket.on('delete-suggestion', (deletedSuggestion) => {
         socket_RemoveSuggestion(deletedSuggestion);
       });
@@ -78,7 +77,7 @@ const Suggestions = () => {
       mount = false;
       // socket.off();
     };
-  }, [vote, socket]);
+  }, [vote, socket, socket_ChangeVote, socket_RemoveSuggestion, setUpdates]);
 
   const fetchAllSuggestions = useCallback(async () => {
     const res = await getAllSuggestions();
@@ -174,12 +173,13 @@ const Suggestions = () => {
             {updates && (
               <div
                 style={{
-                  width: '100%',
-                  position: 'absolute',
-                  top: '2%',
-                  zIndex: '10',
+                  position: 'fixed',
+                  top: '20vh',
+                  left: 'calc(100vw/2 - (137px/2))',
+                  zIndex: '2000',
                   display: 'flex',
                   justifyContent: 'center',
+                  opacity: '0.9',
                 }}
               >
                 <Chip
