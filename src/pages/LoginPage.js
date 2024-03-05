@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { gapi } from 'gapi-script';
-import {  useGoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
 import GoogleButton from 'react-google-button';
 import { Spin } from 'antd';
 // @mui
@@ -123,13 +123,13 @@ export default function LoginPage() {
             width: '100vw',
             height: '100vh',
             overflow: 'clip',
-            minWidth:"100vw"
+            minWidth: '100vw',
           }}
         >
           <img
             src={`https://res.cloudinary.com/dowydptqe/image/upload/w_${
               isLaptop ? '3000' : isTablet ? '2000' : isMobile ? '1000' : 'auto'
-            }/f_auto,q_${isLaptop?'70':'40'}/v1/smart_mess/zdsrw9hbetv5lnkqvcyx`}
+            }/f_auto,q_${isLaptop ? '70' : '40'}/v1/smart_mess/zdsrw9hbetv5lnkqvcyx`}
             style={{
               height: '100%',
               width: '100%',
@@ -183,46 +183,6 @@ export default function LoginPage() {
             </Stack>
           </div>
         </Container>
-
-        {/* <StyledRoot>
-          {mdUp && (
-            <Logo
-              sx={{
-                position: 'fixed',
-                top: { xs: 16, sm: 24, md: 40 },
-                left: { xs: 16, sm: 24, md: 40 },
-              }}
-            />
-          )}
-
-          {mdUp && (
-            <StyledSection>
-              <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-                Hi, Welcome to Bhoopali Mess
-              </Typography>
-              <img src="/assets/illustrations/mess.webp" alt="login" />
-            </StyledSection>
-          )}
-
-          <Container maxWidth="sm">
-            <StyledContent>
-              <Stack direction="row" justifyContent="center">
-                {!mdUp && (
-                  <Logo
-                    sx={{
-                      width: '100px',
-                      minHeight: '100px',
-                    }}
-                  />
-                )}
-              </Stack>
-              <br />
-              <Stack direction="row" justifyContent="center" spacing={2}>
-                <GoogleButton onClick={googlelogin} />
-              </Stack>
-            </StyledContent>
-          </Container>
-        </StyledRoot> */}
       </Spin>
     </>
   );
