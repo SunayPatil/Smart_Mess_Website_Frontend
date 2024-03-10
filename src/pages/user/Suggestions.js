@@ -82,7 +82,7 @@ const Suggestions = () => {
   const fetchAllSuggestions = useCallback(async () => {
     const res = await getAllSuggestions();
     // console.log({ fetchedSuggestions: res.data.suggestions });
-    setSuggestions(res.data.suggestions);
+    setSuggestions(res.data.suggestions.reverse());
   }, []);
 
   useEffect(() => {
@@ -98,6 +98,7 @@ const Suggestions = () => {
   // TODO:Add filter option for the manager
   useEffect(() => {
     // Whenever suggestions or statusFilter changes, filter suggestions
+
     filterSuggestions(suggestions, statusFilter);
   }, [suggestions, statusFilter]);
 
@@ -105,6 +106,7 @@ const Suggestions = () => {
     const filtered = suggestions.filter((suggestion) => suggestion.status === status);
     setFilteredSuggestions(filtered);
   };
+
   return (
     <>
       <Container
