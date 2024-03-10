@@ -9,6 +9,28 @@ import { getDashTimeTable } from '../utils/apis';
 
 const { Meta } = Card;
 
+const generateMealTypeComponent = (mealTypeData) => {
+  return (
+    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
+      {mealTypeData.map((item, index) => (
+        <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+          <Card
+            bordered
+            style={{
+              width: 240,
+            }}
+            cover={
+              <img style={{ height: '160px', objectFit: 'cover' }} alt="example" src={item?.Image} loading="lazy" />
+            }
+          >
+            <Meta title={item?.Name} />
+          </Card>
+        </Grid>
+      ))}
+    </Grid>
+  );
+};
+
 const MyMenuPage = () => {
   const date = new Date();
   let today = date.getDay();
@@ -88,152 +110,174 @@ const MyMenuPage = () => {
     {
       key: '1',
       label: 'Breakfast',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {mondayData
-            .filter((day) => {
-              return day.Type === 'Breakfast';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(mondayData.filter((day) => day.Type === 'Breakfast')[0]?.Items || []),
     },
     {
       key: '2',
       label: 'Lunch',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {mondayData
-            .filter((day) => {
-              return day.Type === 'Lunch';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(mondayData.filter((day) => day.Type === 'Lunch')[0]?.Items || []),
     },
     {
       key: '3',
       label: 'Snacks',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {mondayData
-            .filter((day) => {
-              return day.Type === 'Snacks';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(mondayData.filter((day) => day.Type === 'Snacks')[0]?.Items || []),
     },
     {
       key: '4',
       label: 'Dinner',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {mondayData
-            .filter((day) => {
-              return day.Type === 'Dinner';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(mondayData.filter((day) => day.Type === 'Dinner')[0]?.Items || []),
     },
   ];
+
+  //   {
+  //     key: '1',
+  //     label: 'Breakfast',
+  //     children: (
+  //       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
+  //         {mondayData
+  //           .filter((day) => {
+  //             return day.Type === 'Breakfast';
+  //           })[0]
+  //           ?.Items?.map((item, index) => {
+  //             if (item) {
+  //               return (
+  //                 <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+  //                   <Card
+  //                     bordered
+  //                     style={{
+  //                       width: 240,
+  //                     }}
+  //                     cover={
+  //                       <img
+  //                         style={{ height: '160px', objectFit: 'cover' }}
+  //                         alt="example"
+  //                         src={item?.Image}
+  //                         loading="lazy"
+  //                       />
+  //                     }
+  //                   >
+  //                     <Meta title={item?.Name} />
+  //                   </Card>
+  //                 </Grid>
+  //               );
+  //             }
+  //             return <></>;
+  //           })}
+  //       </Grid>
+  //     ),
+  //   },
+  //   {
+  //     key: '2',
+  //     label: 'Lunch',
+  //     children: (
+  //       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
+  //         {mondayData
+  //           .filter((day) => {
+  //             return day.Type === 'Lunch';
+  //           })[0]
+  //           ?.Items?.map((item, index) => {
+  //             if (item) {
+  //               return (
+  //                 <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+  //                   <Card
+  //                     bordered
+  //                     style={{
+  //                       width: 240,
+  //                     }}
+  //                     cover={
+  //                       <img
+  //                         style={{ height: '160px', objectFit: 'cover' }}
+  //                         alt="example"
+  //                         src={item?.Image}
+  //                         loading="lazy"
+  //                       />
+  //                     }
+  //                   >
+  //                     <Meta title={item?.Name} />
+  //                   </Card>
+  //                 </Grid>
+  //               );
+  //             }
+  //             return <></>;
+  //           })}
+  //       </Grid>
+  //     ),
+  //   },
+  //   {
+  //     key: '3',
+  //     label: 'Snacks',
+  //     children: (
+  //       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
+  //         {mondayData
+  //           .filter((day) => {
+  //             return day.Type === 'Snacks';
+  //           })[0]
+  //           ?.Items?.map((item, index) => {
+  //             if (item) {
+  //               return (
+  //                 <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+  //                   <Card
+  //                     bordered
+  //                     style={{
+  //                       width: 240,
+  //                     }}
+  //                     cover={
+  //                       <img
+  //                         style={{ height: '160px', objectFit: 'cover' }}
+  //                         alt="example"
+  //                         src={item?.Image}
+  //                         loading="lazy"
+  //                       />
+  //                     }
+  //                   >
+  //                     <Meta title={item?.Name} />
+  //                   </Card>
+  //                 </Grid>
+  //               );
+  //             }
+  //             return <></>;
+  //           })}
+  //       </Grid>
+  //     ),
+  //   },
+  //   {
+  //     key: '4',
+  //     label: 'Dinner',
+  //     children: (
+  //       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
+  //         {mondayData
+  //           .filter((day) => {
+  //             return day.Type === 'Dinner';
+  //           })[0]
+  //           ?.Items?.map((item, index) => {
+  //             if (item) {
+  //               return (
+  //                 <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+  //                   <Card
+  //                     bordered
+  //                     style={{
+  //                       width: 240,
+  //                     }}
+  //                     cover={
+  //                       <img
+  //                         style={{ height: '160px', objectFit: 'cover' }}
+  //                         alt="example"
+  //                         src={item?.Image}
+  //                         loading="lazy"
+  //                       />
+  //                     }
+  //                   >
+  //                     <Meta title={item?.Name} />
+  //                   </Card>
+  //                 </Grid>
+  //               );
+  //             }
+  //             return <></>;
+  //           })}
+  //       </Grid>
+  //     ),
+  //   },
+  // ];
 
   const TuesdayNest = [
     {
