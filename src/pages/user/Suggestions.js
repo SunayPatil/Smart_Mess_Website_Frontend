@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useState, useContext } from 'react';
 import { useLinkClickHandler, useNavigate } from 'react-router-dom';
 import { Chip, Container, Typography, Button, Fab, Drawer } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 import { SocketContext } from '../../Context/socket';
 import DehazeIcon from '@mui/icons-material/Dehaze';
 import SuggestionCard from './Suggestions/SuggestionCards';
@@ -28,7 +31,7 @@ const Suggestions = () => {
     isMobile: useMediaQuery('(max-width:426px)'),
   };
   // console.log(media);
-
+ const theme = useTheme();
   const socket = useContext(SocketContext);
   // Vote Logic
   const [vote, setVote] = useState(null);
@@ -106,6 +109,22 @@ const Suggestions = () => {
     const filtered = suggestions.filter((suggestion) => suggestion.status === status);
     setFilteredSuggestions(filtered);
   };
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6; // Adjust based on your preference
+
+  // Calculate the current suggestions to display based on pagination
+  const indexOfLastSuggestion = currentPage * itemsPerPage;
+  const indexOfFirstSuggestion = indexOfLastSuggestion - itemsPerPage;
+  const currentSuggestions = filteredSuggestions.slice(indexOfFirstSuggestion, indexOfLastSuggestion);
+
+  // Change page handler
+  const handleChangePage = (event, newPage) => {
+    setCurrentPage(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // Optional: scroll to the top when changing page
+  };
+
+  // Calculate total pages for Pagination component
+  const countPages = Math.ceil(filteredSuggestions.length / itemsPerPage);
 
   return (
     <>
@@ -202,12 +221,12 @@ const Suggestions = () => {
                 />
               </div>
             )}
-            {filteredSuggestions &&
-              filteredSuggestions.map((ele) => {
+            {currentSuggestions && currentSuggestions.map((ele) => {
                 return <SuggestionCard suggestions={ele} key={ele._id} setVote={setVote} isMobile={media.isMobile} />;
               })}
-            {(!filteredSuggestions || filteredSuggestions.length === 0) && <CustomError>No Suggestions</CustomError>}
+            {(!currentSuggestions || currentSuggestions.length === 0) && <CustomError>No Suggestions</CustomError>}
           </Container>
+        
           {media.isLaptop && (
             <Container
               sx={{ flex: 2, maxHeight: '94vh', height: '94vh', overflow: 'scroll' }}
@@ -255,6 +274,36 @@ const Suggestions = () => {
             </>
           )}
         </Container>
+        <div style={{display:"flex", justifyContent:"center"}}>
+        {filteredSuggestions.length > itemsPerPage && (
+   
+      <Pagination 
+        count={countPages} 
+        page={currentPage} 
+        style={{padding: '10px' , display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:"20px" , width:"fit-content"}}
+        onChange={handleChangePage} 
+        color="primary" 
+        showFirstButton 
+        showLastButton
+        sx={{
+          '& .MuiPaginationItem-root': {
+            color: theme.palette.primary.main, // Use theme colors for consistency
+          },
+          '& .Mui-selected': {
+            backgroundColor: theme.palette.primary.light,
+            color: theme.palette.common.white,
+          },
+          '& .MuiButtonBase-root:hover': {
+            backgroundColor: theme.palette.primary.dark,
+            color: theme.palette.common.white,
+          },
+          boxShadow: '0px 3px 6px rgba(0,0,0,0.1)', // Soft box shadow
+          borderRadius: theme.shape.borderRadius, // Use theme border radius for consistency
+        }} 
+      />
+   
+  )}
+  </div>
       </Container>
     </>
   );
