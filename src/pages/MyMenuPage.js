@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { Card, Collapse, Spin } from 'antd';
 
 import { Grid, Typography, Container } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import Tooltip from '@mui/material/Tooltip';
 
 import { getDashTimeTable } from '../utils/apis';
+import { Margin } from '@mui/icons-material';
 
 const { Meta } = Card;
 
@@ -13,19 +14,35 @@ const generateMealTypeComponent = (mealTypeData) => {
   return (
     <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
       {mealTypeData.map((item, index) => (
-        <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-          <Card
-            bordered
-            style={{
-              width: 240,
-            }}
-            cover={
-              <img style={{ height: '160px', objectFit: 'cover' }} alt="example" src={item?.Image} loading="lazy" />
-            }
-          >
-            <Meta title={item?.Name} />
-          </Card>
-        </Grid>
+        <Tooltip
+          title={item?.Name}
+          slotProps={{
+            popper: {
+              modifiers: [
+                {
+                  name: 'offset',
+                  options: {
+                    offset: [-30, -25],
+                  },
+                },
+              ],
+            },
+          }}
+        >
+          <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
+            <Card
+              bordered
+              style={{
+                width: 240,
+              }}
+              cover={
+                <img style={{ height: '160px', objectFit: 'cover' }} alt="example" src={item?.Image} loading="lazy" />
+              }
+            >
+              <Meta title={item?.Name} />
+            </Card>
+          </Grid>
+        </Tooltip>
       ))}
     </Grid>
   );
@@ -129,304 +146,26 @@ const MyMenuPage = () => {
     },
   ];
 
-  //   {
-  //     key: '1',
-  //     label: 'Breakfast',
-  //     children: (
-  //       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-  //         {mondayData
-  //           .filter((day) => {
-  //             return day.Type === 'Breakfast';
-  //           })[0]
-  //           ?.Items?.map((item, index) => {
-  //             if (item) {
-  //               return (
-  //                 <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-  //                   <Card
-  //                     bordered
-  //                     style={{
-  //                       width: 240,
-  //                     }}
-  //                     cover={
-  //                       <img
-  //                         style={{ height: '160px', objectFit: 'cover' }}
-  //                         alt="example"
-  //                         src={item?.Image}
-  //                         loading="lazy"
-  //                       />
-  //                     }
-  //                   >
-  //                     <Meta title={item?.Name} />
-  //                   </Card>
-  //                 </Grid>
-  //               );
-  //             }
-  //             return <></>;
-  //           })}
-  //       </Grid>
-  //     ),
-  //   },
-  //   {
-  //     key: '2',
-  //     label: 'Lunch',
-  //     children: (
-  //       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-  //         {mondayData
-  //           .filter((day) => {
-  //             return day.Type === 'Lunch';
-  //           })[0]
-  //           ?.Items?.map((item, index) => {
-  //             if (item) {
-  //               return (
-  //                 <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-  //                   <Card
-  //                     bordered
-  //                     style={{
-  //                       width: 240,
-  //                     }}
-  //                     cover={
-  //                       <img
-  //                         style={{ height: '160px', objectFit: 'cover' }}
-  //                         alt="example"
-  //                         src={item?.Image}
-  //                         loading="lazy"
-  //                       />
-  //                     }
-  //                   >
-  //                     <Meta title={item?.Name} />
-  //                   </Card>
-  //                 </Grid>
-  //               );
-  //             }
-  //             return <></>;
-  //           })}
-  //       </Grid>
-  //     ),
-  //   },
-  //   {
-  //     key: '3',
-  //     label: 'Snacks',
-  //     children: (
-  //       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-  //         {mondayData
-  //           .filter((day) => {
-  //             return day.Type === 'Snacks';
-  //           })[0]
-  //           ?.Items?.map((item, index) => {
-  //             if (item) {
-  //               return (
-  //                 <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-  //                   <Card
-  //                     bordered
-  //                     style={{
-  //                       width: 240,
-  //                     }}
-  //                     cover={
-  //                       <img
-  //                         style={{ height: '160px', objectFit: 'cover' }}
-  //                         alt="example"
-  //                         src={item?.Image}
-  //                         loading="lazy"
-  //                       />
-  //                     }
-  //                   >
-  //                     <Meta title={item?.Name} />
-  //                   </Card>
-  //                 </Grid>
-  //               );
-  //             }
-  //             return <></>;
-  //           })}
-  //       </Grid>
-  //     ),
-  //   },
-  //   {
-  //     key: '4',
-  //     label: 'Dinner',
-  //     children: (
-  //       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-  //         {mondayData
-  //           .filter((day) => {
-  //             return day.Type === 'Dinner';
-  //           })[0]
-  //           ?.Items?.map((item, index) => {
-  //             if (item) {
-  //               return (
-  //                 <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-  //                   <Card
-  //                     bordered
-  //                     style={{
-  //                       width: 240,
-  //                     }}
-  //                     cover={
-  //                       <img
-  //                         style={{ height: '160px', objectFit: 'cover' }}
-  //                         alt="example"
-  //                         src={item?.Image}
-  //                         loading="lazy"
-  //                       />
-  //                     }
-  //                   >
-  //                     <Meta title={item?.Name} />
-  //                   </Card>
-  //                 </Grid>
-  //               );
-  //             }
-  //             return <></>;
-  //           })}
-  //       </Grid>
-  //     ),
-  //   },
-  // ];
-
   const TuesdayNest = [
     {
       key: '1',
       label: 'Breakfast',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {tuesdayData
-            .filter((day) => {
-              return day.Type === 'Breakfast';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(tuesdayData.filter((day) => day.Type === 'Breakfast')[0]?.Items || []),
     },
     {
       key: '2',
       label: 'Lunch',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {tuesdayData
-            .filter((day) => {
-              return day.Type === 'Lunch';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(tuesdayData.filter((day) => day.Type === 'Lunch')[0]?.Items || []),
     },
     {
       key: '3',
       label: 'Snacks',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {tuesdayData
-            .filter((day) => {
-              return day.Type === 'Snacks';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(tuesdayData.filter((day) => day.Type === 'Snacks')[0]?.Items || []),
     },
     {
       key: '4',
       label: 'Dinner',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {tuesdayData
-            .filter((day) => {
-              return day.Type === 'Dinner';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(tuesdayData.filter((day) => day.Type === 'Dinner')[0]?.Items || []),
     },
   ];
 
@@ -434,150 +173,22 @@ const MyMenuPage = () => {
     {
       key: '1',
       label: 'Breakfast',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {wednesdayData
-            .filter((day) => {
-              return day.Type === 'Breakfast';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(wednesdayData.filter((day) => day.Type === 'Breakfast')[0]?.Items || []),
     },
     {
       key: '2',
       label: 'Lunch',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {wednesdayData
-            .filter((day) => {
-              return day.Type === 'Lunch';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(wednesdayData.filter((day) => day.Type === 'Lunch')[0]?.Items || []),
     },
     {
       key: '3',
       label: 'Snacks',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {wednesdayData
-            .filter((day) => {
-              return day.Type === 'Snacks';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(wednesdayData.filter((day) => day.Type === 'Snacks')[0]?.Items || []),
     },
     {
       key: '4',
       label: 'Dinner',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {wednesdayData
-            .filter((day) => {
-              return day.Type === 'Dinner';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(wednesdayData.filter((day) => day.Type === 'Dinner')[0]?.Items || []),
     },
   ];
 
@@ -585,150 +196,22 @@ const MyMenuPage = () => {
     {
       key: '1',
       label: 'Breakfast',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {thursdayData
-            .filter((day) => {
-              return day.Type === 'Breakfast';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(thursdayData.filter((day) => day.Type === 'Breakfast')[0]?.Items || []),
     },
     {
       key: '2',
       label: 'Lunch',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {thursdayData
-            .filter((day) => {
-              return day.Type === 'Lunch';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(thursdayData.filter((day) => day.Type === 'Lunch')[0]?.Items || []),
     },
     {
       key: '3',
       label: 'Snacks',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {thursdayData
-            .filter((day) => {
-              return day.Type === 'Snacks';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(thursdayData.filter((day) => day.Type === 'Snacks')[0]?.Items || []),
     },
     {
       key: '4',
       label: 'Dinner',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {thursdayData
-            .filter((day) => {
-              return day.Type === 'Dinner';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(thursdayData.filter((day) => day.Type === 'Dinner')[0]?.Items || []),
     },
   ];
 
@@ -736,150 +219,22 @@ const MyMenuPage = () => {
     {
       key: '1',
       label: 'Breakfast',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {fridayData
-            .filter((day) => {
-              return day.Type === 'Breakfast';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(fridayData.filter((day) => day.Type === 'Breakfast')[0]?.Items || []),
     },
     {
       key: '2',
       label: 'Lunch',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {fridayData
-            .filter((day) => {
-              return day.Type === 'Lunch';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(fridayData.filter((day) => day.Type === 'Lunch')[0]?.Items || []),
     },
     {
       key: '3',
       label: 'Snacks',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {fridayData
-            .filter((day) => {
-              return day.Type === 'Snacks';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(fridayData.filter((day) => day.Type === 'Snacks')[0]?.Items || []),
     },
     {
       key: '4',
       label: 'Dinner',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {fridayData
-            .filter((day) => {
-              return day.Type === 'Dinner';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(fridayData.filter((day) => day.Type === 'Dinner')[0]?.Items || []),
     },
   ];
 
@@ -887,150 +242,22 @@ const MyMenuPage = () => {
     {
       key: '1',
       label: 'Breakfast',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {saturdayData
-            .filter((day) => {
-              return day.Type === 'Breakfast';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(saturdayData.filter((day) => day.Type === 'Breakfast')[0]?.Items || []),
     },
     {
       key: '2',
       label: 'Lunch',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {saturdayData
-            .filter((day) => {
-              return day.Type === 'Lunch';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(saturdayData.filter((day) => day.Type === 'Lunch')[0]?.Items || []),
     },
     {
       key: '3',
       label: 'Snacks',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {saturdayData
-            .filter((day) => {
-              return day.Type === 'Snacks';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(saturdayData.filter((day) => day.Type === 'Snacks')[0]?.Items || []),
     },
     {
       key: '4',
       label: 'Dinner',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {saturdayData
-            .filter((day) => {
-              return day.Type === 'Dinner';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(saturdayData.filter((day) => day.Type === 'Dinner')[0]?.Items || []),
     },
   ];
 
@@ -1038,150 +265,22 @@ const MyMenuPage = () => {
     {
       key: '1',
       label: 'Breakfast',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {sundayData
-            .filter((day) => {
-              return day.Type === 'Breakfast';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(sundayData.filter((day) => day.Type === 'Breakfast')[0]?.Items || []),
     },
     {
       key: '2',
       label: 'Lunch',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {sundayData
-            .filter((day) => {
-              return day.Type === 'Lunch';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(sundayData.filter((day) => day.Type === 'Lunch')[0]?.Items || []),
     },
     {
       key: '3',
       label: 'Snacks',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {sundayData
-            .filter((day) => {
-              return day.Type === 'Snacks';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(sundayData.filter((day) => day.Type === 'Snacks')[0]?.Items || []),
     },
     {
       key: '4',
       label: 'Dinner',
-      children: (
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}>
-          {sundayData
-            .filter((day) => {
-              return day.Type === 'Dinner';
-            })[0]
-            ?.Items?.map((item, index) => {
-              if (item) {
-                return (
-                  <Grid item xs={4} sm={4} md={4} lg={4} key={index}>
-                    <Card
-                      bordered
-                      style={{
-                        width: 240,
-                      }}
-                      cover={
-                        <img
-                          style={{ height: '160px', objectFit: 'cover' }}
-                          alt="example"
-                          src={item?.Image}
-                          loading="lazy"
-                        />
-                      }
-                    >
-                      <Meta title={item?.Name} />
-                    </Card>
-                  </Grid>
-                );
-              }
-              return <></>;
-            })}
-        </Grid>
-      ),
+      children: generateMealTypeComponent(sundayData.filter((day) => day.Type === 'Dinner')[0]?.Items || []),
     },
   ];
 
