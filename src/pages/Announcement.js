@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, TextField, Button, Typography } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 import { addAnnouncementForm } from '../utils/apis';
+// import { set } from 'lodash';
 
 function AnnouncementForm() {
   const [title, setTitle] = useState('');
@@ -16,6 +17,9 @@ function AnnouncementForm() {
   const handleSubmit = () => {
     addAnnouncementForm({ title, description, link }).then((res) => {
       console.log(res);
+      setTitle('');
+      setDescription('');
+      setLink('');
     });
   };
 

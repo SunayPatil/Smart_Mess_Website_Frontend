@@ -49,6 +49,7 @@ export default function Router() {
     });
   }, []);
 
+
   const routes = useRoutes([
     {
       path: '/dashboard',
@@ -69,9 +70,7 @@ export default function Router() {
         { path: 'announcement', element: <AnnouncementForm /> },
         {
           path: 'menuPage',
-          element: (
-              <MyMenuPage />
-          ),
+          element: <MyMenuPage />,
         },
         // { path: 'managermenupage', element: <ManagerMenuPage /> },
         { path: 'summary', element: <ManagerDashboard /> },

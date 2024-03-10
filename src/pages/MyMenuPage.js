@@ -30,7 +30,7 @@ const MyMenuPage = () => {
   const breakfastArr = mondayData.filter((day) => {
     return day.Type === 'Breakfast';
   });
-  console.log(breakfastArr.Items);
+  // console.log(breakfastArr.Items);
 
   const isManager = localStorage.getItem('user').role === 'manager';
 
@@ -72,7 +72,7 @@ const MyMenuPage = () => {
         }
       });
     }
-    console.log(res);
+    // console.log(res);
     setTimeTableData(res);
     setLoading(false);
   };

@@ -111,7 +111,7 @@ export default function NotificationsPopover() {
             disablePadding
             subheader={
               <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                Previous
+                Before that
               </ListSubheader>
             }
           >
