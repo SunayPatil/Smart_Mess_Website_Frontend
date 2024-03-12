@@ -30,6 +30,20 @@ const Suggestions = () => {
     isTablet: useMediaQuery('(min-width:427px)') && useMediaQuery('(max-width:1022px)'),
     isMobile: useMediaQuery('(max-width:426px)'),
   };
+  const [user, setUser] = React.useState({});
+  const getUser = async () => {
+    let user = await localStorage.getItem('user');
+    user = await JSON.parse(user);
+    setUser(user);
+  };
+
+  useEffect(() => {
+    try {
+      getUser();
+    } catch (error) {
+      console.log('error');
+    }
+  }, []);
   // console.log(media);
  const theme = useTheme();
   const socket = useContext(SocketContext);
@@ -110,7 +124,7 @@ const Suggestions = () => {
     setFilteredSuggestions(filtered);
   };
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6; // Adjust based on your preference
+  const itemsPerPage = 10; // Adjust based on your preference
 
   // Calculate the current suggestions to display based on pagination
   const indexOfLastSuggestion = currentPage * itemsPerPage;
@@ -226,7 +240,9 @@ const Suggestions = () => {
               })}
             {(!currentSuggestions || currentSuggestions.length === 0) && <CustomError>No Suggestions</CustomError>}
           </Container>
-        
+          {
+  user.Role!== "manager" && (
+    <>
           {media.isLaptop && (
             <Container
               sx={{ flex: 2, maxHeight: '94vh', height: '94vh', overflow: 'scroll' }}
@@ -273,6 +289,8 @@ const Suggestions = () => {
               </Drawer>
             </>
           )}
+        </>
+  )}
         </Container>
         <div style={{display:"flex", justifyContent:"center"}}>
         {filteredSuggestions.length > itemsPerPage && (
