@@ -5,6 +5,7 @@ import DashboardLayout from './layouts/dashboard';
 import SimpleLayout from './layouts/simple';
 //
 import ApiContext from './Context/apiContext';
+import { Backdrop } from '@mui/material';
 
 // import LoginPage from './pages/LoginPage';
 // import Page404 from './pages/Page404';
@@ -60,7 +61,11 @@ export default function Router() {
         { path: 'products', element: <ProductsPage /> },
         {
           path: 'ratings',
-          element: <RatingsPage />,
+          element: (
+            <Suspense fallback={<Backdrop />}>
+              <RatingsPage />
+            </Suspense>
+          ),
         },
         { path: 'products', element: <ProductsPage /> },
         { path: 'analytics', element: <AnalyticsPage /> },
@@ -69,9 +74,7 @@ export default function Router() {
         { path: 'announcement', element: <AnnouncementForm /> },
         {
           path: 'menuPage',
-          element: (
-              <MyMenuPage />
-          ),
+          element: <MyMenuPage />,
         },
         // { path: 'managermenupage', element: <ManagerMenuPage /> },
         { path: 'summary', element: <ManagerDashboard /> },

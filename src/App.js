@@ -13,25 +13,25 @@ import clientId from './constants/client-id';
 import ApiState from './Context/apiState';
 import 'react-toastify/dist/ReactToastify.css';
 import { Suspense } from 'react';
-import Backdrop  from '@mui/material/Backdrop';
+import Backdrop from '@mui/material/Backdrop';
 // ----------------------------------------------------------------------
 
 export default function App() {
   return (
     <GoogleOAuthProvider clientId={clientId}>
       <SocketContext.Provider value={socket}>
-        <ApiState>
-          <HelmetProvider>
-            <BrowserRouter>
+        <BrowserRouter>
+          <ApiState>
+            <HelmetProvider>
               <ThemeProvider>
                 <ScrollToTop />
                 <Suspense fallback={<Backdrop />}>
                   <Router />
                 </Suspense>
               </ThemeProvider>
-            </BrowserRouter>
-          </HelmetProvider>
-        </ApiState>
+            </HelmetProvider>
+          </ApiState>
+        </BrowserRouter>
       </SocketContext.Provider>
       <ToastContainer position="top-right" autoClose={2000} limit={2} />
     </GoogleOAuthProvider>

@@ -18,6 +18,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import { allItems, filterTimeTable } from '../../utils/filterTimeTable';
 import { getFoodReviews } from '../../utils/apis';
 
+// TODO : Show review in the in the single rating.  
+
 /**
  *
  * @param {Array} itemsArray

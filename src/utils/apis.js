@@ -1,6 +1,12 @@
 import { toast } from 'react-toastify';
 import { resquestNotificationPermission, getfirebaseToken } from '../notifications/firebase';
 
+const handleAuthError = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  window.location.href = process.env.REACT_APP_CLIENT_URL;
+};
+
 const Signin = async (code) => {
   try {
     const url = `${process.env.REACT_APP_SERVER_URL}/auth/signin/web`;
@@ -84,17 +90,23 @@ const submitFeedback = async ({
 };
 
 const getDashTimeTable = async () => {
-  const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/timetable`;
-  let response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-    },
-  });
-
-  response = await response.json();
-  return response;
+  try {
+    const url = `${process.env.REACT_APP_SERVER_URL}/user/dashboard/timetable`;
+    let response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    if(response.status === 401){
+      handleAuthError();
+    }
+    response = await response.json();
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const getManagerTimeTable = async () => {
@@ -223,10 +235,12 @@ const getFoodItemRating = async () => {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     });
-
+    if(response.status === 401){
+      handleAuthError();
+    }
     return await response.json();
   } catch (error) {
-    console.log(error);
+    console.log({error});
   }
   return null;
 };
@@ -300,7 +314,9 @@ const getFoodReviews = async () => {
       },
     });
     res = await res.json();
-    // console.log(res);
+    if(res.status === 401){
+      handleAuthError();
+    }
     return res;
   } catch (err) {
     console.log(err);
