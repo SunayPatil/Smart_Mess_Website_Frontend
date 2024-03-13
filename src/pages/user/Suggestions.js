@@ -51,22 +51,6 @@ const Suggestions = () => {
   const [vote, setVote] = useState(null);
   const [updates, setUpdates] = useState(false);
 
-  const socket_ChangeVote = useCallback((vote) => {
-    console.log(vote);
-    setSuggestions(() => {
-      return suggestions.map((ele) => {
-        if (ele._id === vote._id) {
-          return {
-            ...ele,
-            downvotes: vote.downvotes,
-            upvotes: vote.upvotes,
-          };
-        }
-        return ele;
-      });
-    });
-    // console.log(suggestions);
-  }, []);
 
   const socket_RemoveSuggestion = useCallback((deletedSuggestion) => {
     console.log({ deletedSuggestion });
@@ -80,9 +64,6 @@ const Suggestions = () => {
   useEffect(() => {
     let mount = true;
     if (mount) {
-      socket.on('vote-update', (vote) => {
-        socket_ChangeVote(vote);
-      });
       socket.on('delete-suggestion', (deletedSuggestion) => {
         socket_RemoveSuggestion(deletedSuggestion);
       });
@@ -94,7 +75,7 @@ const Suggestions = () => {
       mount = false;
       // socket.off();
     };
-  }, [vote, socket, socket_ChangeVote, socket_RemoveSuggestion, setUpdates]);
+  }, [vote, socket, socket_RemoveSuggestion, setUpdates]);
 
   const fetchAllSuggestions = useCallback(async () => {
     const res = await getAllSuggestions();

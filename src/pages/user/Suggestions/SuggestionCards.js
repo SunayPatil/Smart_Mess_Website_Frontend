@@ -39,7 +39,6 @@ export default function SuggestionCard(props) {
   const { setVote, disable, canDelete, deleteSuggestion, discusson, suggestions } = props;
   const [upvotes, setUpvotes] = useState(suggestions?.upvotes || props?.suggestions?.suggestion?.upvotes);
   const [downvotes, setDownvotes] = useState(suggestions?.downvotes || props?.suggestions?.suggestion?.downvotes);
-  const socket = React.useContext(SocketContext);
   const suggestionid = props.key;
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -49,8 +48,6 @@ export default function SuggestionCard(props) {
     const res = await voteSuggestion({ upvote: isUpvote, suggestionId });
     setUpvotes(res.data.upvotes);
     setDownvotes(res.data.downvotes);
-    // setVote(res.data);
-    socket.emit('vote-cast', res.data);
   };
   const handleCardClick = () => {
     navigate(props?.suggestions?._id);
