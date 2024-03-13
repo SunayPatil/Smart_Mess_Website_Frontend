@@ -16,6 +16,7 @@ const ApiState = (props) => {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
+
       response = await response.json();
       response.forEach((item) => {
         item.id = item._id;
@@ -29,6 +30,8 @@ const ApiState = (props) => {
 
       const userJSON = localStorage.getItem('user');
       let filteredResponse = response;
+
+      console.log('filteredResponse', filteredResponse);
 
       if (userJSON) {
         const user = JSON.parse(userJSON);

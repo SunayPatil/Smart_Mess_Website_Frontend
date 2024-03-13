@@ -75,6 +75,8 @@ const SuggestionForm = () => {
           <MenuItem value="improvement">Improvement</MenuItem>
           <MenuItem value="new-food-item">New Food Item</MenuItem>
           <MenuItem value="hygiene">Hygiene</MenuItem>
+          <MenuItem value="contamination">Contamination</MenuItem>
+          <MenuItem value="other">Other</MenuItem>
         </Select>
       </FormControl>
       <FormControl

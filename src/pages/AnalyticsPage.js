@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Chart from './Chart';
 import UsersRegistered from './UsersRegistered';
+import AverageRatingsChart from './AverageRatingsChart';
 
 function AnalyticsPage() {
   const [user, setUser] = useState({});
@@ -28,6 +29,8 @@ function AnalyticsPage() {
       <Typography variant="h4" component="h2" gutterBottom>
             Analytics
           </Typography>
+         
+         
             <Grid container spacing={3} style={{marginTop:"4px"}}>
      <Grid item xs={12} md={8} lg={9}>
     <Paper
@@ -39,6 +42,7 @@ function AnalyticsPage() {
       }}
     >
       <Chart />
+      
     </Paper>
   </Grid>
   <Grid item xs={12} md={4} lg={3}>
@@ -54,6 +58,19 @@ function AnalyticsPage() {
                 </Paper>
               </Grid>
               </Grid>
+              <Grid item xs={12} md={8} lg={9} style={{marginTop:"20px"}}>
+    <Paper
+      sx={{
+        p: 2,
+        display: 'flex',
+        flexDirection: 'column',
+       
+      }}
+    >
+      <AverageRatingsChart />
+      
+    </Paper>
+  </Grid>
         </Container>
     </>
   );
