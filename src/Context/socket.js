@@ -1,11 +1,7 @@
 import React from 'react';
 import io from 'socket.io-client';
 
-export const socket = io.connect(process.env.REACT_APP_SOCKET_URL, {
-  path: '/socket.io',
-  autoConnect: false,
-  transports: ['websocket'],
-});
+export const socket = io.connect(process.env.REACT_APP_SOCKET_URL);
 socket.on('connect_error', (err) => {
   // the reason of the error, for example "xhr poll error"
   console.log(err.message);
