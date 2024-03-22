@@ -11,6 +11,7 @@ import { v4 as uuid } from 'uuid';
 import { postUserSuggestion } from './apis';
 import { toast } from 'react-toastify';
 import { SocketContext } from 'src/Context/socket';
+import "../index.css"
 
 const SuggestionForm = () => {
   const [suggestion, setSuggestion] = useState({
@@ -143,7 +144,7 @@ const SuggestionForm = () => {
         variant="outlined"
         disabled={isSubmitting}
       >
-        Submit
+        {isSubmitting?<div className='loader-submit' />:"Submit"}
       </Button>
     </form>
   );
