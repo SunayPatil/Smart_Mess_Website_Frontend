@@ -11,7 +11,8 @@ import { v4 as uuid } from 'uuid';
 import { postUserSuggestion } from './apis';
 import { toast } from 'react-toastify';
 import { SocketContext } from 'src/Context/socket';
-import "../index.css"
+import Compressor from 'compressorjs';
+import '../index.css';
 
 const SuggestionForm = () => {
   const [suggestion, setSuggestion] = useState({
@@ -31,7 +32,25 @@ const SuggestionForm = () => {
     formData.append('suggestionTitle', suggestion.title);
     formData.append('suggestion', suggestion.suggestion);
     formData.append('suggestionId', uuid());
-    formData.append('image', suggestion.image);
+    try {
+      new Compressor(imageBlob, {
+        quality: 0.6,
+        success(result) {
+          formData.append('image', result);
+        },
+      });
+    } catch (err) {
+      mute = err;
+      console.log(mute);
+      setSuggestion((suggestion) => ({
+        ...suggestion,
+        title: '',
+        suggestion: '',
+        image: null,
+        suggestionType: '',
+      }));
+      toast.error('Error in image compression.');
+    }
     const res = await postUserSuggestion(formData);
     if (res.status === 200) {
       toast.success('Post Successful');
@@ -45,6 +64,7 @@ const SuggestionForm = () => {
       document.getElementById('image').value = null;
       socket.emit('new-post');
     } else {
+      console.log(res);
       toast.error('Some Error Occured');
     }
     setIsSubmitting(false);
@@ -144,7 +164,7 @@ const SuggestionForm = () => {
         variant="outlined"
         disabled={isSubmitting}
       >
-        {isSubmitting?<div className='loader-submit' />:"Submit"}
+        {isSubmitting ? <div className="loader-submit" /> : 'Submit'}
       </Button>
     </form>
   );
