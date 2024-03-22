@@ -11,7 +11,7 @@ import { v4 as uuid } from 'uuid';
 import { postUserSuggestion } from './apis';
 import { toast } from 'react-toastify';
 import { SocketContext } from 'src/Context/socket';
-import Compressor from 'compressorjs';
+import imageCompression from 'browser-image-compression';
 import '../index.css';
 
 const SuggestionForm = () => {
@@ -24,6 +24,12 @@ const SuggestionForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const socket = useContext(SocketContext);
 
+  const imageCompressOpts = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 1920,
+    useWebWorker: true,
+  };
+
   const handleSubmit = async (e) => {
     setIsSubmitting(true);
     e.preventDefault();
@@ -32,24 +38,24 @@ const SuggestionForm = () => {
     formData.append('suggestionTitle', suggestion.title);
     formData.append('suggestion', suggestion.suggestion);
     formData.append('suggestionId', uuid());
-    try {
-      new Compressor(imageBlob, {
-        quality: 0.6,
-        success(result) {
-          formData.append('image', result);
-        },
-      });
-    } catch (err) {
-      mute = err;
-      console.log(mute);
-      setSuggestion((suggestion) => ({
-        ...suggestion,
-        title: '',
-        suggestion: '',
-        image: null,
-        suggestionType: '',
-      }));
-      toast.error('Error in image compression.');
+    if (suggestion.image) {
+      try {
+        const compressedFile = await imageCompression(suggestion.image, imageCompressOpts);
+        formData.append('image', compressedFile);
+      } catch (err) {
+        const mute = err;
+        console.log(mute);
+        setSuggestion((suggestion) => ({
+          ...suggestion,
+          title: '',
+          suggestion: '',
+          image: null,
+          suggestionType: '',
+        }));
+        setIsSubmitting(false);
+        toast.error('Error in image compression.');
+        return;
+      }
     }
     const res = await postUserSuggestion(formData);
     if (res.status === 200) {
