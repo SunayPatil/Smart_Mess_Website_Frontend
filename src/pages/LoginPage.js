@@ -129,7 +129,7 @@ export default function LoginPage() {
           <img
             src={`https://res.cloudinary.com/dowydptqe/image/upload/w_${
               isLaptop ? '3000' : isTablet ? '2000' : isMobile ? '1000' : 'auto'
-            }/f_auto,q_${isLaptop ? '70' : '40'}/v1/smart_mess/zdsrw9hbetv5lnkqvcyx`}
+            }/f_auto,q_${isLaptop ? '70' : '40'}/v1711091762/smart_mess/cec9mipskbybpcbpz0tj.jpg`}
             style={{
               height: '100%',
               width: '100%',
