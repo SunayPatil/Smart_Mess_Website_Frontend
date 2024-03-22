@@ -19,10 +19,11 @@ const SuggestionForm = () => {
     image: null,
     suggestionType: '',
   });
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const socket = useContext(SocketContext);
 
   const handleSubmit = async (e) => {
+    setIsSubmitting(true);
     e.preventDefault();
     const formData = new FormData();
     formData.append('suggestionType', suggestion.suggestionType);
@@ -40,11 +41,12 @@ const SuggestionForm = () => {
         image: null,
         suggestionType: '',
       }));
-      document.getElementById("image").value=null;
+      document.getElementById('image').value = null;
       socket.emit('new-post');
     } else {
       toast.error('Some Error Occured');
     }
+    setIsSubmitting(false);
   };
 
   return (
@@ -139,6 +141,7 @@ const SuggestionForm = () => {
           margin: 'auto',
         }}
         variant="outlined"
+        disabled={isSubmitting}
       >
         Submit
       </Button>

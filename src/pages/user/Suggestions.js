@@ -16,7 +16,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Dehaze from '@mui/icons-material/Dehaze';
 import CloseIcon from '@mui/icons-material/Close';
 
-// const socket = io.connect(process.env.REACT_APP_SOCKET_URL);
 
 const Suggestions = () => {
   const navigate = useNavigate();
