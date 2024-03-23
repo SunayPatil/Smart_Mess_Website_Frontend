@@ -54,7 +54,7 @@ export default function HoverRating() {
       alert('Please Rate all fields');
     } else {
       const res = await submitFeedback({
-        FormID: localStorage.getItem('feedbackId') || null,
+        // FormID: localStorage.getItem('feedbackId') || null,
         BreakfastRating,
         LunchRating,
         SnacksRating,
@@ -68,7 +68,8 @@ export default function HoverRating() {
         alert('Feedback Submitted');
         setOpen(true);
         localStorage.removeItem('feedbackId');
-        
+      } else if (res.status === 409) {
+        alert('Feedback already submitted');
       } else {
         alert('Feedback Submission Failed');
       }
@@ -101,196 +102,193 @@ export default function HoverRating() {
       </Snackbar>
       {user?.Role === 'manager' && <Navigate to="/404" />}
       {user?.Role === 'user' && (
-         <Container maxWidth="xl">
-         <Typography variant="h4" sx={{ mb: 5 }}>
-           Feedback
-         </Typography>
-        <div>
+        <Container maxWidth="xl">
+          <Typography variant="h4" sx={{ mb: 5 }}>
+            Feedback
+          </Typography>
+          <div>
+            <Helmet>
+              <title> Feedback </title>
+            </Helmet>
 
-          <Helmet>
-            <title> Feedback </title>
-          </Helmet>
+            <Box sx={{ flexGrow: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
+              <Grid container alignItems="center" justifyContent="center" spacing={2}>
+                <Grid item alignItems="center" justifyContent="center" xs={12} lg={4} md={6}>
+                  <Item>
+                    <Card sx={{ maxWidth: 345 }}>
+                      <Container>
+                        <Typography variant="h5" sx={{ mb: 1 }}>
+                          Breakfast
+                        </Typography>
+                        <CardMedia
+                          sx={{ height: 140 }}
+                          image="https://media.istockphoto.com/id/938158500/photo/breakfast-table.jpg?s=612x612&w=0&k=20&c=Y8xB6hfe4dSPNyNrPgzP7slHbKhWdEzG7YTk2WXu4lQ="
+                          title=""
+                        />
+                        <Rating
+                          name="breakfast-hover-feedback"
+                          value={BreakfastRating}
+                          precision={1}
+                          onChange={(event, newValue) => {
+                            setBreakfastRatings(newValue);
+                          }}
+                          emptyIcon={<StarIcon style={{ opacity: 0.45 }} fontSize="inherit" />}
+                        />
+                      </Container>
+                    </Card>
+                  </Item>
+                </Grid>
+                <Grid item xs={12} lg={4} md={6}>
+                  <Item>
+                    <Card sx={{ maxWidth: 345 }}>
+                      <Container>
+                        <Typography variant="h5" sx={{ mb: 1 }}>
+                          Lunch
+                        </Typography>
+                        <CardMedia
+                          sx={{ height: 140 }}
+                          image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeRvcdRG6Ahi21BcICuzay8pW1AWdLqvgFOw&usqp=CAU"
+                          title=""
+                        />
+                        <Rating
+                          name="lunch-hover-feedback"
+                          value={LunchRating}
+                          precision={1}
+                          onChange={(event, newValue) => {
+                            setLunchRatings(newValue);
+                          }}
+                          emptyIcon={<StarIcon style={{ opacity: 0.45 }} fontSize="inherit" />}
+                        />
+                      </Container>
+                    </Card>
+                  </Item>
+                </Grid>
+                <Grid item xs={12} lg={4} md={6}>
+                  <Item>
+                    <Card sx={{ maxWidth: 345 }}>
+                      <Container>
+                        <Typography variant="h5" sx={{ mb: 1 }}>
+                          Snacks
+                        </Typography>
+                        <CardMedia
+                          sx={{ height: 140 }}
+                          image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQQvV3IWgn7ebaOWxlSIIBUNF19SGTD_Ngyw&usqp=CAU"
+                          title=""
+                        />
+                        <Rating
+                          name="lunch-hover-feedback"
+                          value={SnacksRating}
+                          precision={1}
+                          onChange={(event, newValue) => {
+                            setsnacksRatings(newValue);
+                          }}
+                          emptyIcon={<StarIcon style={{ opacity: 0.45 }} fontSize="inherit" />}
+                        />
+                      </Container>
+                    </Card>
+                  </Item>
+                </Grid>
+                <Grid item xs={12} lg={4} md={6}>
+                  <Item>
+                    <Card sx={{ maxWidth: 345 }}>
+                      <Container>
+                        <Typography variant="h5" sx={{ mb: 1 }}>
+                          Dinner
+                        </Typography>
+                        <CardMedia
+                          sx={{ height: 140 }}
+                          image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUBWo70RdiTtAadAMbQCFA6E5hEG7W4nQ7rQhpNYKP6grmyhSmuU9_1jDUHk9_hbYBNBc&usqp=CAU"
+                          title=""
+                        />
+                        <Rating
+                          name="lunch-hover-feedback"
+                          value={DinnerRating}
+                          precision={1}
+                          onChange={(event, newValue) => {
+                            setdinnerRatings(newValue);
+                          }}
+                          emptyIcon={<StarIcon style={{ opacity: 0.45 }} fontSize="inherit" />}
+                        />
+                      </Container>
+                    </Card>
+                  </Item>
+                </Grid>
+                <Grid item xs={12} lg={4} md={6}>
+                  <Item>
+                    <Card sx={{ maxWidth: 345 }}>
+                      <Container>
+                        <Typography variant="h5" sx={{ mb: 1 }}>
+                          Hygiene
+                        </Typography>
+                        <CardMedia
+                          sx={{ height: 140 }}
+                          image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDqjJ4WNV0E0nmCGFLBZYUl_J6uOZyDMHKRA&usqp=CAU"
+                          title=""
+                        />
+                        <Rating
+                          name="lunch-hover-feedback"
+                          value={HygieneRating}
+                          precision={1}
+                          onChange={(event, newValue) => {
+                            sethygieneRatings(newValue);
+                          }}
+                          emptyIcon={<StarIcon style={{ opacity: 0.45 }} fontSize="inherit" />}
+                        />
+                      </Container>
+                    </Card>
+                  </Item>
+                </Grid>
+                <Grid item xs={12} lg={4} md={6}>
+                  <Item>
+                    <Card sx={{ maxWidth: 345 }}>
+                      <Container>
+                        <Typography variant="h5" sx={{ mb: 1 }}>
+                          Mess service
+                        </Typography>
+                        <CardMedia
+                          sx={{ height: 140 }}
+                          image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL4DPJnMsIakcrye0Yjrip3JHV29UmMpN9xvj3eHrlfI4Co1kYHN75575xUKXwNan2ci8&usqp=CAU"
+                          title=""
+                        />
+                        <Rating
+                          name="lunch-hover-feedback"
+                          value={MessServiceRating}
+                          precision={1}
+                          onChange={(event, newValue) => {
+                            setmessServiceRatings(newValue);
+                          }}
+                          emptyIcon={<StarIcon style={{ opacity: 0.45 }} fontSize="inherit" />}
+                        />
+                      </Container>
+                    </Card>
+                  </Item>
+                </Grid>
+              </Grid>
+            </Box>
 
-          <Box sx={{ flexGrow: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
-            <Grid container alignItems="center" justifyContent="center" spacing={2}>
-              <Grid item alignItems="center" justifyContent="center" xs={12} lg={4} md={6}>
-                <Item>
-                  <Card sx={{ maxWidth: 345 }}>
-                    <Container>
-                      <Typography variant="h5" sx={{ mb: 1 }}>
-                        Breakfast
-                      </Typography>
-                      <CardMedia
-                        sx={{ height: 140 }}
-                        image="https://media.istockphoto.com/id/938158500/photo/breakfast-table.jpg?s=612x612&w=0&k=20&c=Y8xB6hfe4dSPNyNrPgzP7slHbKhWdEzG7YTk2WXu4lQ="
-                        title=""
-                      />
-                      <Rating
-                        name="breakfast-hover-feedback"
-                        value={BreakfastRating}
-                        precision={1}
-                        onChange={(event, newValue) => {
-                          setBreakfastRatings(newValue);
-                        }}
-                        emptyIcon={<StarIcon style={{ opacity: 0.45 }} fontSize="inherit" />}
-                      />
-                    </Container>
-                  </Card>
-                </Item>
-              </Grid>
-              <Grid item xs={12} lg={4} md={6}>
-                <Item>
-                  <Card sx={{ maxWidth: 345 }}>
-                    <Container>
-                      <Typography variant="h5" sx={{ mb: 1 }}>
-                        Lunch
-                      </Typography>
-                      <CardMedia
-                        sx={{ height: 140 }}
-                        image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeRvcdRG6Ahi21BcICuzay8pW1AWdLqvgFOw&usqp=CAU"
-                        title=""
-                      />
-                      <Rating
-                        name="lunch-hover-feedback"
-                        value={LunchRating}
-                        precision={1}
-                        onChange={(event, newValue) => {
-                          setLunchRatings(newValue);
-                        }}
-                        emptyIcon={<StarIcon style={{ opacity: 0.45 }} fontSize="inherit" />}
-                      />
-                    </Container>
-                  </Card>
-                </Item>
-              </Grid>
-              <Grid item xs={12} lg={4} md={6}>
-                <Item>
-                  <Card sx={{ maxWidth: 345 }}>
-                    <Container>
-                      <Typography variant="h5" sx={{ mb: 1 }}>
-                        Snacks
-                      </Typography>
-                      <CardMedia
-                        sx={{ height: 140 }}
-                        image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQQvV3IWgn7ebaOWxlSIIBUNF19SGTD_Ngyw&usqp=CAU"
-                        title=""
-                      />
-                      <Rating
-                        name="lunch-hover-feedback"
-                        value={SnacksRating}
-                        precision={1}
-                        onChange={(event, newValue) => {
-                          setsnacksRatings(newValue);
-                        }}
-                        emptyIcon={<StarIcon style={{ opacity: 0.45 }} fontSize="inherit" />}
-                      />
-                    </Container>
-                  </Card>
-                </Item>
-              </Grid>
-              <Grid item xs={12} lg={4} md={6}>
-                <Item>
-                  <Card sx={{ maxWidth: 345 }}>
-                    <Container>
-                      <Typography variant="h5" sx={{ mb: 1 }}>
-                        Dinner
-                      </Typography>
-                      <CardMedia
-                        sx={{ height: 140 }}
-                        image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUBWo70RdiTtAadAMbQCFA6E5hEG7W4nQ7rQhpNYKP6grmyhSmuU9_1jDUHk9_hbYBNBc&usqp=CAU"
-                        title=""
-                      />
-                      <Rating
-                        name="lunch-hover-feedback"
-                        value={DinnerRating}
-                        precision={1}
-                        onChange={(event, newValue) => {
-                          setdinnerRatings(newValue);
-                        }}
-                        emptyIcon={<StarIcon style={{ opacity: 0.45 }} fontSize="inherit" />}
-                      />
-                    </Container>
-                  </Card>
-                </Item>
-              </Grid>
-              <Grid item xs={12} lg={4} md={6}>
-                <Item>
-                  <Card sx={{ maxWidth: 345 }}>
-                    <Container>
-                      <Typography variant="h5" sx={{ mb: 1 }}>
-                        Hygiene
-                      </Typography>
-                      <CardMedia
-                        sx={{ height: 140 }}
-                        image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDqjJ4WNV0E0nmCGFLBZYUl_J6uOZyDMHKRA&usqp=CAU"
-                        title=""
-                      />
-                      <Rating
-                        name="lunch-hover-feedback"
-                        value={HygieneRating}
-                        precision={1}
-                        onChange={(event, newValue) => {
-                          sethygieneRatings(newValue);
-                        }}
-                        emptyIcon={<StarIcon style={{ opacity: 0.45 }} fontSize="inherit" />}
-                      />
-                    </Container>
-                  </Card>
-                </Item>
-              </Grid>
-              <Grid item xs={12} lg={4} md={6}>
-                <Item>
-                  <Card sx={{ maxWidth: 345 }}>
-                    <Container>
-                      <Typography variant="h5" sx={{ mb: 1 }}>
-                        Mess service
-                      </Typography>
-                      <CardMedia
-                        sx={{ height: 140 }}
-                        image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQL4DPJnMsIakcrye0Yjrip3JHV29UmMpN9xvj3eHrlfI4Co1kYHN75575xUKXwNan2ci8&usqp=CAU"
-                        title=""
-                      />
-                      <Rating
-                        name="lunch-hover-feedback"
-                        value={MessServiceRating}
-                        precision={1}
-                        onChange={(event, newValue) => {
-                          setmessServiceRatings(newValue);
-                        }}
-                        emptyIcon={<StarIcon style={{ opacity: 0.45 }} fontSize="inherit" />}
-                      />
-                    </Container>
-                  </Card>
-                </Item>
-              </Grid>
-        
-            </Grid>
-          </Box>
+            <Box sx={{ flexGrow: 1 }}>
+              <Typography align="left" variant="h5" sx={{ mb: 1 }}>
+                Additional Comments
+              </Typography>
+              <TextField
+                multiline
+                rows={4}
+                fullWidth
+                id="outlined-basic"
+                label="Comments"
+                value={Comments}
+                variant="outlined"
+                onChange={(event) => {
+                  setcomments(event.target.value);
+                }}
+              />
+            </Box>
+            <br />
 
-          <Box sx={{ flexGrow: 1 }}>
-            <Typography align="left" variant="h5" sx={{ mb: 1 }}>
-              Additional Comments
-            </Typography>
-            <TextField
-              multiline
-              rows={4}
-              fullWidth
-              id="outlined-basic"
-              label="Comments"
-              value={Comments}
-              variant="outlined"
-              onChange={(event) => {
-                setcomments(event.target.value);
-              }}
-            />
-          </Box>
-          <br />
-          
-          <Button variant="contained" justifyContent='center' onClick={handleSubmitPress}>
-            Submit
-          </Button>
-          
-        </div>
+            <Button variant="contained" justifyContent="center" onClick={handleSubmitPress}>
+              Submit
+            </Button>
+          </div>
         </Container>
       )}
     </>
