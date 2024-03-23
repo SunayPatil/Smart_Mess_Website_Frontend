@@ -46,8 +46,9 @@ const ApiState = (props) => {
     return null;
   };
 
-  const markAsRead = async (id) => {
+  const markAsRead = async (id, type) => {
     console.log('mark as read ', id);
+    
     try {
       const url = `${API_ENDPOINT}/user/dashboard/makeRead`;
       const response = await fetch(url, {
@@ -56,7 +57,8 @@ const ApiState = (props) => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-        body: JSON.stringify({ notifId: id }), // Include the request body here
+        body: JSON.stringify({ notifId: id, type: type }),
+
       });
 
       if (response.status === 200) {

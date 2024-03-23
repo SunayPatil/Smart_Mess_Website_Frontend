@@ -162,15 +162,19 @@ function NotificationItem({ notification }) {
         }),
       }}
       onClick={() => {
+        console.log(notification, 'notification');
         if (notification.type === 'feedback') {
           if (user.role === 'user') {
             navigate('/dashboard/products');
             localStorage.setItem('feedbackId', notification.id);
           }
-          markAsRead(notification.id);
+          markAsRead(notification.id, 'feedback');
           // window.location.href = '/dashboard/products';
+        } else if (notification.messageType === 'Mark as resolved') {
+          markAsRead(notification.id, 'Mark as resolved');
+          // navigate('/dashboard/announcement');
         } else {
-          markAsRead(notification.id);
+          markAsRead(notification.id, 'announcement');
           console.log(notification.id, 'notification id');
           if (notification.Attachment) {
             window.open(notification.Attachment, '_blank');
