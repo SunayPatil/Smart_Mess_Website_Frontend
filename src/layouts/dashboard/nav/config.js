@@ -61,11 +61,17 @@ const navConfig = [
     role:"user",
   },
   {
-    title: 'Add Feedback Form',
-    path: '/dashboard/feedback',
-    icon: icon('ic_summary'),
-    role: "manager",
+    title:'Analytics',
+    path: '/dashboard/analytics',
+    icon: icon('ic_charts'),
+    role:"manager",
   },
+  // {
+  //   title: 'Add Feedback Form',
+  //   path: '/dashboard/feedback',
+  //   icon: icon('ic_summary'),
+  //   role: "manager",
+  // },
   {
     title: 'Add Announcement',
     path: '/dashboard/announcement',
@@ -75,6 +81,19 @@ const navConfig = [
 ,{
   title:'Issues',
   path: '/dashboard/suggestions', icon: icon('ic_issues'),role:"user"
+},
+{
+  title:'Issues',
+  path: '/dashboard/suggestions', icon: icon('ic_issues'),role:"secy"
+},
+{
+  title:'Issues',
+  path: '/dashboard/suggestions', icon: icon('ic_issues'),role:"admin"
+}
+,
+{
+  title:'Issues',
+  path: '/dashboard/suggestions', icon: icon('ic_issues'),role:"manager"
 }
 ];
 

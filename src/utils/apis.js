@@ -52,7 +52,6 @@ const handleNotification = async () => {
 };
 
 const submitFeedback = async ({
-  FormID,
   BreakfastRating,
   LunchRating,
   DinnerRating,
@@ -71,7 +70,6 @@ const submitFeedback = async ({
       },
 
       body: JSON.stringify({
-        FormID,
         BreakfastRating,
         LunchRating,
         DinnerRating,
@@ -81,7 +79,7 @@ const submitFeedback = async ({
         HygieneRating,
       }),
     });
-    // console.log(response);
+    console.log(response);
     return response;
   } catch (err) {
     console.log(err);
@@ -99,7 +97,7 @@ const getDashTimeTable = async () => {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     });
-    if(response.status === 401){
+    if (response.status === 401) {
       handleAuthError();
     }
     response = await response.json();
@@ -235,12 +233,12 @@ const getFoodItemRating = async () => {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     });
-    if(response.status === 401){
+    if (response.status === 401) {
       handleAuthError();
     }
     return await response.json();
   } catch (error) {
-    console.log({error});
+    console.log({ error });
   }
   return null;
 };
@@ -314,7 +312,7 @@ const getFoodReviews = async () => {
       },
     });
     res = await res.json();
-    if(res.status === 401){
+    if (res.status === 401) {
       handleAuthError();
     }
     return res;
