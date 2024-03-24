@@ -62,7 +62,7 @@ const MyMenuPage = () => {
   const handleCardPress = (value) => {
     const role = JSON.parse(localStorage.getItem('user'))?.Role;
     if (value && role === 'user') {
-      const urlEncode = encodeURI(`/dashboard/ratings?hidden=true&value=${value}`);
+      const urlEncode = `/dashboard/ratings?hidden=true&value=${encodeURIComponent(value)}`;
       navigate(urlEncode);
     } else if (role === 'user') {
       navigate('/dashboard/ratings');

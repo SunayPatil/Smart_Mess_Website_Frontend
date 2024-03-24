@@ -247,7 +247,7 @@ const MobileRatings = (props) => {
   const isHidden = searchParams.has('hidden');
   const isValue = searchParams.has('value');
   const hidden = isHidden;
-  const value = isValue ? searchParams.get('value') : null;
+  const value = isValue ? decodeURIComponent(searchParams.get('value')) : null;
   // console.log({ hidden, value });
   const allFoodItems = allItems(filterTimeTable(timetable));
   // console.log({allFoodItems});
@@ -297,11 +297,10 @@ const MobileRatings = (props) => {
           alignItems: 'baseline',
         }}
       >
-        {/* {console.log({uniqFoodItems})} */}
         {uniqFoodItems.map((foodItem) => {
           const rating = find(ratings, { FoodItem: foodItem?._id });
           const ratedItems = find(ratedFoodItems, (item) => get(item, 'foodId._id') === foodItem?._id);
-          console.log({ ratedItems });
+          // console.log({ ratedItems });
           if (filterString === '') {
             return (
               <FoodCard
