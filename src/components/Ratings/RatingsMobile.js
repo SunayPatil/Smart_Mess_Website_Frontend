@@ -12,13 +12,13 @@ import {
   FormControl,
   useMediaQuery,
 } from '@mui/material';
-import { find, uniqBy } from 'lodash';
+import { find, get, uniqBy } from 'lodash';
 import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { allItems, filterTimeTable } from '../../utils/filterTimeTable';
 import { getFoodReviews } from '../../utils/apis';
 
-// TODO : Show review in the in the single rating.  
+// TODO : Show review in the in the single rating.
 
 /**
  *
@@ -110,9 +110,11 @@ const Search = (props) => {
 const FoodCard = (props) => {
   const { item, setRatedFoodItems, ratedItem, isReturn, navigate } = props;
   const [rating, setRating] = useState(parseInt(props?.ratings?.Rating, 10));
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [comments, setComments] = useState('');
   const isLargeMobile = useMediaQuery('(max-width:450px)');
   const handleSubmit = async (e) => {
+    setIsSubmitting(true);
     e.preventDefault();
     try {
       let res = await axios.post(
@@ -147,12 +149,14 @@ const FoodCard = (props) => {
       }
       res = res.data;
       if (isReturn) {
+        setIsSubmitting(false);
         navigate('/dashboard/app');
       }
     } catch (err) {
       const mute = err;
       console.log(mute);
     }
+    setIsSubmitting(false);
   };
   if (item) {
     return (
@@ -205,7 +209,7 @@ const FoodCard = (props) => {
                 setRating(newValue);
               }}
               precision={0.2}
-              disabled={ratedItem}
+              disabled={ratedItem || isSubmitting}
             />
           </FormControl>
           <FormControl required>
@@ -219,17 +223,16 @@ const FoodCard = (props) => {
               onChange={(e) => {
                 setComments(e.target.value);
               }}
-              disabled={ratedItem}
+              disabled={ratedItem || isSubmitting}
             />
           </FormControl>
-          {
-        !ratedItem ? (
-          <Button type="submit">Submit</Button>
-        ) : (
-          <Button type="submit" disabled>Submitted</Button>
-        )
-        }
-
+          {!ratedItem ? (
+            <Button type="submit" disabled={isSubmitting}>Submit</Button>
+          ) : (
+            <Button type="submit" disabled>
+              Submitted
+            </Button>
+          )}
         </form>
       </Card>
     );
@@ -247,6 +250,7 @@ const MobileRatings = (props) => {
   const value = isValue ? searchParams.get('value') : null;
   // console.log({ hidden, value });
   const allFoodItems = allItems(filterTimeTable(timetable));
+  // console.log({allFoodItems});
   const uniqFoodItems = uniqBy(allFoodItems, (ele) => ele?._id);
   const uniqIds = uniqueIDs(allFoodItems);
   const filteredRatings = filterRatings(ratings, uniqIds);
@@ -293,11 +297,13 @@ const MobileRatings = (props) => {
           alignItems: 'baseline',
         }}
       >
+        {/* {console.log({uniqFoodItems})} */}
         {uniqFoodItems.map((foodItem) => {
           const rating = find(ratings, { FoodItem: foodItem?._id });
-          const ratedItems = find(ratedFoodItems, { foodId: foodItem?._id });
+          const ratedItems = find(ratedFoodItems, (item) => get(item, 'foodId._id') === foodItem?._id);
+          console.log({ ratedItems });
           if (filterString === '') {
-            return (        
+            return (
               <FoodCard
                 item={foodItem}
                 ratings={rating}

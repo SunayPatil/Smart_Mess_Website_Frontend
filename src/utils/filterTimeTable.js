@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 const dayMap = {
   1: 'Monday',
   2: 'Tuesday',
@@ -9,13 +11,15 @@ const dayMap = {
 };
 
 export const filterTimeTable = (timetable) => {
-  const currDay = dayMap[new Date().getDay()];
+  console.log({timetable});
+  const currDay = dayjs().format('dddd');
   const currDayTimeTable = timetable.filter((ele) => {
     if (ele.Day === currDay) {
       return true;
     }
     return false;
   });
+  // console.log({currDayTimeTable});
   return currDayTimeTable;
 };
 
