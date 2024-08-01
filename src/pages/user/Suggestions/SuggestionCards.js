@@ -104,11 +104,12 @@ export default function SuggestionCard(props) {
           </Button>
         )}
       </div>
-      {!props.iscomment && props.suggestions?.image !== 'null' && props.suggestions?.image !== 'undefined' && (
+      {console.log(props.suggestions?.image)}
+      {!props.iscomment && props.suggestions?.image && (
         <CardMedia
           component="img"
           height="200px"
-          src={props.suggestions?.image}
+          src={props.suggestions.image}
           alt="Paella dish"
           sx={{
             objectFit: 'contain',

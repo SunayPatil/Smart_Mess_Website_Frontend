@@ -15,6 +15,7 @@ import SuggestionCard from './SuggestionCards';
 import { deleteUserSuggestion, getUserSuggestion } from './apis';
 import { SocketContext } from '../../../Context/socket';
 
+
 export default function UserActionsList(props) {
   const { isMobile } = props;
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -30,7 +31,10 @@ export default function UserActionsList(props) {
       });
     });
     socket.emit('delete-suggestion', res.data.deletedSuggestion);
+
+
   };
+
   const fetchUserSuggestions = React.useCallback(async () => {
     const res = await getUserSuggestion();
     setSuggestions(res.data.suggestions);

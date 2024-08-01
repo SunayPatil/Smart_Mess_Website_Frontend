@@ -16,7 +16,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Dehaze from '@mui/icons-material/Dehaze';
 import CloseIcon from '@mui/icons-material/Close';
 
-
 const Suggestions = () => {
   const navigate = useNavigate();
   const [suggestions, setSuggestions] = useState([]);
@@ -44,12 +43,11 @@ const Suggestions = () => {
     }
   }, []);
   // console.log(media);
- const theme = useTheme();
+  const theme = useTheme();
   const socket = useContext(SocketContext);
   // Vote Logic
   const [vote, setVote] = useState(null);
   const [updates, setUpdates] = useState(false);
-
 
   const socket_RemoveSuggestion = useCallback((deletedSuggestion) => {
     console.log({ deletedSuggestion });
@@ -215,93 +213,98 @@ const Suggestions = () => {
                 />
               </div>
             )}
-            {currentSuggestions && currentSuggestions.map((ele) => {
+            {currentSuggestions &&
+              currentSuggestions.map((ele) => {
                 return <SuggestionCard suggestions={ele} key={ele._id} setVote={setVote} isMobile={media.isMobile} />;
               })}
             {(!currentSuggestions || currentSuggestions.length === 0) && <CustomError>No Suggestions</CustomError>}
           </Container>
-          {
-  user.Role!== "manager" && (
-    <>
-          {media.isLaptop && (
-            <Container
-              sx={{ flex: 2, maxHeight: '94vh', height: '94vh', overflow: 'scroll' }}
-              className="hideScrollBar"
-            >
-              <UserActionsList />
-            </Container>
-          )}
-          {!media.isLaptop && (
+          {user.Role !== 'manager' && (
             <>
-              <Fab
-                sx={{
-                  position: 'fixed',
-                  bottom: '20px',
-                  right: '20px',
-                  height: '50px',
-                  width: '50px',
-                  zIndex: '2000',
-                }}
-                color="primary"
-                onClick={() => {
-                  setIsDrawarOpen(!isDrawarOpen);
-                }}
-              >
-                {!isDrawarOpen ? <Dehaze /> : <CloseIcon />}
-              </Fab>
-              <Drawer
-                open={isDrawarOpen}
-                anchor="right"
-                onClose={() => {
-                  setIsDrawarOpen(!isDrawarOpen);
-                }}
-              >
-                <div
-                  style={{
-                    width: '85vw',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
+              {media.isLaptop && (
+                <Container
+                  sx={{ flex: 2, maxHeight: '94vh', height: '94vh', overflow: 'scroll' }}
+                  className="hideScrollBar"
                 >
-                  <UserActionsList isMobile={media.isMobile} />
-                </div>
-              </Drawer>
+                  <UserActionsList />
+                </Container>
+              )}
+              {!media.isLaptop && (
+                <>
+                  <Fab
+                    sx={{
+                      position: 'fixed',
+                      bottom: '20px',
+                      right: '20px',
+                      height: '50px',
+                      width: '50px',
+                      zIndex: '2000',
+                    }}
+                    color="primary"
+                    onClick={() => {
+                      setIsDrawarOpen(!isDrawarOpen);
+                    }}
+                  >
+                    {!isDrawarOpen ? <Dehaze /> : <CloseIcon />}
+                  </Fab>
+                  <Drawer
+                    open={isDrawarOpen}
+                    anchor="right"
+                    onClose={() => {
+                      setIsDrawarOpen(!isDrawarOpen);
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '85vw',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <UserActionsList isMobile={media.isMobile} />
+                    </div>
+                  </Drawer>
+                </>
+              )}
             </>
           )}
-        </>
-  )}
         </Container>
-        <div style={{display:"flex", justifyContent:"center"}}>
-        {filteredSuggestions.length > itemsPerPage && (
-   
-      <Pagination 
-        count={countPages} 
-        page={currentPage} 
-        style={{padding: '10px' , display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop:"20px" , width:"fit-content"}}
-        onChange={handleChangePage} 
-        color="primary" 
-        showFirstButton 
-        showLastButton
-        sx={{
-          '& .MuiPaginationItem-root': {
-            color: theme.palette.primary.main, // Use theme colors for consistency
-          },
-          '& .Mui-selected': {
-            backgroundColor: theme.palette.primary.light,
-            color: theme.palette.common.white,
-          },
-          '& .MuiButtonBase-root:hover': {
-            backgroundColor: theme.palette.primary.dark,
-            color: theme.palette.common.white,
-          },
-          boxShadow: '0px 3px 6px rgba(0,0,0,0.1)', // Soft box shadow
-          borderRadius: theme.shape.borderRadius, // Use theme border radius for consistency
-        }} 
-      />
-   
-  )}
-  </div>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          {filteredSuggestions.length > itemsPerPage && (
+            <Pagination
+              count={countPages}
+              page={currentPage}
+              style={{
+                padding: '10px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: '20px',
+                width: 'fit-content',
+              }}
+              onChange={handleChangePage}
+              color="primary"
+              showFirstButton
+              showLastButton
+              sx={{
+                '& .MuiPaginationItem-root': {
+                  color: theme.palette.primary.main, // Use theme colors for consistency
+                },
+                '& .Mui-selected': {
+                  backgroundColor: theme.palette.primary.light,
+                  color: theme.palette.common.white,
+                },
+                '& .MuiButtonBase-root:hover': {
+                  backgroundColor: theme.palette.primary.dark,
+                  color: theme.palette.common.white,
+                },
+                boxShadow: '0px 3px 6px rgba(0,0,0,0.1)', // Soft box shadow
+                borderRadius: theme.shape.borderRadius, // Use theme border radius for consistency
+              }}
+            />
+          )}
+        </div>
       </Container>
     </>
   );
