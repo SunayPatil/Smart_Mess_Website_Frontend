@@ -10,6 +10,7 @@ import Iconify from '../../../components/iconify';
 import Searchbar from './Searchbar';
 import AccountPopover from './AccountPopover';
 import NotificationsPopover from './NotificationsPopover';
+import QrCodePopover from './QrCodePopover';
 
 // ----------------------------------------------------------------------
 
@@ -67,6 +68,7 @@ export default function Header({ onOpenNav }) {
             sm: 1,
           }}
         >
+          <QrCodePopover />
           <NotificationsPopover />
           <AccountPopover />
         </Stack>
